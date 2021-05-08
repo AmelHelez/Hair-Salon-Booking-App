@@ -1,0 +1,9 @@
+<div class="card">
+  <div class="card-img-wrapper">
+    <img *ngIf="salon.image" class="card-img-top" src="assets/images/{{salon.image}}.png">
+    <img *ngIf="!salon.image" class="card-img-top" src="assets/images/default_salon.jpg" >
+  </div>
+  <p>ID: {{salon.id}}</p>
+  <h3>{{salon.name}}</h3>
+  <button *ngIf="!hideButton" class="btn btn-primary" routerLink="/details/{{salon.id}}">View the salon!</button>
+</div>

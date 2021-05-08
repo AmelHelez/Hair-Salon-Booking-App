@@ -1,0 +1,71 @@
+<div class="row shadow">
+      <div class="col-sm-4 p-0">
+        <div class="card">
+      <div class="card-img-wrapper">
+        <img *ngIf="salonDetail.image" src="assets/images/{{salonDetail.image}}.png" class="card-img-top">
+        <img *ngIf="!salonDetail.image" src="assets/images/default_salon.jpg" class="card-img-top">
+      </div>
+      <div class="card-body">
+        <h1 style="color: black;" class="card-title">{{salonDetail.name}}</h1>
+        <div>
+          <h3>{{salonDetail.address}}, {{salonDetail.city}} </h3>
+        </div>
+        <div *ngIf="salonDetail.employeeNumber">
+          <p>Number of employees: </p>
+          {{salonDetail.employeeNumber}}
+        </div>
+        <div *ngIf="!salonDetail.employeeNumber">
+          <p>Number of employees: </p>
+            not listed
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="btn-group d-flex">
+          <button class="btn btn-success" routerLink="/update/{{salonDetail.id}}">Edit</button>
+          <button class="btn btn-primary">Book an appointment</button>
+        </div>
+      </div>
+        </div>
+      </div>
+      <div class="col-sm-8 p-0">
+        <div class="tab-panel p-3">
+          <tabset class="member-tabset">
+            <tab heading="Address">
+              <div class="col-sm-12">
+                <h1>Address</h1>
+                <div class="heading">
+                  <strong>{{salonDetail.address}}</strong> <br>
+                  <strong>{{salonDetail.city}}</strong>
+                </div>
+              </div>
+          </tab>
+            <tab heading="Photos">
+              <ngx-gallery [options]="galleryOptions" [images]="galleryImages" class="ngx-gallery"></ngx-gallery>
+            </tab>
+            <tab heading="Appointments">
+              <h1>Today's appointments</h1>
+              <table>
+                <tr>
+                  <th>Appointment ID</th>
+                  <th>Date</th>
+                  <th>Employee</th>
+                  <th>Client</th>
+                  <th>Type</th>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>08/05/2021</td>
+                  <td>Emp 1</td>
+                  <td>Amel Helez</td>
+                  <td>Na keca</td>
+                </tr>
+              </table>
+           </tab>
+            <tab heading="Contact">
+              <h1>Contact Detail</h1>
+              <p>Contact us via phone or email.</p>
+           </tab>
+          </tabset>
+        </div>
+      </div>
+</div>

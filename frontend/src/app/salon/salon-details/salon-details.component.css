@@ -1,0 +1,22 @@
+.card {
+  min-height: 600px;
+}
+
+.card img {
+   padding: 10px;
+   height: 250px;
+}
+
+.card-img-wrapper {
+  height: 250px;
+}
+
+.ngx-gallery {
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+table th, table td {
+  padding: 12px;
+  margin-right: 15px;
+}

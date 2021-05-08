@@ -1,0 +1,103 @@
+<div class="row">
+  <div class="col-6 m-auto">
+    <div class="card m-auto">
+      <div class="card-header" style="color: white;">
+        Register
+      </div>
+      <div class="card-body">
+        <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+          <div class="form-group col-12">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" formControlName="name">
+            <span *ngIf="!name.valid && (name.touched || userSubmitted)" class="error-block">
+            Please provide name
+          </span>
+          </div>
+
+          <div class="form-group col-12">
+            <label for="email" class="form-label">Email</label>
+            <input type="text" class="form-control" formControlName="email">
+            <span *ngIf="!email.valid && (email.touched || userSubmitted)" class="error-block">
+              <span *ngIf="email.hasError('required')">
+                Please provide email id
+              </span>
+              <span *ngIf="email.hasError('email')">
+                Please provide valid email id
+              </span>
+            </span>
+          </div>
+
+          <div class="form-group col-12">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" formControlName="password">
+            <span *ngIf="!password.valid && (password.touched || userSubmitted)" class="error-block">
+              <span *ngIf="password.errors['required']">
+                Please provide password
+              </span>
+              <span *ngIf="password.errors.minlength">
+                Password should not be lesser than 8 characters
+              </span>
+            </span>
+          </div>
+
+          <div class="form-group col-12">
+            <label for="cpassword" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" formControlName="confirmPassword">
+            <span *ngIf="!confirmPassword.valid && (confirmPassword.touched || userSubmitted)" class="error-block">
+              <span *ngIf="confirmPassword.hasError('required')">
+                Please provide password
+              </span>
+            </span>
+            <span *ngIf="registrationForm.hasError('notmatched') && confirmPassword.valid" class="error-block">
+              Password not matched
+              </span>
+          </div>
+
+          <div class="form-group col-12">
+            <label for="mobile" class="form-label">Mobile</label>
+            <input type="text" class="form-control" formControlName="mobile">
+            <span *ngIf="!mobile.valid && (mobile.touched || userSubmitted)" class="error-block">
+              <span *ngIf="mobile.hasError('required')">
+                Please provide mobile
+              </span>
+              <span *ngIf="mobile.hasError('maxlength')" class="error-block">
+                Invalid mobile number
+              </span>
+            </span>
+          </div>
+
+          <div class="form-group col-12">
+            <label for="age" class="form-label">age</label>
+            <input type="text" class="form-control" formControlName="age">
+            <span *ngIf="!age.valid && (age.touched || userSubmitted)" class="error-block">
+              <span *ngIf="age.hasError('required')">
+                Please provide age
+              </span>
+              <span *ngIf="age.hasError('maxlength')" class="error-block">
+                Invalid age number
+              </span>
+            </span>
+          </div>
+
+          <div class="form-group col-12">
+            <label for="city" class="form-label">city</label>
+            <input type="text" class="form-control" formControlName="city">
+            <span *ngIf="!city.valid && (city.touched || userSubmitted)" class="error-block">
+              <span *ngIf="city.hasError('required')">
+                Please provide city
+              </span>
+              <span *ngIf="city.hasError('maxlength')" class="error-block">
+                Invalid city number
+              </span>
+            </span>
+          </div>
+
+          <div class="form-group col-12">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="button" class="btn btn-secondary ml-2">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

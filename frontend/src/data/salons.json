@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "name": "GoodLook Studio",
+    "city": "Sarajevo",
+    "address": "Trg heroja",
+    "image": "good-look"
+  },
+  {
+    "id": 2,
+    "name": "Alen's Barbershop",
+    "city": "Sarajevo",
+    "address": "Nova Otoka"
+  },
+  {
+    "id": 3,
+    "name": "Barbershop 3",
+    "city": "Sarajevo",
+    "address": "Marsala Tita"
+  },
+  {
+    "id": 4,
+    "name": "Salon 4",
+    "city": "Sarajevo",
+    "address": "Visnjik 2"
+  }
+]
