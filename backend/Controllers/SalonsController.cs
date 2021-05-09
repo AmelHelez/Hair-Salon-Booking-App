@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models;
+using backend.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controllers
 {
@@ -15,17 +17,25 @@ namespace backend.Controllers
     public class SalonsController : ControllerBase
     {
         private readonly DataContext _context;
+        private readonly IUnitOfWork uow;
 
         public SalonsController(DataContext context)
         {
             _context = context;
         }
+       /* public SalonsController(IUnitOfWork uow)
+        {
+            this.uow = uow;
+        }*/
 
         // GET: api/Salons
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Salon>>> GetSalons()
         {
             return await _context.Salons.ToListAsync();
+            //var salon = await uow.SalonRepository.GetAllSalonsAsync();
+
+            //return Ok(salon);
         }
 
         // GET: api/Salons/5
@@ -84,6 +94,9 @@ namespace backend.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetSalon", new { id = salon.Id }, salon);
+            //uow.SalonRepository.AddSalon(salon);
+            //await uow.SaveAsync();
+            //return StatusCode(201);
         }
 
         // DELETE: api/Salons/5

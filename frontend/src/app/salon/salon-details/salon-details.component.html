@@ -10,14 +10,8 @@
         <div>
           <h3>{{salonDetail.address}}, {{salonDetail.city}} </h3>
         </div>
-        <div *ngIf="salonDetail.employeeNumber">
-          <p>Number of employees: </p>
-          {{salonDetail.employeeNumber}}
-        </div>
-        <div *ngIf="!salonDetail.employeeNumber">
-          <p>Number of employees: </p>
-            not listed
-        </div>
+          <p>Number of employees: <b class="borderNumber">{{salonDetail.employeeNumber}}</b></p>
+
       </div>
       <div class="card-footer">
         <div class="btn-group d-flex">

@@ -17,7 +17,7 @@ namespace backend.Models
 
         [Required]
         public string City { get; set; }
-        public int Employee_Number { get; set; }
+        public int EmployeeNumber { get; set; }
         public string Image { get; set; }
 
     }

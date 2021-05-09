@@ -14,5 +14,6 @@ namespace backend.Data
         }
 
         public DbSet<Salon> Salons { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }

@@ -17,7 +17,8 @@ export class AddSalonComponent implements OnInit {
   nextClicked: boolean;
   //salon: Salon;
   salon = new SalonClass();
-  salonUpdate = null;
+  fileToUpload: File = null;
+
 
   /*
   salonView: Salon = {
@@ -34,6 +35,10 @@ export class AddSalonComponent implements OnInit {
   ngOnInit(): void {
     this.CreateAddSalonForm();
   }
+
+  handleFileInput(files: FileList) {
+    this.fileToUpload = files.item(0);
+}
 
   CreateAddSalonForm() {
     this.addSalonForm = this.fb.group({
@@ -88,7 +93,8 @@ export class AddSalonComponent implements OnInit {
 
   onSubmit2() {
     console.log(this.addSalonForm.value);
-    this.salonService.addSalon(this.addSalonForm.value).subscribe(
+    this.mapSalon();
+    this.salonService.addSalon(this.salon).subscribe(
       (response: Salon) => {
         console.log(response);
         const salon = response;
@@ -120,7 +126,7 @@ export class AddSalonComponent implements OnInit {
     this.salon.name = this.name.value;
     this.salon.address = this.address.value;
     this.salon.city = this.city.value;
-    this.salon.employeeNumber = +this.employeeNumber.value;
+    this.salon.employeeNumber = this.employeeNumber.value;
   }
 
 }

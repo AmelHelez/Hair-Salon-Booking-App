@@ -14,8 +14,12 @@ namespace backend.Models
         public string Name { get; set; }
         public string Email { get; set; }
         [Required]
-        public string Password { get; set; }
+        public byte[] Password { get; set; }
+        public byte[] PasswordKey { get; set; }
         public int Age { get; set; }
         public string City { get; set; }
+
+        [MaxLength(12)]
+        public string Mobile { get; set; }
     }
 }

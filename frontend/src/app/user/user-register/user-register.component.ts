@@ -29,7 +29,7 @@ export class UserRegisterComponent implements OnInit {
       email: [null, [Validators.required, Validators.email]],
       password: [null, [Validators.required, Validators.minLength(8)]],
       confirmPassword: [null, Validators.required],
-      mobile: [null, [Validators.required, Validators.maxLength(10)]],
+      mobile: [null, [Validators.required, Validators.maxLength(12)]],
       age: [null, Validators.required],
       city: [null, [Validators.required, Validators.minLength(2)]]
     }, {validators: this.passwordMatchingValidator});
@@ -73,14 +73,15 @@ export class UserRegisterComponent implements OnInit {
      console.log(this.registrationForm);
      this.userSubmitted = true;
      if(this.registrationForm.valid) {
-     this.userService.addUser(this.userData());
-     this.registrationForm.reset();
-     this.userSubmitted = false;
-     this.alertifyService.success("You are successfully registered!");
-     this.router.navigate(['/login']);
-     }
-     else {
-       this.alertifyService.error("Kindly provide the required details..");
+     this.userService.addUser(this.userData()).subscribe(() => {
+      this.userSubmitted = false;
+      this.registrationForm.reset();
+      this.alertifyService.success("You are successfully registered!");
+      this.router.navigate(['/login']);
+     }, error => {
+       console.log(error);
+       this.alertifyService.error(error.error);
+     });
      }
   }
 

@@ -39,9 +39,12 @@ namespace backend.Repositories
             return await dc.Salons.ToListAsync();
         }
 
-        public void UpdateSalon()
+        public void UpdateSalon(int id, Salon salon)
         {
-            throw new NotImplementedException();
+            
+            dc.Entry(salon).State = EntityState.Modified;
+
+                dc.SaveChanges();
         }
     }
 }

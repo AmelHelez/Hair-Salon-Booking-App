@@ -10,7 +10,7 @@ namespace backend.Interfaces
     {
         Task<IEnumerable<Salon>> GetAllSalonsAsync();
         void AddSalon(Salon salon);
-        void UpdateSalon();
+        void UpdateSalon(int id, Salon salon);
         void DeleteSalon(int salonId);
         Task<Salon> FindSalon(int id);
 

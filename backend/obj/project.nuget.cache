@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "lyRtzDgWU0ZCgHWUveh2WmrZTFL3ZqeRmtHeGs/J/AEzSC1cLW/ZfM22tqJrAqLhMKU9aoPuKBP0JopCj3ry3w==",
+  "dgSpecHash": "V5lCm9RGXGdazme1WTjUUt1p879raLuooVT/UfizuNBGyV3Y8shRcrc3622iFiwjofaWuaCVHQq88nkJCtxwaA==",
   "success": true,
   "projectFilePath": "C:\\Users\\Amel\\My Projects\\Angular projects\\Diplomski SSST\\backend\\backend.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Amel\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
+    "C:\\Users\\Amel\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\3.1.14\\microsoft.aspnetcore.authentication.jwtbearer.3.1.14.nupkg.sha512",
     "C:\\Users\\Amel\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\Amel\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\3.1.14\\microsoft.aspnetcore.jsonpatch.3.1.14.nupkg.sha512",
     "C:\\Users\\Amel\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\3.1.14\\microsoft.aspnetcore.mvc.newtonsoftjson.3.1.14.nupkg.sha512",

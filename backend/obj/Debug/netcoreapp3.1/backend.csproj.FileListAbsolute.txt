@@ -157,3 +157,4 @@ C:\Users\Amel\My Projects\Angular projects\Diplomski SSST\backend\bin\Debug\netc
 C:\Users\Amel\My Projects\Angular projects\Diplomski SSST\backend\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
 C:\Users\Amel\My Projects\Angular projects\Diplomski SSST\backend\obj\Debug\netcoreapp3.1\backend.csproj.CoreCompileInputs.cache
 C:\Users\Amel\My Projects\Angular projects\Diplomski SSST\backend\obj\Debug\netcoreapp3.1\backend.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Amel\My Projects\Angular projects\Diplomski SSST\backend\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
