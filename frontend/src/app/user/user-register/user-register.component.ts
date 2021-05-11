@@ -78,9 +78,6 @@ export class UserRegisterComponent implements OnInit {
       this.registrationForm.reset();
       this.alertifyService.success("You are successfully registered!");
       this.router.navigate(['/login']);
-     }, error => {
-       console.log(error);
-       this.alertifyService.error(error.error);
      });
      }
   }

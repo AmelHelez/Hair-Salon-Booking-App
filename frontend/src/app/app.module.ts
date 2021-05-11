@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
@@ -25,6 +25,7 @@ import { AlertifyService } from './services/alertify.service';
 import { SalonDetailResolverService } from './salon/salon-details/salon-detail-resolver.service';
 import { AddSalonComponent } from './salon/add-salon/add-salon.component';
 import { UpdateSalonComponent } from './salon/update-salon/update-salon.component';
+import { HttpErrorInterceptorService } from './services/httperror-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,17 @@ import { UpdateSalonComponent } from './salon/update-salon/update-salon.componen
     BrowserAnimationsModule,
     NgxGalleryModule
   ],
-  providers: [SalonService, UserService, AuthService, AlertifyService, SalonDetailResolverService],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptorService,
+      multi: true
+    },
+    SalonService,
+    UserService,
+    AuthService,
+    AlertifyService,
+    SalonDetailResolverService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

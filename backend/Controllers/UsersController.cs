@@ -14,6 +14,7 @@ using backend.Errors;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using backend.Extensions;
 
 namespace backend.Controllers
 {
@@ -125,9 +126,9 @@ namespace backend.Controllers
         {
             var user = await userRepository.Authenticate(loginReq.Name, loginReq.Password);
 
-            //ApiError apiError = new ApiError();
+            ApiError apiError = new ApiError();
 
-            /* if (user == null)
+             if (user == null)
              {
                  apiError.ErrorCode = Unauthorized().StatusCode;
                  apiError.ErrorMessage = "Invalid User ID or password.";
@@ -135,15 +136,6 @@ namespace backend.Controllers
                  return Unauthorized(apiError);
              }
 
-             var loginRes = new UserLoginResponse();
-             loginRes.Name = user.Name;
-             loginRes.Token = CreateJWT(user);
-             return Ok(loginRes);*/
-
-            if (user == null)
-            {
-                return Unauthorized("Invalid User ID or Password");
-            }
 
             var loginRes = new UserLoginResponse();
             loginRes.Name = user.Name;
@@ -182,15 +174,26 @@ namespace backend.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserRegisterModel loginReq)
         {
+            ApiError apiError = new ApiError();
+
+            if (loginReq.Name.IsEmpty() || 
+                loginReq.Password.IsEmpty())
+            {
+                apiError.ErrorCode = BadRequest().StatusCode;
+                apiError.ErrorMessage = "User name or password cannot be blank.";
+                return BadRequest(apiError);
+            }
+
             if (await userRepository.UserAlreadyExists(loginReq.Name))
             {
-                return BadRequest("User already exists, please try something else");
+                apiError.ErrorCode = BadRequest().StatusCode;
+                apiError.ErrorMessage = "User already exists, please try something else.";
+                return BadRequest(apiError);
             }
 
             userRepository.Register(loginReq.Name, loginReq.Email, loginReq.Age, loginReq.City, loginReq.Mobile, loginReq.Password);
             await userRepository.SaveAsync();
             return StatusCode(201);
-            //ApiError apiError = new ApiError();
             /* if (loginReq.Name.IsEmpty() ||
                  loginReq.Password.IsEmpty())
              {
