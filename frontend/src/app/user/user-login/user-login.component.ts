@@ -26,7 +26,14 @@ export class UserLoginComponent implements OnInit {
         const user = response;
         localStorage.setItem("mytoken", user.token);
         localStorage.setItem("myname", user.name);
-        this.alertifyService.success("Login successful!");
+        localStorage.setItem("userRole", user.roleId.toString());
+        if(user.roleId == 1) {
+          this.alertifyService.success("ADMINE!");
+        }
+        else if(user.roleId == 2) this.alertifyService.success("EMPLOYEE!");
+        else if(user.roleId == 3) this.alertifyService.success("KLIJENTU!");
+
+
         this.router.navigate(['/']);
       }
     );

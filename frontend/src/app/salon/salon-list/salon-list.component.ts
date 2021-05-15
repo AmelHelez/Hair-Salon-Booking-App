@@ -20,7 +20,15 @@ export class SalonListComponent implements OnInit {
       data => {
         console.log(data);
         this.salons = data as Salon[];
+       // console.log(atob(this.salons[29].image));
+        for(var i = 0; i < this.salons.length; i++) {
+          if(this.salons[i].image) {
+          this.salons[i].image = atob(this.salons[i].image);
+          //console.log(atob(this.salons[i].image));
+        }
+        }
       }, error => {
+        console.log("Jebi se");
         console.log(error);
       }
     )

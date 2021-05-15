@@ -39,18 +39,19 @@ namespace backend.Controllers
             this.configuration = configuration;
 
         }
-        // GET: api/Users
-        /*[HttpGet]
+         //GET: api/Users
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            var user = await userRepository.GetAllUsersAsync();
+            return Ok(user);
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await userRepository.GetUserDetails(id);
 
             if (user == null)
             {
@@ -58,12 +59,12 @@ namespace backend.Controllers
             }
 
             return user;
-        }*/
-
+        }
+        /*
         // PUT: api/Users/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        /* [HttpPut("{id}")]
+         [HttpPut("{id}")]
          public async Task<IActionResult> PutUser(int id, User user)
          {
              if (id != user.Id)
@@ -140,6 +141,7 @@ namespace backend.Controllers
             var loginRes = new UserLoginResponse();
             loginRes.Name = user.Name;
             loginRes.Token = CreateJWT(user);
+            loginRes.RoleId = user.RoleId;
 
             return Ok(loginRes);
         }
@@ -247,5 +249,30 @@ namespace backend.Controllers
              return _context.Users.Any(e => e.Id == id);
          }*/
         }
-    }
+
+        [HttpPost("registeremp")]
+        public async Task<IActionResult> RegisterEmployee(UserRegisterModel loginReq)
+        {
+            ApiError apiError = new ApiError();
+
+            if (loginReq.Name.IsEmpty() ||
+                loginReq.Password.IsEmpty())
+            {
+                apiError.ErrorCode = BadRequest().StatusCode;
+                apiError.ErrorMessage = "User name or password cannot be blank.";
+                return BadRequest(apiError);
+            }
+
+            if (await userRepository.UserAlreadyExists(loginReq.Name))
+            {
+                apiError.ErrorCode = BadRequest().StatusCode;
+                apiError.ErrorMessage = "User already exists, please try something else.";
+                return BadRequest(apiError);
+            }
+
+            userRepository.RegisterEmployee(loginReq.Name, loginReq.Email, loginReq.Age, loginReq.City, loginReq.Mobile, loginReq.Password);
+            await userRepository.SaveAsync();
+            return StatusCode(201);
+          }
+        }
 }

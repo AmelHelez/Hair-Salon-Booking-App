@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AddEmployeeComponent } from './employee/add-employee/add-employee.component';
 import { AddSalonComponent } from './salon/add-salon/add-salon.component';
 import { SalonCardComponent } from './salon/salon-card/salon-card.component';
 import { SalonDetailResolverService } from './salon/salon-details/salon-detail-resolver.service';
@@ -27,6 +28,9 @@ const routes: Routes = [
   },
   {
     path: "update/:id", component: UpdateSalonComponent, resolve: {prp: SalonDetailResolverService}
+  },
+  {
+    path: "admin/add-employee", component: AddEmployeeComponent
   }
 ];
 

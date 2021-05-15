@@ -6,6 +6,7 @@ import { Salon } from '../../models/salon';
 import { SalonClass } from '../../models/salonClass';
 import { AlertifyService } from 'src/app/services/alertify.service';
 import { SalonService } from '../salon.service';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 
 @Component({
   selector: 'app-add-salon',
@@ -18,19 +19,48 @@ export class AddSalonComponent implements OnInit {
   //salon: Salon;
   salon = new SalonClass();
   fileToUpload: File = null;
+  imageChangedEvent: any = '';
+  public base64Slika: string;
+  croppedImage: any = '';
+  mojaslika: any;
 
 
-  /*
-  salonView: Salon = {
-    id: null,
-    name: '',
-    address: '',
-    city: '',
-    employeeNumber: null
-   }
-*/
   constructor(private fb: FormBuilder, private router: Router,
     private salonService: SalonService, private alertifyService: AlertifyService) { }
+
+
+  handleReaderLoaded(readerEvt) {
+    var binaryString = readerEvt.target.result;
+    this.base64Slika = btoa(binaryString);
+  }
+
+  fileChangeEvent($event) {
+    this.imageChangedEvent = event;
+    var image: any = new Image();
+    var file: File = $event.target.files[0];
+    var reader = new FileReader();
+    reader.onload = this.handleReaderLoaded.bind(this);
+    reader.readAsBinaryString(file);
+    var myReader: FileReader = new FileReader();
+    myReader.onloadend = function (loadEvent: any) {
+      image.src = loadEvent.target.result;
+    };
+    myReader.readAsDataURL(file);
+  }
+
+  imageCropped(event: ImageCroppedEvent) {
+    this.croppedImage = event.base64;
+  }
+
+
+  
+   /*
+
+
+onFileSelect(event) {
+  const file = event.target.files[0];
+  console.log(file);
+}*/
 
   ngOnInit(): void {
     this.CreateAddSalonForm();
@@ -45,7 +75,8 @@ export class AddSalonComponent implements OnInit {
       name: [null, Validators.required],
       city: [null, Validators.required],
       address: [null, Validators.required],
-      employeeNumber: [null]
+      employeeNumber: [null],
+      image: [null]
     });
   }
 
@@ -65,9 +96,15 @@ export class AddSalonComponent implements OnInit {
     return this.addSalonForm.get('employeeNumber') as FormControl;
   }
 
+  get image() {
+    return this.addSalonForm.get('image') as FormControl;
+  }
+
   onBack() {
     this.router.navigate(['/']);
   }
+
+
 
   onSubmit() {
     this.nextClicked = true;
@@ -94,8 +131,10 @@ export class AddSalonComponent implements OnInit {
   onSubmit2() {
     console.log(this.addSalonForm.value);
     this.mapSalon();
+   // this.salon.image = this.image.value;
     this.salonService.addSalon(this.salon).subscribe(
       (response: Salon) => {
+        console.log("Da vidimo: ");
         console.log(response);
         const salon = response;
         localStorage.setItem('salonToken', salon.name);
@@ -120,6 +159,8 @@ export class AddSalonComponent implements OnInit {
 
   }*/
 
+
+
   mapSalon(): void {
     //this.salon.id = this.salonService.addPropID();
     //this.salon.id = this.salonService.getSalon()
@@ -127,6 +168,8 @@ export class AddSalonComponent implements OnInit {
     this.salon.address = this.address.value;
     this.salon.city = this.city.value;
     this.salon.employeeNumber = this.employeeNumber.value;
+    this.salon.image = btoa(this.croppedImage);
+    //this.image.patchValue(btoa(this.croppedImage));
   }
 
 }

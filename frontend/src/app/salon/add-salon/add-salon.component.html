@@ -33,14 +33,23 @@
                 </div>
                </div>
 
-               <!--<div class="form-group-col-12">
-                <label for="file">Number of employees</label>
-                <input type="file" id="file" class="form-control" formControlName="image"
-                (change)="handleFileInput($event.target.files)">
+               <div class="form-group-col-12">
+                <label>Profile photo</label>
+                <input type="file" accept="image/*" class="form-control" formControlName="image"
+                (change)="fileChangeEvent($event)">
+                <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                [aspectRatio]="4 / 3" resizeToWidth="255" resizeToHeight="255"
+                (imageCropped)="imageCropped($event)"></image-cropper>
                 <div class="error-block" *ngIf="!image.valid && (nextClicked || image.touched)">
                   Please type your salon's image
                 </div>
-               </div>-->
+               </div>
+               <div>
+                 <h3 *ngIf="croppedImage.length>10">Pohrana: </h3>
+                 <img src="{{croppedImage}}" style="height: 250px;" />
+               </div>
+
+
 
                <div class="form-group col-12">
                 <label>Number of employees</label>
@@ -62,12 +71,4 @@
       </div>
     </div>
   </div>
-  <!--<div class="col-4">
-    <div class="card-header">
-      <h3>Your salon preview</h3>
-    </div>
-    <div class="shadow-lg p-3 bg-white">
-      <app-salon-card [salon]="salon" hideButton="true"></app-salon-card>
-    </div>
-  </div>
-</div>-->
+</div>

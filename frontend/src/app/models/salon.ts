@@ -3,6 +3,6 @@ export interface Salon {
   name: string;
   city: string;
   address: string;
-  image?: File;
+  image?: string;
   employeeNumber: number;
 }

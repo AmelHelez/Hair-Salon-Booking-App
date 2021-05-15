@@ -9,10 +9,13 @@ import { Salon } from '../../models/salon';
 export class SalonCardComponent implements OnInit {
  @Input() salon: Salon;
  @Input() hideButton: boolean;
+ //slika: string = atob(this.salon.image);
+
 
     //salon: Salon;
 
   constructor() { }
+
 
   ngOnInit(): void {
 

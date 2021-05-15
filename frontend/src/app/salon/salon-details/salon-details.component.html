@@ -2,7 +2,7 @@
       <div class="col-sm-4 p-0">
         <div class="card">
       <div class="card-img-wrapper">
-        <img *ngIf="salonDetail.image" src="assets/images/{{salonDetail.image}}.png" class="card-img-top">
+        <img *ngIf="salonDetail.image" src="{{salonDetail.image}}" class="card-img-top">
         <img *ngIf="!salonDetail.image" src="assets/images/default_salon.jpg" class="card-img-top">
       </div>
       <div class="card-body">
@@ -14,8 +14,8 @@
 
       </div>
       <div class="card-footer">
-        <div class="btn-group d-flex">
-          <button class="btn btn-success" routerLink="/update/{{salonDetail.id}}">Edit</button>
+        <div class="buttons">
+          <button class="btn btn-success" style="margin-bottom: 7px; margin-top: -2px;" routerLink="/update/{{salonDetail.id}}">Edit (only Admin)</button>
           <button class="btn btn-primary">Book an appointment</button>
         </div>
       </div>

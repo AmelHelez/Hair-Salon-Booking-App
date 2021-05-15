@@ -1,6 +1,7 @@
 ﻿using backend.Data;
 using backend.Interfaces;
 using backend.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,18 @@ namespace backend.Repositories
         public UserRepository(DataContext dc)
         {
             this.dc = dc;
+        }
+
+        public async Task<IEnumerable<User>> GetAllUsersAsync()
+        {
+            return await dc.Users.ToListAsync();
+        }
+
+
+        public async Task<User> GetUserDetails(int id)
+        {
+            return await dc.Users
+                .Where(u => u.Id == id).FirstOrDefaultAsync();
         }
 
         public async Task<User> Authenticate(string name, string password)
@@ -67,10 +80,36 @@ namespace backend.Repositories
             user.Age = age;
             user.City = city;
             user.Mobile = mobile;
+            user.RoleId = 3;
             user.Password = passwordHash;
             user.PasswordKey = passwordKey;
 
             dc.Users.Add(user);
+            //dc.Roles.Add(role);
+        }
+
+        public void RegisterEmployee(string name, string email, int age, string city, string mobile, string password)
+        {
+            byte[] passwordHash, passwordKey;
+
+            using (var hmac = new HMACSHA512())
+            {
+                passwordKey = hmac.Key;
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            }
+
+            User user = new User();
+            user.Name = name;
+            user.Email = email;
+            user.Age = age;
+            user.City = city;
+            user.Mobile = mobile;
+            user.RoleId = 2;
+            user.Password = passwordHash;
+            user.PasswordKey = passwordKey;
+
+            dc.Users.Add(user);
+            //dc.Roles.Add(role);
         }
 
         public async Task<bool> UserAlreadyExists(string name)

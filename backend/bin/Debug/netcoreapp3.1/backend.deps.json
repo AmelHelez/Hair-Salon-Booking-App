@@ -28,7 +28,7 @@
           "Microsoft.AspNetCore.Mvc.NewtonsoftJson": "3.1.14",
           "Microsoft.EntityFrameworkCore": "5.0.5",
           "Microsoft.EntityFrameworkCore.SqlServer": "5.0.5",
-          "Microsoft.EntityFrameworkCore.Sqlite": "3.1.13",
+          "Microsoft.EntityFrameworkCore.Sqlite": "3.1.15",
           "Microsoft.EntityFrameworkCore.Tools": "5.0.5",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "3.1.5",
           "Microsoft.AspNetCore.Antiforgery": "3.1.0.0",
@@ -716,14 +716,14 @@
           }
         }
       },
-      "Microsoft.Data.Sqlite.Core/3.1.13": {
+      "Microsoft.Data.Sqlite.Core/3.1.15": {
         "dependencies": {
           "SQLitePCLRaw.core": "2.0.2"
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.Data.Sqlite.dll": {
-            "assemblyVersion": "3.1.13.0",
-            "fileVersion": "3.100.1321.11604"
+            "assemblyVersion": "3.1.15.0",
+            "fileVersion": "3.100.1521.21407"
           }
         },
         "compile": {
@@ -802,23 +802,23 @@
           "lib/netstandard2.1/Microsoft.EntityFrameworkCore.Relational.dll": {}
         }
       },
-      "Microsoft.EntityFrameworkCore.Sqlite/3.1.13": {
+      "Microsoft.EntityFrameworkCore.Sqlite/3.1.15": {
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.Sqlite.Core": "3.1.13",
+          "Microsoft.EntityFrameworkCore.Sqlite.Core": "3.1.15",
           "SQLitePCLRaw.bundle_e_sqlite3": "2.0.2"
         }
       },
-      "Microsoft.EntityFrameworkCore.Sqlite.Core/3.1.13": {
+      "Microsoft.EntityFrameworkCore.Sqlite.Core/3.1.15": {
         "dependencies": {
-          "Microsoft.Data.Sqlite.Core": "3.1.13",
+          "Microsoft.Data.Sqlite.Core": "3.1.15",
           "Microsoft.DotNet.PlatformAbstractions": "3.1.6",
           "Microsoft.EntityFrameworkCore.Relational": "5.0.5",
           "Microsoft.Extensions.DependencyModel": "3.1.6"
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.EntityFrameworkCore.Sqlite.dll": {
-            "assemblyVersion": "3.1.13.0",
-            "fileVersion": "3.100.1321.11604"
+            "assemblyVersion": "3.1.15.0",
+            "fileVersion": "3.100.1521.21407"
           }
         },
         "compile": {
@@ -4180,12 +4180,12 @@
       "path": "microsoft.data.sqlclient.sni.runtime/2.0.1",
       "hashPath": "microsoft.data.sqlclient.sni.runtime.2.0.1.nupkg.sha512"
     },
-    "Microsoft.Data.Sqlite.Core/3.1.13": {
+    "Microsoft.Data.Sqlite.Core/3.1.15": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-hO3WsaejoR9W8q1lD40g+ftrfSNA8je7Z0GVLYiqgjimZ79XnOO/YEROEQTOSFb1Wtp0ebu4E+sv4z520mW6hQ==",
-      "path": "microsoft.data.sqlite.core/3.1.13",
-      "hashPath": "microsoft.data.sqlite.core.3.1.13.nupkg.sha512"
+      "sha512": "sha512-cHbOAVpXFtCGaYCc1uRcHESwqcwGWY0ZLpFAoUimbnzKo/IMaSzX4RObslVKszXAutVCTm8gctI/utUa/qj+fg==",
+      "path": "microsoft.data.sqlite.core/3.1.15",
+      "hashPath": "microsoft.data.sqlite.core.3.1.15.nupkg.sha512"
     },
     "Microsoft.DotNet.PlatformAbstractions/3.1.6": {
       "type": "package",
@@ -4229,19 +4229,19 @@
       "path": "microsoft.entityframeworkcore.relational/5.0.5",
       "hashPath": "microsoft.entityframeworkcore.relational.5.0.5.nupkg.sha512"
     },
-    "Microsoft.EntityFrameworkCore.Sqlite/3.1.13": {
+    "Microsoft.EntityFrameworkCore.Sqlite/3.1.15": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-O/JtQbHhC8vUg768I5kuLSfpFNlKsjz92YAEaI6nZxLvqtwJmRNtNHLvrYR/rzue8HosCZGIp0hIniJGtoEWOg==",
-      "path": "microsoft.entityframeworkcore.sqlite/3.1.13",
-      "hashPath": "microsoft.entityframeworkcore.sqlite.3.1.13.nupkg.sha512"
+      "sha512": "sha512-IAM46xcnBRzApXQr/MtEH1Viw8nmW0AV2BQ/PMpBH9PsBxT87JPi20z66HVlM+EveFkT37UNxGla6l68QrHgkw==",
+      "path": "microsoft.entityframeworkcore.sqlite/3.1.15",
+      "hashPath": "microsoft.entityframeworkcore.sqlite.3.1.15.nupkg.sha512"
     },
-    "Microsoft.EntityFrameworkCore.Sqlite.Core/3.1.13": {
+    "Microsoft.EntityFrameworkCore.Sqlite.Core/3.1.15": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-9Znr4SN2HOqxjpS1VAl2zMD34NCh5JqIdlTpTFc+ygOmOBEy+1hDh/QbE8ravto/0+bA9AzqNgoIfit0fPjikg==",
-      "path": "microsoft.entityframeworkcore.sqlite.core/3.1.13",
-      "hashPath": "microsoft.entityframeworkcore.sqlite.core.3.1.13.nupkg.sha512"
+      "sha512": "sha512-kVk9GaGTOFPkFp+0fahDW/5Dafw00hDQE2f4Qs5j17RzxcnkbCNSo9MekTADOrTEPc32+fweNz5gXDlkUgl4vQ==",
+      "path": "microsoft.entityframeworkcore.sqlite.core/3.1.15",
+      "hashPath": "microsoft.entityframeworkcore.sqlite.core.3.1.15.nupkg.sha512"
     },
     "Microsoft.EntityFrameworkCore.SqlServer/5.0.5": {
       "type": "package",

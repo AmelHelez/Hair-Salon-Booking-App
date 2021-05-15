@@ -27,6 +27,8 @@ export class SalonDetailsComponent implements OnInit {
      (data: Salon) => {
        console.log(data);
        this.salonDetail = data['prp'];
+       if(this.salonDetail.image) {
+        this.salonDetail.image = atob(this.salonDetail.image); }
      }
 
    )

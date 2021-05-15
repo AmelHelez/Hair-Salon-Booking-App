@@ -6,11 +6,12 @@ import { AlertifyService } from 'src/app/services/alertify.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
-  selector: 'app-user-register',
-  templateUrl: './user-register.component.html',
-  styleUrls: ['./user-register.component.css']
+  selector: 'app-add-employee',
+  templateUrl: './add-employee.component.html',
+  styleUrls: ['./add-employee.component.css']
 })
-export class UserRegisterComponent implements OnInit {
+export class AddEmployeeComponent implements OnInit {
+
   registrationForm: FormGroup;
   user: User;
   userSubmitted: boolean;
@@ -73,7 +74,7 @@ export class UserRegisterComponent implements OnInit {
      console.log(this.registrationForm);
      this.userSubmitted = true;
      if(this.registrationForm.valid) {
-     this.userService.addUser(this.userData()).subscribe(() => {
+     this.userService.addEmployee(this.userData()).subscribe(() => {
       this.userSubmitted = false;
       this.registrationForm.reset();
       /*
@@ -81,8 +82,7 @@ export class UserRegisterComponent implements OnInit {
         localStorage.setItem("mytoken", user.token);
         localStorage.setItem("myname", user.name);
       */
-      this.alertifyService.success("You are successfully registered!");
-      this.router.navigate(['/login']);
+      this.alertifyService.success("Amele, upravo si dodao novog zaposlenika!");
      });
      }
   }

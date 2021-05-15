@@ -17,6 +17,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace backend
 {
@@ -35,7 +37,12 @@ namespace backend
             services.AddDbContext<DataContext>(options => {
             options.UseSqlServer(Configuration.GetConnectionString("Default"));
             });
-            services.AddControllers().AddNewtonsoftJson();
+            services.AddControllers().AddNewtonsoftJson(options =>
+            {
+            // Use the default property (Pascal) casing
+            options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+               });
             services.AddCors();
             services.AddScoped<IUserRepository, UserRepository>();
 

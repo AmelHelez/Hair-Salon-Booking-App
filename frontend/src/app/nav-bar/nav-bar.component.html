@@ -1,6 +1,9 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
   <div class="container-fluid">
-    <a class="navbar-brand" routerLink="/">Frizerski salon</a>
+    <a *ngIf="whichRole() == 1 && loggedIn()" class="navbar-brand" routerLink="/">Admin</a>
+    <a *ngIf="whichRole() == 2 && loggedIn()" class="navbar-brand" routerLink="/">Employee</a>
+    <a *ngIf="whichRole() == 3 && loggedIn()" class="navbar-brand" routerLink="/">Klijent</a>
+    <a *ngIf="!loggedIn()" class="navbar-brand" routerLink="/">Frizerski salon</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -10,9 +13,11 @@
           <a class="nav-link" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active" aria-current="page" routerLink="/">Lista</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" routerLink="/add">Dodaj salon</a>
+          <a class="nav-link" *ngIf="whichRole() == 1 && loggedIn()" routerLinkActive="active" routerLink="/add">Add salon</a>
         </li>
+        <button *ngIf="whichRole() == 1 && loggedIn()" routerLink="/admin/add-employee">Add employees</button>
       </ul>
+
       <div>
         <ul class="nav navbar-nav">
           <li *ngIf="!loggedIn()" class="nav-item">

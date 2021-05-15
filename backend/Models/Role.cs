@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace backend.Models
 {
-    public class UserLoginResponse
+    public class Role
     {
+        public int Id { get; set; }
         public string Name { get; set; }
-        public string Token { get; set; }
-        public int RoleId { get; set; }
+        public ICollection<User> Users { get; set; }
     }
 }

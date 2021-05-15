@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace backend.Models
@@ -21,5 +22,11 @@ namespace backend.Models
 
         [MaxLength(12)]
         public string Mobile { get; set; }
-    }
+
+        public int RoleId { get; set; }
+
+        [JsonIgnore]
+        public virtual Role Role { get; set; }
+
+       }
 }

@@ -7,7 +7,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
-
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -15,7 +15,7 @@ import { AppComponent } from './app.component';
 import { SalonListComponent } from './salon/salon-list/salon-list.component';
 import { SalonCardComponent } from './salon/salon-card/salon-card.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
-import {SalonService} from './salon/salon.service';
+import { SalonService } from './salon/salon.service';
 import { SalonDetailsComponent } from './salon/salon-details/salon-details.component';
 import { UserRegisterComponent } from './user/user-register/user-register.component';
 import { UserLoginComponent } from './user/user-login/user-login.component';
@@ -26,6 +26,7 @@ import { SalonDetailResolverService } from './salon/salon-details/salon-detail-r
 import { AddSalonComponent } from './salon/add-salon/add-salon.component';
 import { UpdateSalonComponent } from './salon/update-salon/update-salon.component';
 import { HttpErrorInterceptorService } from './services/httperror-interceptor.service';
+import { AddEmployeeComponent } from './employee/add-employee/add-employee.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { HttpErrorInterceptorService } from './services/httperror-interceptor.se
     UserRegisterComponent,
     UserLoginComponent,
     AddSalonComponent,
-    UpdateSalonComponent
+    UpdateSalonComponent,
+    AddEmployeeComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +51,8 @@ import { HttpErrorInterceptorService } from './services/httperror-interceptor.se
     TabsModule.forRoot(),
     ButtonsModule.forRoot(),
     BrowserAnimationsModule,
-    NgxGalleryModule
+    NgxGalleryModule,
+    ImageCropperModule
   ],
   providers: [
     {
