@@ -8,6 +8,20 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+// import { NgxMatDatetimePickerModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
+ import { MatInputModule } from '@angular/material/input';
+ import {MatFormFieldModule} from '@angular/material/form-field';
+
+import {MatNativeDateModule} from '@angular/material/core';
+// import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+// import {MatDatetimepickerModule} from "@mat-datetimepicker/core";
+// import {MomentDatetimeAdapter} from "@mat-datetimepicker/moment";
+// import {MatMomentDatetimeModule} from "@mat-datetimepicker/moment";
+
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -27,6 +41,15 @@ import { AddSalonComponent } from './salon/add-salon/add-salon.component';
 import { UpdateSalonComponent } from './salon/update-salon/update-salon.component';
 import { HttpErrorInterceptorService } from './services/httperror-interceptor.service';
 import { AddEmployeeComponent } from './employee/add-employee/add-employee.component';
+import { EmployeeHomeComponent } from './employee/employee-home/employee-home.component';
+import { AddAppointmentComponent } from './appointment/add-appointment/add-appointment.component';
+import { AppointmentService } from './services/appointment.service';
+import { FilterPipe } from './pipes/filter.pipe';
+import { SortPipe } from './pipes/sort.pipe';
+import { UserListComponent } from './user/user-list/user-list.component';
+import { EditUserComponent } from './user/edit-user/edit-user.component';
+import { UserProfileComponent } from './user/user-profile/user-profile.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +62,15 @@ import { AddEmployeeComponent } from './employee/add-employee/add-employee.compo
     UserLoginComponent,
     AddSalonComponent,
     UpdateSalonComponent,
-    AddEmployeeComponent
+    AddEmployeeComponent,
+    EmployeeHomeComponent,
+    AddAppointmentComponent,
+    FilterPipe,
+    SortPipe,
+    UserListComponent,
+    EditUserComponent,
+    UserProfileComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +83,19 @@ import { AddEmployeeComponent } from './employee/add-employee/add-employee.compo
     ButtonsModule.forRoot(),
     BrowserAnimationsModule,
     NgxGalleryModule,
-    ImageCropperModule
+    ImageCropperModule,
+    MatFormFieldModule,
+    BsDatepickerModule.forRoot(),
+    // TimepickerModule.forRoot(),
+    MatDatepickerModule,
+    // NgxMatTimepickerModule,
+    // NgxMatDatetimePickerModule,
+      MatInputModule,
+     MatNativeDateModule
+    // MatDatepickerModule,
+    // MatDatetimepickerModule
+    // MomentDatetimeAdapter,
+    // MatMomentDatetimeModule
   ],
   providers: [
     {
@@ -64,7 +107,12 @@ import { AddEmployeeComponent } from './employee/add-employee/add-employee.compo
     UserService,
     AuthService,
     AlertifyService,
-    SalonDetailResolverService],
+    SalonDetailResolverService,
+    AppointmentService,
+   // MatNativeDateModule,
+    // MatDatepickerModule
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

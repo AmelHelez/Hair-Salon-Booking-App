@@ -1,0 +1,16 @@
+<h5>My salon</h5>
+<br> <br>
+<div class="salon">
+  <div class="image">
+    <img *ngIf="salon.image" class="card-img-top" src="{{salon.image}}">
+    <img *ngIf="!salon.image" class="card-img-top" src="assets/images/default_salon.jpg" >
+    <div class="clear"></div>
+  </div>
+  <div class="other">
+    <h3>{{salon.name}} </h3>
+    <h5>{{salon.city}}</h5>
+    <button class="btn btn-primary" routerLink="/details/{{salon.id}}">{{salon.name}}'s details</button>
+    <div class="clear"></div>
+  </div>
+</div>
+

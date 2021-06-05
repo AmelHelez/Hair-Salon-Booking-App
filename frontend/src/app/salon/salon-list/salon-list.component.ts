@@ -11,6 +11,12 @@ import { SalonService } from '../salon.service';
 export class SalonListComponent implements OnInit {
 
   salons: Salon[] = [];
+  searchCity = '';
+  searchName = '';
+  SortbyParam = '';
+  sortDirection = "asc";
+  city = '';
+  name = '';
 
 
   constructor(private salonService: SalonService) { }
@@ -26,12 +32,41 @@ export class SalonListComponent implements OnInit {
           this.salons[i].image = atob(this.salons[i].image);
           //console.log(atob(this.salons[i].image));
         }
+        this.salons[i].city = this.salons[i].city.toUpperCase();
+        this.salons[i].name = this.salons[i].name.toUpperCase();
+
         }
       }, error => {
-        console.log("Jebi se");
+        console.log("This is the error:");
         console.log(error);
       }
     )
+  }
+
+  onCityFilter() {
+    this.searchCity = this.city.toUpperCase();
+  }
+
+  onNameFilter() {
+    this.searchName = this.name.toUpperCase();
+  }
+
+  onCityFilterClear() {
+    this.searchCity = '';
+    this.city = '';
+  }
+
+  onNameFilterClear() {
+    this.searchName = '';
+    this.name = '';
+  }
+
+  onSortDirection() {
+    if (this.sortDirection === 'desc') {
+      this.sortDirection = "asc";
+    } else {
+      this.sortDirection = "desc";
+    }
   }
 
 }

@@ -1,0 +1,9 @@
+.container-fluid img {
+  width: 140px;
+  height: 50px;
+  border-radius: 50px;
+}
+
+.container-fluid img:hover {
+  border-radius: 15px;
+}

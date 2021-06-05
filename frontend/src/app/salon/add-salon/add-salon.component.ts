@@ -53,7 +53,7 @@ export class AddSalonComponent implements OnInit {
   }
 
 
-  
+
    /*
 
 
@@ -76,7 +76,9 @@ onFileSelect(event) {
       city: [null, Validators.required],
       address: [null, Validators.required],
       employeeNumber: [null],
-      image: [null]
+      image: [null],
+      phoneNumber: [null, Validators.maxLength(12)],
+      email: [null, Validators.email]
     });
   }
 
@@ -100,6 +102,14 @@ onFileSelect(event) {
     return this.addSalonForm.get('image') as FormControl;
   }
 
+  get phoneNumber() {
+    return this.addSalonForm.get('phoneNumber') as FormControl;
+  }
+
+  get email() {
+    return this.addSalonForm.get('email') as FormControl;
+  }
+
   onBack() {
     this.router.navigate(['/']);
   }
@@ -109,10 +119,6 @@ onFileSelect(event) {
   onSubmit() {
     this.nextClicked = true;
     if(this.addSalonForm.valid) {
-     // console.log("ID: ", this.salon.id);
-     // console.log("Name", this.salon.name);
-      //console.log(this.addSalonForm);
-     // console.log(this.salon);
       this.mapSalon();
       this.salonService.addProperty(this.salon)
       .subscribe(data => {
@@ -131,7 +137,6 @@ onFileSelect(event) {
   onSubmit2() {
     console.log(this.addSalonForm.value);
     this.mapSalon();
-   // this.salon.image = this.image.value;
     this.salonService.addSalon(this.salon).subscribe(
       (response: Salon) => {
         console.log("Da vidimo: ");
@@ -169,7 +174,8 @@ onFileSelect(event) {
     this.salon.city = this.city.value;
     this.salon.employeeNumber = this.employeeNumber.value;
     this.salon.image = btoa(this.croppedImage);
-    //this.image.patchValue(btoa(this.croppedImage));
+    this.salon.phoneNumber = this.phoneNumber.value;
+    this.salon.email = this.email.value;
   }
 
 }

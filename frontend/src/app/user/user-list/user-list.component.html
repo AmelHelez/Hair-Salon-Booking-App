@@ -1,0 +1,36 @@
+<h2>All users</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Full name</th>
+      <th scope="col">Email</th>
+      <th scope="col">User name</th>
+      <th scope="col">City</th>
+      <th scope="col">Age</th>
+      <th scope="col">Phone number</th>
+      <th scope="col">Role</th>
+      <th scope="col">Action</th>
+      <th scope="col">Salon</th>
+    </tr>
+  </thead>
+  <tbody *ngFor="let u of users; index as i">
+    <tr>
+      <th scope="row">{{i+1}}</th>
+      <td>{{u.name}}</td>
+      <td>{{u.email}}</td>
+      <td>{{u.username}}</td>
+      <td>{{u.city}}</td>
+      <td>{{u.age}}</td>
+      <td *ngIf="u.mobile">{{u.mobile}}</td>
+      <td *ngIf="!u.mobile">Not available</td>
+      <td *ngIf="u.roleId == 2" style="color:#8B0000; font-weight: 600;">Employee</td>
+      <td *ngIf="u.roleId == 3" style="color:#008B8B; font-weight: 600;">Client</td>
+      <td id="td"><a routerLink="/edit-user/{{u.id}}">Edit</a></td>
+      <!-- <td *ngIf="u.roleId == 3" style="text-align: center;">/</td> -->
+      <td *ngIf="u.roleId == 2">{{u.salonName|titlecase}}</td>
+      <td *ngIf="u.roleId == 3">/</td>
+
+    </tr>
+     </tbody>
+</table>

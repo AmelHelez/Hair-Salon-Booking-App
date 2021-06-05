@@ -1,16 +1,14 @@
 <div class="row mb-5">
-  <div class="col-8 shadow-lg p-0 bg-white">
+  <div class="col-12 shadow-lg p-0 bg-white">
     <div class="card">
       <div class="card-header">
-        <h3>Upate your salon</h3>
+        <h3 style="text-align: center;">Upate Salon</h3>
       </div>
       <div class="card-body">
         <form [formGroup]="updateSalonForm" (ngSubmit)="updateSalon(salon.id)">
           <div class="tab-panel">
-           <tabset class="member-tabset">
-             <tab heading="Salon information">
               <div class="form-group col-12">
-                <label>Name</label>
+                <label>Name<span style="color:red;">*</span></label>
                 <input type="text" class="form-control" formControlName="name">
                 <div class="error-block" *ngIf="name.invalid && (nextClicked || name.touched)">
                   Please type your salon's name
@@ -18,7 +16,7 @@
               </div>
 
                <div class="form-group col-12">
-                 <label>Address</label>
+                 <label>Address<span style="color:red;">*</span></label>
                  <input type="text" class="form-control" formControlName="address">
                  <div class="error-block" *ngIf="address.invalid && (nextClicked || address.touched)">
                    Please type your salon's address
@@ -26,11 +24,27 @@
                </div>
 
                <div class="form-group col-12">
-                <label>City</label>
+                <label>City<span style="color:red;">*</span></label>
                 <input type="text" class="form-control" formControlName="city">
                 <div class="error-block" *ngIf="city.invalid && (nextClicked || city.touched)">
                   Please type your salon's city
                 </div>
+               </div>
+
+               <div class="form-group col-12">
+                <label>Profile photo</label>
+                <input type="file" accept="image/*" class="form-control" formControlName="image"
+                (change)="fileChangeEvent($event)">
+                <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                [aspectRatio]="4 / 3" resizeToWidth="255" resizeToHeight="255"
+                (imageCropped)="imageCropped($event)"></image-cropper>
+                <div class="error-block" *ngIf="!image.valid && (nextClicked || image.touched)">
+                  Please type your salon's image
+                </div>
+               </div>
+               <div>
+                 <h5 *ngIf="croppedImage.length>10">This will be your profile photo:</h5>
+                 <img src="{{croppedImage}}" style="height: 250px;" />
                </div>
 
                <div class="form-group col-12">
@@ -41,12 +55,26 @@
                 </div>
                </div>
 
+               <div class="form-group col-12">
+                <label>Phone number</label>
+                <input type="text" class="form-control" formControlName="phoneNumber">
+                <div class="error-block" *ngIf="!phoneNumber.valid && (nextClicked || phoneNumber.touched)">
+                  Please type your salon's phone number
+                </div>
+               </div>
+
+               <div class="form-group col-12">
+                <label>Email</label>
+                <input type="email" class="form-control" formControlName="email">
+                <div class="error-block" *ngIf="!email.valid && (nextClicked || email.touched)">
+                  Please type your salon's email
+                </div>
+               </div>
+
                <div class="form-group col-12 mt-5">
                 <button [disabled]="!updateSalonForm.valid" type="submit" class="btn btn-primary btn-block">UPDATE</button>
                 <button type="reset" class="btn btn-secondary btn-block">Cancel</button>
               </div>
-             </tab>
-           </tabset>
           </div>
         </form>
       </div>

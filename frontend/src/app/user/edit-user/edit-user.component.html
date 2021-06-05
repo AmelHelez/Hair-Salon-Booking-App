@@ -1,0 +1,134 @@
+<div class="row mb-5" style="justify-content: center; padding: 15px;">
+  <div class="col-10 shadow-lg p-0 bg-white">
+    <div class="card">
+      <div class="card-header">
+        <h3 style="text-align: center;">Update User Form</h3>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="updateUserForm" (ngSubmit)="updateUser(user.id)">
+          <div class="tab-panel">
+
+              <div class="form-group col-12">
+                <label>Name</label>
+                <input type="text" class="form-control" formControlName="name">
+                <div class="error-block" *ngIf="name.invalid && (nextClicked || name.touched)">
+                  Please type your salon's name
+                </div>
+              </div>
+
+               <div class="form-group col-12">
+                 <label>Email</label>
+                 <input type="email" class="form-control" formControlName="email">
+                 <div class="error-block" *ngIf="email.invalid && (nextClicked || email.touched)">
+                   Please type email
+                 </div>
+               </div>
+
+               <div class="form-group col-12">
+                <label>Username</label>
+                <input type="text" class="form-control" formControlName="username">
+                <div class="error-block" *ngIf="username.invalid && (nextClicked || username.touched)">
+                  Please type your username
+                </div>
+               </div>
+
+
+               <div class="form-group col-12">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" formControlName="password">
+                <span *ngIf="!password.valid && (password.touched)" class="error-block">
+                  <span *ngIf="password.errors['required']">
+                    Please provide password
+                  </span>
+                  <span *ngIf="password.errors.minlength">
+                    Password should not be lesser than 8 characters
+                  </span>
+                </span>
+              </div>
+
+              <div class="form-group col-12">
+                <label for="cpassword" class="form-label">Confirm Password</label>
+                <input type="password" class="form-control" formControlName="confirmPassword">
+                <span *ngIf="!confirmPassword.valid && (confirmPassword.touched)" class="error-block">
+                  <span *ngIf="confirmPassword.hasError('required')">
+                    Please provide password
+                  </span>
+                </span>
+                <span *ngIf="updateUserForm.hasError('notmatched') && confirmPassword.valid" class="error-block">
+                  Password not matched
+                  </span>
+              </div>
+
+              <div class="form-group col-12">
+                <label for="mobile" class="form-label">Mobile</label>
+                <input type="text" class="form-control" formControlName="mobile">
+                <span *ngIf="!mobile.valid && (mobile.touched)" class="error-block">
+                  <span *ngIf="mobile.hasError('required')">
+                    Please provide mobile
+                  </span>
+                  <span *ngIf="mobile.hasError('maxlength')" class="error-block">
+                    Invalid mobile number
+                  </span>
+                </span>
+              </div>
+
+              <div class="form-group col-12">
+                <label for="age" class="form-label">Age</label>
+                <input type="text" class="form-control" formControlName="age">
+                <span *ngIf="!age.valid && (age.touched)" class="error-block">
+                  <span *ngIf="age.hasError('required')">
+                    Please provide age
+                  </span>
+                  <span *ngIf="age.hasError('maxlength')" class="error-block">
+                    Invalid age number
+                  </span>
+                </span>
+              </div>
+
+              <div class="form-group col-12">
+                <label for="city" class="form-label">City</label>
+                <input type="text" class="form-control" formControlName="city">
+                <span *ngIf="!city.valid && (city.touched)" class="error-block">
+                  <span *ngIf="city.hasError('required')">
+                    Please provide city
+                  </span>
+                  <span *ngIf="city.hasError('maxlength')" class="error-block">
+                    Invalid city number
+                  </span>
+                </span>
+              </div>
+
+              <div *ngIf="user.roleId == 2" class="form-group col-12">
+                <label>Salon</label>
+                <div>
+                  <select class="form-control" formControlName="salon">
+                    <option value="">--Select Salon--</option>
+                    <option *ngFor="let salon of salonList" value={{salon.id}}>
+                     {{salon.name}}
+                    </option>
+                  </select>
+                  <div class="error-block" *ngIf="!salon.valid && (salon.touched)">
+                  Please select salon
+                  </div>
+                </div>
+
+              </div>
+
+               <div class="form-group col-12 mt-5">
+                <button [disabled]="!updateUserForm.valid" type="submit" class="btn btn-primary btn-block">UPDATE</button>
+                <button type="reset" class="btn btn-secondary btn-block">Cancel</button>
+              </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!--<div class="col-4">
+    <div class="card-header">
+      <h3>Your salon preview</h3>
+    </div>
+    <div class="shadow-lg p-3 bg-white">
+      <app-salon-card [salon]="salon" hideButton="true"></app-salon-card>
+    </div>
+  </div>
+</div>-->

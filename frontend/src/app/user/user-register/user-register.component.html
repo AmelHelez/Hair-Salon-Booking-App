@@ -1,13 +1,13 @@
 <div class="row">
   <div class="col-6 m-auto">
     <div class="card m-auto">
-      <div class="card-header" style="color: white;">
-        Register
+      <div class="card-header">
+        <h4 style="text-align: center; margin-top:9px;">Registration Form</h4>
       </div>
       <div class="card-body">
         <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
           <div class="form-group col-12">
-            <label for="name" class="form-label">Name</label>
+            <label for="name" class="form-label">Full Name</label>
             <input type="text" class="form-control" formControlName="name">
             <span *ngIf="!name.valid && (name.touched || userSubmitted)" class="error-block">
             Please provide name
@@ -16,15 +16,23 @@
 
           <div class="form-group col-12">
             <label for="email" class="form-label">Email</label>
-            <input type="text" class="form-control" formControlName="email">
+            <input type="email" class="form-control" formControlName="email">
             <span *ngIf="!email.valid && (email.touched || userSubmitted)" class="error-block">
               <span *ngIf="email.hasError('required')">
-                Please provide email id
+                Please provide email
               </span>
               <span *ngIf="email.hasError('email')">
-                Please provide valid email id
+                Please provide valid email
               </span>
             </span>
+          </div>
+
+          <div class="form-group col-12">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" formControlName="username">
+            <span *ngIf="!username.valid && (username.touched || userSubmitted)" class="error-block">
+            Please provide username
+          </span>
           </div>
 
           <div class="form-group col-12">
@@ -54,29 +62,29 @@
           </div>
 
           <div class="form-group col-12">
-            <label for="mobile" class="form-label">Mobile</label>
+            <label for="mobile" class="form-label">Phone Number</label>
             <input type="text" class="form-control" formControlName="mobile">
-            <span *ngIf="!mobile.valid && (mobile.touched || userSubmitted)" class="error-block">
+            <!-- <span *ngIf="!mobile.valid && (mobile.touched || userSubmitted)" class="error-block">
               <span *ngIf="mobile.hasError('required')">
-                Please provide mobile
+                Please provide phone number
               </span>
               <span *ngIf="mobile.hasError('maxlength')" class="error-block">
-                Invalid mobile number
+                Invalid phone number
               </span>
-            </span>
+            </span> -->
           </div>
 
           <div class="form-group col-12">
             <label for="age" class="form-label">Age</label>
             <input type="text" class="form-control" formControlName="age">
-            <span *ngIf="!age.valid && (age.touched || userSubmitted)" class="error-block">
+            <!-- <span *ngIf="!age.valid && (age.touched || userSubmitted)" class="error-block">
               <span *ngIf="age.hasError('required')">
                 Please provide age
               </span>
               <span *ngIf="age.hasError('maxlength')" class="error-block">
                 Invalid age number
               </span>
-            </span>
+            </span> -->
           </div>
 
           <div class="form-group col-12">
@@ -86,14 +94,14 @@
               <span *ngIf="city.hasError('required')">
                 Please provide city
               </span>
-              <span *ngIf="city.hasError('maxlength')" class="error-block">
-                Invalid city number
+              <span *ngIf="city.hasError('minlength')" class="error-block">
+                City must have at least two characters
               </span>
             </span>
           </div>
 
           <div class="form-group col-12">
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="submit" class="btn btn-primary">Register</button>
             <button type="button" class="btn btn-secondary ml-2">Cancel</button>
           </div>
         </form>

@@ -21,5 +21,12 @@ namespace backend.Models
 
         public byte[] Image { get; set; }
 
+        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
+
+        public List<User>? Users { get; set; }
+        public virtual ICollection<Appointment> Appointments { get; set; }
+
+
     }
 }

@@ -29,12 +29,14 @@ namespace backend.Repositories
         public async Task<User> GetUserDetails(int id)
         {
             return await dc.Users
+                .Include(u => u.Role)
+                .Include(u => u.Appointments)
                 .Where(u => u.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<User> Authenticate(string name, string password)
+        public async Task<User> Authenticate(string username, string password)
         {
-            var user = await dc.Users.FirstOrDefaultAsync(u => u.Name == name);
+            var user = await dc.Users.FirstOrDefaultAsync(u => u.Username == username);
 
             if(user == null || user.PasswordKey == null)
             {
@@ -64,7 +66,7 @@ namespace backend.Repositories
             }
         }
 
-        public void Register(string name, string email, int age, string city, string mobile, string password)
+        public void Register(string name, string email, string username, int age, string city, string mobile, string password)
         {
             byte[] passwordHash, passwordKey;
 
@@ -77,6 +79,7 @@ namespace backend.Repositories
             User user = new User();
             user.Name = name;
             user.Email = email;
+            user.Username = username;
             user.Age = age;
             user.City = city;
             user.Mobile = mobile;
@@ -88,7 +91,7 @@ namespace backend.Repositories
             //dc.Roles.Add(role);
         }
 
-        public void RegisterEmployee(string name, string email, int age, string city, string mobile, string password)
+        public void RegisterEmployee(string name, string email, string username, int age, string city, string mobile, int? salonId, string password)
         {
             byte[] passwordHash, passwordKey;
 
@@ -101,10 +104,12 @@ namespace backend.Repositories
             User user = new User();
             user.Name = name;
             user.Email = email;
+            user.Username = username;
             user.Age = age;
             user.City = city;
             user.Mobile = mobile;
             user.RoleId = 2;
+            user.SalonId = salonId;
             user.Password = passwordHash;
             user.PasswordKey = passwordKey;
 
@@ -112,14 +117,39 @@ namespace backend.Repositories
             //dc.Roles.Add(role);
         }
 
-        public async Task<bool> UserAlreadyExists(string name)
+        public async Task<bool> UserAlreadyExists(string username, string email)
         {
-            return await dc.Users.AnyAsync(x => x.Name == name);
+            return await dc.Users.AnyAsync(x => x.Username == username || x.Email == email);
         }
 
         public async Task<bool> SaveAsync()
         {
             return await dc.SaveChangesAsync() > 0;
+        }
+
+        public void Update(int id, string name, string email, string username, int age, string city, string mobile, int? salonId, string password)
+        {
+            byte[] passwordHash, passwordKey;
+
+            using (var hmac = new HMACSHA512())
+            {
+                passwordKey = hmac.Key;
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            }
+            var user = dc.Users.Find(id);
+            user.Name = name;
+            user.Email = email;
+            user.Username = username;
+            user.Age = age;
+            user.City = city;
+            user.Mobile = mobile;
+            if (salonId > 0) user.SalonId = salonId;
+            user.Password = passwordHash;
+            user.PasswordKey = passwordKey;
+            dc.Users.Append(user);
+            dc.Users.Update(user);
+
+            //return _mapper.Map<Model.User>(entity);
         }
     }
 }

@@ -10,12 +10,13 @@ namespace backend.Interfaces
     public interface IUserRepository
     {
         Task<IEnumerable<User>> GetAllUsersAsync();
-        Task<User> Authenticate(string name, string password);
-        void Register(string name, string email, int age, string city, string mobile, string password);
+        Task<User> Authenticate(string username, string password);
+        void Register(string name, string email, string username, int age, string city, string mobile, string password);
 
-        void RegisterEmployee(string name, string email, int age, string city, string mobile, string password);
+        void RegisterEmployee(string name, string email, string username, int age, string city, string mobile, int? salonId, string password);
 
-        Task<bool> UserAlreadyExists(string name);
+        void Update(int id, string name, string email, string username, int age, string city, string mobile, int? salonId, string password);
+        Task<bool> UserAlreadyExists(string username, string email);
         Task<bool> SaveAsync();
 
         Task<User> GetUserDetails(int id);

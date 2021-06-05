@@ -1,0 +1,20 @@
+.card-body hr {
+  width: 350px;
+  height: 3px;
+  background-color: black;
+}
+
+.card-body a {
+  text-decoration: none;
+  border: 1px solid skyblue;
+  border-radius: 10px;
+  background-color: skyblue;
+  color: darkblue;
+  padding: 10px 20px;
+  font-weight: 500;
+  float: right;
+}
+
+.clear {
+  clear: both;
+}

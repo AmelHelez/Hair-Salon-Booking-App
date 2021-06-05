@@ -1,6 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../models/user';
+import { Appointment } from '../models/appointment';
+import { Treatment } from '../models/treatment';
+
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -66,5 +69,23 @@ export class UserService {
         return user.find(u => u.id === id);
       })
     );
+  }
+
+  updateUser(id: number, user: User) {
+    return this.http.put("https://localhost:44393/api/users/" + id, user);
+  }
+
+
+
+  getAllTreatments(): Observable<Treatment[]> {
+    return this.http.get<Treatment[]>("https://localhost:44393/api/treatments");
+  }
+
+  getTreatment(id: number) {
+    return this.getAllTreatments().pipe(
+      map(treatment => {
+        return treatment.find(t => t.id === id);
+      })
+    )
   }
 }

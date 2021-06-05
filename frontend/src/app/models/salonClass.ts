@@ -1,4 +1,5 @@
 import { Salon } from './salon';
+import { User } from './user';
 
 export class SalonClass implements Salon {
   id: number;
@@ -7,4 +8,7 @@ export class SalonClass implements Salon {
   address: string;
   image?: string;
   employeeNumber: number;
+  phoneNumber: string;
+  email: string;
+  employees?: User[];
 }

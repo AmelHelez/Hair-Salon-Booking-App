@@ -42,7 +42,9 @@ namespace backend.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Salon>> GetSalon(int id)
         {
-            var salon = await _context.Salons.FindAsync(id);
+            var salon = await _context.Salons
+                .Include(s => s.Users)
+                .Where(s => s.Id == id).FirstOrDefaultAsync();
 
             if (salon == null)
             {

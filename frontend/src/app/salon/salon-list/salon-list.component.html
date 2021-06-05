@@ -1,8 +1,34 @@
+<label>Search by city: &nbsp; </label>
+<mat-form-field>
+  <input matInput [(ngModel)]="city">
+</mat-form-field>
+<button type="button" class="searchButton btn btn-outline-primary" (click)="onCityFilter()">Search</button>
+<button type="button" class="btn btn-outline-info" (click)="onCityFilterClear()">Clear</button>
+<div id="label">
+  <label>Search by name: &nbsp; </label>
+  <mat-form-field>
+    <input matInput [(ngModel)]="name">
+  </mat-form-field>
+  <button type="button" class="searchButton btn btn-outline-primary" (click)="onNameFilter()">Search</button>
+  <button type="button" class="btn btn-outline-info" (click)="onNameFilterClear()">Clear</button>
+  <div class="clear"></div>
+</div>
+<br>
+<label>Sort by &nbsp;</label>
+<select [(ngModel)]="SortbyParam">
+  <option value="name">Name</option>
+  <option value="city">City</option>
+</select>
+<button type="button" (click)="onSortDirection()">
+  <i *ngIf="sortDirection==='asc'" class="fas fa-sort-alpha-down"></i>
+  <i *ngIf="sortDirection==='desc'" class="fas fa-sort-alpha-up"></i>
+</button>
 <div class="row">
-  <div *ngFor="let salon of salons" class="shadow-lg col-sm-4 p-3">
+  <div *ngFor="let salon of salons|filter:searchCity:'city'|filter:searchName:'name'|sort:[SortbyParam, sortDirection]" class="shadow-lg col-sm-4 p-3">
     <div class="shadow-lg p-3 mb-4">
       <app-salon-card [salon]="salon"></app-salon-card>
       <!-- <a routerLink="/details/{{salon.id}}"> -->
     </div>
   </div>
 </div>
+

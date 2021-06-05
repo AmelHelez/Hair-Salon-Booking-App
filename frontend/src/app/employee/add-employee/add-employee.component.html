@@ -16,7 +16,7 @@
 
           <div class="form-group col-12">
             <label for="email" class="form-label">Email</label>
-            <input type="text" class="form-control" formControlName="email">
+            <input type="email" class="form-control" formControlName="email">
             <span *ngIf="!email.valid && (email.touched || userSubmitted)" class="error-block">
               <span *ngIf="email.hasError('required')">
                 Please provide email id
@@ -25,6 +25,14 @@
                 Please provide valid email id
               </span>
             </span>
+          </div>
+
+          <div class="form-group col-12">
+            <label for="username" class="form-label">User name</label>
+            <input type="text" class="form-control" formControlName="username">
+            <span *ngIf="!username.valid && (username.touched || userSubmitted)" class="error-block">
+            Please provide user name
+          </span>
           </div>
 
           <div class="form-group col-12">
@@ -90,6 +98,24 @@
                 Invalid city number
               </span>
             </span>
+          </div>
+
+          <div class="form-group col-12">
+            <label>Salon</label>
+            <div *ngIf="!salonClass">
+              <select class="form-control" formControlName="salon">
+                <option value="">--Select Salon--</option>
+                <option *ngFor="let salon of salonList" value={{salon.id}}>
+                 {{salon.name}}
+                </option>
+              </select>
+              <div class="error-block" *ngIf="!salon.valid && (salon.touched || userSubmitted)">
+              Please select salon
+              </div>
+            </div>
+            <div *ngIf="salonClass">
+              <h4>{{salonClass.name}}</h4>
+            </div>
           </div>
 
           <div class="form-group col-12">

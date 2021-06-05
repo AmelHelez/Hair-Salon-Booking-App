@@ -1,0 +1,16 @@
+.searchButton {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#label {
+  float: right;
+}
+
+.clear {
+  clear: both;
+}
+
+.searchButton {
+  border-radius: 50px;
+}

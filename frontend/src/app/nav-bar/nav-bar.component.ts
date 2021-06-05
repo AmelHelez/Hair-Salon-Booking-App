@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../models/user';
 import { AlertifyService } from '../services/alertify.service';
 import { UserService } from '../services/user.service';
@@ -16,7 +16,7 @@ export class NavBarComponent implements OnInit {
   userId: number;
   userRole: number;
 
-  constructor(private route: ActivatedRoute,
+  constructor(private route: ActivatedRoute, private router: Router,
     private userService: UserService, private alertifyService: AlertifyService) { }
 
   ngOnInit(): void {
@@ -36,6 +36,7 @@ export class NavBarComponent implements OnInit {
        console.log(this.user);
   });*/
 
+  this.getUser();
 }
 
   whichRole(): number {
@@ -45,8 +46,19 @@ export class NavBarComponent implements OnInit {
     else return 3;
   }
 
+  getUser() {
+    this.userId = +localStorage.getItem("userId");
+    this.userService.getUser(this.userId).subscribe(
+       data => {
+         this.user = data;
+         return this.user;
+         console.log(this.user);
+       }
+    )
+  }
+
   loggedIn() {
-    this.loggedInUser = localStorage.getItem("myname");
+    this.loggedInUser = localStorage.getItem("username");
     return this.loggedInUser;
   }
 
@@ -58,8 +70,10 @@ export class NavBarComponent implements OnInit {
 
   onLogout() {
     localStorage.removeItem("mytoken");
-    localStorage.removeItem("myname");
+    localStorage.removeItem("username");
     localStorage.removeItem("userRole");
+    localStorage.removeItem("userId");
+    this.router.navigate(['/']);
     this.alertifyService.success("You are logged out.");
   }
 

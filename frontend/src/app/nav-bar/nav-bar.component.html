@@ -3,19 +3,26 @@
     <a *ngIf="whichRole() == 1 && loggedIn()" class="navbar-brand" routerLink="/">Admin</a>
     <a *ngIf="whichRole() == 2 && loggedIn()" class="navbar-brand" routerLink="/">Employee</a>
     <a *ngIf="whichRole() == 3 && loggedIn()" class="navbar-brand" routerLink="/">Klijent</a>
-    <a *ngIf="!loggedIn()" class="navbar-brand" routerLink="/">Frizerski salon</a>
+    <a *ngIf="!loggedIn()" class="navbar-brand" routerLink="/">
+    <img src="assets/images/logoNew.png" alt="Application Logo">
+    </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active" aria-current="page" routerLink="/">Lista</a>
+          <a *ngIf="loggedIn()" class="nav-link" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active" aria-current="page" routerLink="/">Salon list</a>
+        </li>
+        <!-- <li class="nav-item">
+          <a class="nav-link" *ngIf="whichRole() == 1 && loggedIn()" routerLinkActive="active" routerLink="/admin/add-salon">Add salon</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" *ngIf="whichRole() == 1 && loggedIn()" routerLinkActive="active" routerLink="/add">Add salon</a>
+          <a class="nav-link" *ngIf="whichRole() == 1 && loggedIn()" routerLink="/admin/add-employee">Add employees</a>
+        </li> -->
+        <li class="nav-item">
+          <a class="nav-link" *ngIf="whichRole() == 1 && loggedIn()" routerLink="/admin/users">See all registered users</a>
         </li>
-        <button *ngIf="whichRole() == 1 && loggedIn()" routerLink="/admin/add-employee">Add employees</button>
       </ul>
 
       <div>
@@ -30,13 +37,21 @@
             <a href="#" class="dropdown-toggle text-light" dropdownToggle (click)="false">
               Welcome,  {{loggedInUser}}!</a>
             <div class="dropdown-menu" *dropdownMenu>
-              <a href="#" class="dropdown-item">
+              <a aria-current="page" routerLink="/" class="dropdown-item">
                 <i class="fas fa-tachometer-alt"></i>
                 View Dashboard
               </a>
-              <a href="#" class="dropdown-item">
+              <a class="dropdown-item" *ngIf="whichRole() == 1 && loggedIn()"
+              routerLink="/admin/add-salon">
+              <i class="fas fa-plus-circle"></i>Add Salon</a>
+              <a *ngIf="loggedIn() && (whichRole() == 2 || whichRole() == 3)"
+              routerLink="/profile/{{user.id}}" class="dropdown-item">
                 <i class="far fa-user-circle"></i>
                 My Profile
+              </a>
+              <a *ngIf="whichRole() == 1 && loggedIn()" routerLink="/admin/add-employee" class="dropdown-item">
+                <i class="fas fa-user-plus"></i>
+                Register Employee
               </a>
               <a href="#" class="dropdown-item">
                 <i class="fas fa-key"></i>Change Password

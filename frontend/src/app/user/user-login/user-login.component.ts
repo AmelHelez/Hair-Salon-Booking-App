@@ -19,22 +19,31 @@ export class UserLoginComponent implements OnInit {
   }
 
   onLogin(loginForm: NgForm) {
-    console.log(loginForm.value);
+    //console.log(loginForm.value);
     this.authService.authUser(loginForm.value).subscribe(
       (response: UserForLogin) => {
         console.log(response);
         const user = response;
+        localStorage.setItem("userId", user.id.toString());
         localStorage.setItem("mytoken", user.token);
-        localStorage.setItem("myname", user.name);
+        localStorage.setItem("username", user.username);
         localStorage.setItem("userRole", user.roleId.toString());
+        if(user.salonId) localStorage.setItem("empSalon", user.salonId.toString());
         if(user.roleId == 1) {
-          this.alertifyService.success("ADMINE!");
+          this.alertifyService.success("Welcome Amel.");
+          this.router.navigate(['/']);
         }
-        else if(user.roleId == 2) this.alertifyService.success("EMPLOYEE!");
-        else if(user.roleId == 3) this.alertifyService.success("KLIJENTU!");
+        else if(user.roleId == 2) {
+          this.alertifyService.success("You are successfully logged in!/nYou are automatically navigated to your salon.");
+          this.router.navigate([`/employee/${user.id}`]);
+        }
+
+        else if(user.roleId == 3) {
+          this.alertifyService.success("You are successfully logged in!");
+          this.router.navigate(['/']);
+        }
 
 
-        this.router.navigate(['/']);
       }
     );
     /*if(token) {

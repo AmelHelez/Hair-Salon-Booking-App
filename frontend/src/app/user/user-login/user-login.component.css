@@ -1,0 +1,9 @@
+img {
+  width: 20%;
+  /* border: 1px solid black; */
+  height: 90px;
+}
+
+.card-header {
+  background-color: #008B8B !important;
+}

@@ -2,16 +2,6 @@
   min-height: 400px;
 }
 
-.card-body h1 {
-  font-family: fantasy;
-  color: #0069d9;
-}
-
-.font-highlight {
-  font-style: italic;
-  color: red;
-}
-
 .card-img-wrapper {
   overflow: hidden;
   position: relative;
@@ -19,7 +9,7 @@
 
 
 .card:hover img {
-  transform: scale(1.2, 1.2);
+  transform: scale(1.1, 1.1);
   transition-duration: 500ms;
   transition-timing-function: ease-out;
   height: 250px;
@@ -34,9 +24,37 @@
 }
 
 .card h3 {
-  color: blue;
   text-align: center;
+  color: black;
 }
+
+.card h5 {
+  text-align: center;
+  color: #DAA520; /*medium blue, light sea green*/
+}
+
+
+
+.hr {
+  /* width: 83%;
+  margin: 0.5 auto;
+  height: 1px;
+  background-color: black; */
+  width: 75px;
+  color: black;
+  background: black;
+  height: 3px;
+  border: none; -webkit-transition: all .2s ease-in-out;
+  -moz-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+}
+
+div.card:hover hr {
+  width:250px; -webkit-transition: all .2s ease-in-out;
+  -moz-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+}
+
 .member-icons {
   position: absolute;
   bottom: -30%;
@@ -52,6 +70,11 @@
   opacity: 1;
 }
 
-.animate {
-  transition: all 0.3s ease-in-out;
+button {
+  margin-top: 46px;
+  height: 50px;
+  /* background-color: #1E90FF; */
+  background-color: #4169E1;
+  color: white;
+  font-weight: 600;
 }

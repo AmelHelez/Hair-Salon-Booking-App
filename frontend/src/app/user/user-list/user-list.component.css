@@ -1,0 +1,12 @@
+td a {
+  color: #1E90FF;
+  text-decoration: none;
+}
+
+#td {
+  text-align: center;
+}
+
+td a:hover {
+  text-decoration: underline #1E90FF;
+}

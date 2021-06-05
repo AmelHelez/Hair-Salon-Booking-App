@@ -26,18 +26,18 @@ namespace backend.Controllers
         private readonly IConfiguration configuration;
 
 
-        //private readonly DataContext _context;
+        private readonly DataContext dc;
 
         /*public UsersController(DataContext context)
         {
             _context = context;
         }*/
 
-        public UsersController(IUserRepository userRepository, IConfiguration configuration)
+        public UsersController(IUserRepository userRepository, IConfiguration configuration, DataContext dc)
         {
             this.userRepository = userRepository;
             this.configuration = configuration;
-
+            this.dc = dc;
         }
          //GET: api/Users
         [HttpGet]
@@ -60,38 +60,27 @@ namespace backend.Controllers
 
             return user;
         }
-        /*
+        
         // PUT: api/Users/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
          [HttpPut("{id}")]
-         public async Task<IActionResult> PutUser(int id, User user)
+         public async Task<IActionResult> PutUser(int id, UserEditModel user)
          {
              if (id != user.Id)
              {
                  return BadRequest();
              }
 
-             _context.Entry(user).State = EntityState.Modified;
+            //dc.Entry(user).State = EntityState.Modified;
+            userRepository.Update(user.Id, user.Name, user.Email, user.Username, user.Age, user.City, user.Mobile, user.SalonId, user.Password);
+            
+            await userRepository.SaveAsync();
+            return NoContent();
 
-             try
-             {
-                 await _context.SaveChangesAsync();
-             }
-             catch (DbUpdateConcurrencyException)
-             {
-                 if (!UserExists(id))
-                 {
-                     return NotFound();
-                 }
-                 else
-                 {
-                     throw;
-                 }
-             }
+        }
 
-             return NoContent();
-         }*/
+         
 
         // POST: api/Users
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
@@ -125,7 +114,7 @@ namespace backend.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserLoginRequest loginReq)
         {
-            var user = await userRepository.Authenticate(loginReq.Name, loginReq.Password);
+            var user = await userRepository.Authenticate(loginReq.Username, loginReq.Password);
 
             ApiError apiError = new ApiError();
 
@@ -139,9 +128,12 @@ namespace backend.Controllers
 
 
             var loginRes = new UserLoginResponse();
-            loginRes.Name = user.Name;
+            loginRes.Username = user.Username;
             loginRes.Token = CreateJWT(user);
             loginRes.RoleId = user.RoleId;
+            loginRes.SalonId = user.SalonId;
+            //if (loginRes.SalonId > 0) 
+            loginRes.Id = user.Id;  
 
             return Ok(loginRes);
         }
@@ -186,14 +178,14 @@ namespace backend.Controllers
                 return BadRequest(apiError);
             }
 
-            if (await userRepository.UserAlreadyExists(loginReq.Name))
+            if (await userRepository.UserAlreadyExists(loginReq.Username, loginReq.Email))
             {
                 apiError.ErrorCode = BadRequest().StatusCode;
                 apiError.ErrorMessage = "User already exists, please try something else.";
                 return BadRequest(apiError);
             }
 
-            userRepository.Register(loginReq.Name, loginReq.Email, loginReq.Age, loginReq.City, loginReq.Mobile, loginReq.Password);
+            userRepository.Register(loginReq.Name, loginReq.Email, loginReq.Username, loginReq.Age, loginReq.City, loginReq.Mobile, loginReq.Password);
             await userRepository.SaveAsync();
             return StatusCode(201);
             /* if (loginReq.Name.IsEmpty() ||
@@ -263,14 +255,14 @@ namespace backend.Controllers
                 return BadRequest(apiError);
             }
 
-            if (await userRepository.UserAlreadyExists(loginReq.Name))
+            if (await userRepository.UserAlreadyExists(loginReq.Username, loginReq.Email))
             {
                 apiError.ErrorCode = BadRequest().StatusCode;
                 apiError.ErrorMessage = "User already exists, please try something else.";
                 return BadRequest(apiError);
             }
 
-            userRepository.RegisterEmployee(loginReq.Name, loginReq.Email, loginReq.Age, loginReq.City, loginReq.Mobile, loginReq.Password);
+            userRepository.RegisterEmployee(loginReq.Name, loginReq.Email, loginReq.Username, loginReq.Age, loginReq.City, loginReq.Mobile, loginReq.SalonId, loginReq.Password);
             await userRepository.SaveAsync();
             return StatusCode(201);
           }

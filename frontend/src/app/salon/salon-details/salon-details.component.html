@@ -6,17 +6,20 @@
         <img *ngIf="!salonDetail.image" src="assets/images/default_salon.jpg" class="card-img-top">
       </div>
       <div class="card-body">
-        <h1 style="color: black;" class="card-title">{{salonDetail.name}}</h1>
-        <div>
-          <h3>{{salonDetail.address}}, {{salonDetail.city}} </h3>
-        </div>
-          <p>Number of employees: <b class="borderNumber">{{salonDetail.employeeNumber}}</b></p>
-
+        <h1 class="card-title">{{salonDetail.name}} <hr/></h1>
       </div>
       <div class="card-footer">
         <div class="buttons">
-          <button class="btn btn-success" style="margin-bottom: 7px; margin-top: -2px;" routerLink="/update/{{salonDetail.id}}">Edit (only Admin)</button>
-          <button class="btn btn-primary">Book an appointment</button>
+          <div *ngIf="loggedIn() && whichRole() == 1" class="admin-premises">
+            <button class="btn btn-primary" style="margin-bottom: 7px; margin-top: -2px;"
+            routerLink="/admin/add-employee/{{salonDetail.id}}">Add employees for {{salonDetail.name}}</button>
+            <button class="btn btn-success" style="margin-bottom: 7px; margin-top: -2px;"
+            routerLink="/update/{{salonDetail.id}}">Edit (only Admin)</button>
+            <button class="btn btn-danger" style="margin-bottom: 7px; margin-top: -2px;"
+            (click)="deleteSalon(salonDetail.name)">Delete Salon</button>
+          </div>
+
+          <button class="btn btn-primary" *ngIf="loggedIn() && whichRole() == 3" routerLink="/book/{{salonDetail.id}}">Book an appointment</button>
         </div>
       </div>
         </div>
@@ -24,12 +27,35 @@
       <div class="col-sm-8 p-0">
         <div class="tab-panel p-3">
           <tabset class="member-tabset">
-            <tab heading="Address">
+            <tab heading="Info">
               <div class="col-sm-12">
-                <h1>Address</h1>
-                <div class="heading">
-                  <strong>{{salonDetail.address}}</strong> <br>
-                  <strong>{{salonDetail.city}}</strong>
+
+                <div class="heading"  style="padding: 10px;">
+                  <div>
+                    <h3>Address: <span style="color:#DAA520">{{salonDetail.address}}</span></h3>
+                    <h3>In {{salonDetail.city}}</h3>
+                  </div>
+                    <p>Number of employees: <b class="borderNumber">{{salonDetail.employeeNumber}}</b></p>
+                    <p>Number of registered employees: <b class="borderNumber">{{empList.length}}</b></p>
+                    <br />
+                    <div class="nums" style="padding: 10px;">
+                      <h4 style="text-align: center;">Employees:</h4>
+                      <hr class="hrr" />
+                      <p *ngIf="empList.length == 0">No named employees</p>
+                      <ul *ngFor="let e of empList">
+                        <li>{{e.name}}</li>
+                        <li>{{e.age}} years old</li>
+                        <li>{{e.city}}</li>
+                        <hr class="hr-empList">
+                        <div class="clear"></div>
+                      </ul>
+                      <p *ngIf="empList.length < salonDetail.employeeNumber && salonDetail.employeeNumber - empList.length == 1">
+                        {{salonDetail.employeeNumber - empList.length}} employee to be added soon
+                      </p>
+                      <p *ngIf="empList.length < salonDetail.employeeNumber && salonDetail.employeeNumber - empList.length > 1">
+                        {{salonDetail.employeeNumber - empList.length}} employees to be added soon
+                      </p>
+                    </div>
                 </div>
               </div>
           </tab>
@@ -37,27 +63,56 @@
               <ngx-gallery [options]="galleryOptions" [images]="galleryImages" class="ngx-gallery"></ngx-gallery>
             </tab>
             <tab heading="Appointments">
-              <h1>Today's appointments</h1>
-              <table>
-                <tr>
-                  <th>Appointment ID</th>
-                  <th>Date</th>
-                  <th>Employee</th>
-                  <th>Client</th>
-                  <th>Type</th>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>08/05/2021</td>
-                  <td>Emp 1</td>
-                  <td>Amel Helez</td>
-                  <td>Na keca</td>
-                </tr>
+              <h3 style="text-align: center;">Today's appointments</h3>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Employee</th>
+                    <th scope="col">Client</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Price</th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let app of appointmentList; index as i">
+                  <tr>
+                    <th scope="row">{{i+1}}</th>
+                    <td>{{app.id}}</td>
+                    <td>{{app.appDate}}</td>
+                    <td>{{app.employeeName}}</td>
+                    <td>{{user.name}}</td>
+                    <td>{{treatment.name}}</td>
+                    <td>{{treatment.cost}} BAM</td>
+                  </tr>
+                   </tbody>
               </table>
+
            </tab>
             <tab heading="Contact">
-              <h1>Contact Detail</h1>
-              <p>Contact us via phone or email.</p>
+              <div *ngIf="salonDetail.phoneNumber && salonDetail.email">
+                <h4>Phone Number: {{salonDetail.phoneNumber}}</h4>
+                <h4>Email: {{salonDetail.email}}</h4>
+              </div>
+
+              <div *ngIf="salonDetail.phoneNumber && !salonDetail.email">
+                <h4>Phone Number: {{salonDetail.phoneNumber}}</h4>
+              </div>
+
+              <div *ngIf="!salonDetail.phoneNumber && salonDetail.email">
+                <h4>Email: {{salonDetail.email}}</h4>
+              </div>
+
+              <div *ngIf="!salonDetail.phoneNumber && !salonDetail.email">
+                <h5>Unfortunately, we don't have neither phone number nor email.</h5>
+              </div>
+              <hr> <br>
+              <div *ngIf="empList.length > 0" class="nums">
+                <h4 style="text-align: center;">Employee phone numbers <hr class="hrr"></h4>
+                <div class="numbers" *ngFor="let e of empList">
+                  <p>{{e.name}}: <span style="color: #DAA520; font-weight: 600;">{{e.mobile}}</span></p>
+                </div>
+              </div>
            </tab>
           </tabset>
         </div>

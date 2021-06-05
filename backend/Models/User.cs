@@ -15,6 +15,8 @@ namespace backend.Models
         public string Name { get; set; }
         public string Email { get; set; }
         [Required]
+        public string Username { get; set; }
+        [Required]
         public byte[] Password { get; set; }
         public byte[] PasswordKey { get; set; }
         public int Age { get; set; }
@@ -28,5 +30,10 @@ namespace backend.Models
         [JsonIgnore]
         public virtual Role Role { get; set; }
 
-       }
+        public int? SalonId { get; set; }
+        public virtual Salon Salon { get; set; }
+
+        public virtual ICollection<Appointment>? Appointments { get; set; }
+
+    }
 }

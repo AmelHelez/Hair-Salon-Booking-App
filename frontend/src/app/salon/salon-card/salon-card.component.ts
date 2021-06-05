@@ -8,7 +8,7 @@ import { Salon } from '../../models/salon';
 })
 export class SalonCardComponent implements OnInit {
  @Input() salon: Salon;
- @Input() hideButton: boolean;
+// @Input() hideButton: boolean;
  //slika: string = atob(this.salon.image);
 
 
@@ -18,7 +18,6 @@ export class SalonCardComponent implements OnInit {
 
 
   ngOnInit(): void {
-
   }
 
 }

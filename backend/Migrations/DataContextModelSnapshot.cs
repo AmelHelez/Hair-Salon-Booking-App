@@ -19,6 +19,39 @@ namespace backend.Migrations
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("backend.Models.Appointment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AppointmentDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AppointmentTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SalonId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TreatmentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SalonId");
+
+                    b.HasIndex("TreatmentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Appointments");
+                });
+
             modelBuilder.Entity("backend.Models.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -49,6 +82,9 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("EmployeeNumber")
                         .HasColumnType("int");
 
@@ -59,9 +95,30 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Salons");
+                });
+
+            modelBuilder.Entity("backend.Models.Treatment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Cost")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Treatments");
                 });
 
             modelBuilder.Entity("backend.Models.User", b =>
@@ -98,11 +155,47 @@ namespace backend.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("SalonId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("RoleId");
 
+                    b.HasIndex("SalonId");
+
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("backend.Models.Appointment", b =>
+                {
+                    b.HasOne("backend.Models.Salon", "Salon")
+                        .WithMany("Appointments")
+                        .HasForeignKey("SalonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("backend.Models.Treatment", "Treatment")
+                        .WithMany("Appointments")
+                        .HasForeignKey("TreatmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("backend.Models.User", "User")
+                        .WithMany("Appointments")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Salon");
+
+                    b.Navigation("Treatment");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("backend.Models.User", b =>
@@ -113,12 +206,35 @@ namespace backend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("backend.Models.Salon", "Salon")
+                        .WithMany("Users")
+                        .HasForeignKey("SalonId");
+
                     b.Navigation("Role");
+
+                    b.Navigation("Salon");
                 });
 
             modelBuilder.Entity("backend.Models.Role", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("backend.Models.Salon", b =>
+                {
+                    b.Navigation("Appointments");
+
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("backend.Models.Treatment", b =>
+                {
+                    b.Navigation("Appointments");
+                });
+
+            modelBuilder.Entity("backend.Models.User", b =>
+                {
+                    b.Navigation("Appointments");
                 });
 #pragma warning restore 612, 618
         }

@@ -27,10 +27,11 @@ export class UserRegisterComponent implements OnInit {
     this.registrationForm = this.fb.group({
       name: [null, Validators.required],
       email: [null, [Validators.required, Validators.email]],
+      username: [null, [Validators.required, Validators.minLength(4)]],
       password: [null, [Validators.required, Validators.minLength(8)]],
       confirmPassword: [null, Validators.required],
-      mobile: [null, [Validators.required, Validators.maxLength(12)]],
-      age: [null, Validators.required],
+      mobile: [null, Validators.maxLength(12)],
+      age: [null],
       city: [null, [Validators.required, Validators.minLength(2)]]
     }, {validators: this.passwordMatchingValidator});
   }
@@ -46,6 +47,10 @@ export class UserRegisterComponent implements OnInit {
 
   get email() {
     return this.registrationForm.get('email') as FormControl;
+  }
+
+  get username() {
+    return this.registrationForm.get('username') as FormControl;
   }
 
   get password() {
@@ -92,6 +97,7 @@ export class UserRegisterComponent implements OnInit {
        id: null,
        name: this.name.value,
        email: this.email.value,
+       username: this.username.value,
        password: this.password.value,
        mobile: this.mobile.value,
        age: this.age.value,

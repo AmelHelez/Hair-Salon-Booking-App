@@ -1,0 +1,31 @@
+.salon {
+  width: 900px;
+  border: 1px solid black;
+  border-radius: 10px;
+  border-width: 2px;
+  margin: 0 auto;
+  height: 250px;
+  padding: 30px;
+}
+
+.image {
+  width: 40%;
+  display: inline-block;
+}
+
+.image img {
+  height: 170px;
+  float: left;
+}
+
+.clear {
+  clear: both;
+}
+
+.other {
+  width: 50%;
+  float: right;
+  justify-content: center;
+  margin-left: 20px;
+  margin-top: 20px;
+}

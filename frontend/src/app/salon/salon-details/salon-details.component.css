@@ -21,6 +21,11 @@ table th, table td {
   margin-right: 15px;
 }
 
+.card-body h1 {
+  text-align: center;
+  color: black;
+}
+
 .borderNumber {
   padding: 0 5px;
   border: 1px solid black;
@@ -35,4 +40,59 @@ table th, table td {
 
 .card-footer {
   text-align: center;
+}
+
+.card-body hr {
+  width: 75px;
+    color: black;
+    background: black;
+    height: 3px;
+    border: none; -webkit-transition: all .2s ease-in-out;
+    -moz-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+
+div.card:hover hr {
+  width:250px; -webkit-transition: all .2s ease-in-out;
+  -moz-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+}
+
+div.card-body:hover h1 {
+  transition: all .2s ease-in;
+}
+
+.hr-empList {
+  width: 100px;
+  float: left;
+  height: 3px;
+  background-color: royalblue;
+}
+
+
+
+.hrr {
+  width: 250px;
+  background-color: black;
+  height: 3px;
+}
+
+.nums {
+  border: 1px solid royalblue;
+  border-width: 1rem;
+  border-radius: 10px;
+  padding: 10px 0;
+  width: 90%;
+  margin-left: 35px;
+}
+
+
+
+
+.numbers {
+ text-align: center;
+}
+
+.clear {
+  clear: both;
 }

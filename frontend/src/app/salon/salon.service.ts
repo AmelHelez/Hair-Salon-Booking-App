@@ -59,6 +59,10 @@ export class SalonService {
     return this.http.put("https://localhost:44393/api/salons/" + salonid, salon);
   }
 
+  deleteSalon(salonid: number) {
+    return this.http.delete("https://localhost:44393/api/salons/" + salonid);
+  }
+
   addProperty(salon: Salon) {
     let newSalon = [salon];
 

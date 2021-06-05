@@ -1,25 +1,29 @@
 <div class="row">
-  <div class="col-6 m-auto">
+  <div class="col-5 m-auto">
+    <br> <br>
     <div class="card m-auto">
       <div class="card-header">
-        Login
+        <h3 style="text-align: center; margin-top:5px;">Login</h3>
       </div>
       <div class="card-body">
         <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)">
           <div class="form-group col-12">
-            <label>Name</label>
-            <input class="form-control" required ngModel name="name">
+            <label>User name</label>
+            <input class="form-control" required ngModel name="username">
           </div>
           <div class="form-group col-12">
             <label>Password</label>
             <input type="password" class="form-control" required ngModel name="password">
           </div>
           <div class="form-group col-12">
-            <button [disabled]="!loginForm.valid" type="submit" class="btn btn-primary">Login</button>
+            <button [disabled]="!loginForm.valid" type="submit" class="btn" style="background-color: #20B2AA;">Login</button>
             <button type="button" class="btn btn-secondary ml-2">Cancel</button>
+            <br> <br>
+            <p style="font-size: 15px;">Don't have an account? <a routerLink="/register">Register!</a></p>
           </div>
         </form>
       </div>
     </div>
   </div>
+
 </div>

@@ -1,0 +1,39 @@
+<div class="margin"></div>
+<div class="card">
+  <div class="card-body">
+    <a routerLink="/edit-user/{{user.id}}">Edit User</a>
+    <h1 class="card-title" style="text-align: center;">{{user.name}}</h1>
+    <hr>
+    <h3>My profile</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Email</th>
+          <th scope="col">User name</th>
+          <th scope="col">City</th>
+          <th scope="col">Age</th>
+          <th scope="col">Phone number</th>
+          <th scope="col">Role</th>
+          <th *ngIf="user.roleId == 2" scope="col">Salon</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{user.email}}</td>
+          <td>{{user.username}}</td>
+          <td>{{user.city}}</td>
+          <td>{{user.age}}</td>
+          <td *ngIf="user.mobile">{{user.mobile}}</td>
+          <td *ngIf="!user.mobile">Not available</td>
+          <td *ngIf="user.roleId == 2" style="color:#8B0000; font-weight: 600;">Employee</td>
+          <td *ngIf="user.roleId == 3" style="color:#008B8B; font-weight: 600;">Client</td>
+          <td *ngIf="user.roleId == 3" style="text-align: center;">/</td>
+          <td *ngIf="user.roleId == 2">{{name|titlecase}}</td>
+          <!-- <td *ngIf="user.roleId == 3">/</td> -->
+        </tr>
+         </tbody>
+    </table>
+   <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+</div>
