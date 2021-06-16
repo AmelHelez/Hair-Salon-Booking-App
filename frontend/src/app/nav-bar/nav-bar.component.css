@@ -7,3 +7,7 @@
 .container-fluid img:hover {
   border-radius: 15px;
 }
+
+.dropdown-item i{
+  margin-right: 5px;
+}

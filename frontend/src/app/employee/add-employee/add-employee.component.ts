@@ -39,13 +39,13 @@ export class AddEmployeeComponent implements OnInit {
      (data: Salon) => {
        console.log(data);
        this.salonClass = data['prp'];
-      console.log("SALON CLASS:", this.salonClass);
+      // console.log("SALON CLASS:", this.salonClass);
      }
    )
     this.salonService.getAllSalons().subscribe(
       data => {
         this.salonList = data;
-        console.log(data);
+        // console.log(data);
       }
     );
   }

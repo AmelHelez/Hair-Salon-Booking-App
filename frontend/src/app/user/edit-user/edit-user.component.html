@@ -6,27 +6,25 @@
       </div>
       <div class="card-body">
         <form [formGroup]="updateUserForm" (ngSubmit)="updateUser(user.id)">
-          <div class="tab-panel">
-
               <div class="form-group col-12">
-                <label>Name</label>
-                <input type="text" class="form-control" formControlName="name">
+                <label for="name" class="form-label">Name<span style="color:red;">*</span> </label>
+                <input type="text" value={{ime}} class="form-control" formControlName="name">
                 <div class="error-block" *ngIf="name.invalid && (nextClicked || name.touched)">
-                  Please type your salon's name
+                  Please type the name
                 </div>
               </div>
 
                <div class="form-group col-12">
-                 <label>Email</label>
-                 <input type="email" class="form-control" formControlName="email">
+                 <label for="email" class="form-label">Email<span style="color:red;">*</span> </label>
+                    <input type="email" value={{mail}} class="form-control" formControlName="email">
                  <div class="error-block" *ngIf="email.invalid && (nextClicked || email.touched)">
                    Please type email
                  </div>
                </div>
 
                <div class="form-group col-12">
-                <label>Username</label>
-                <input type="text" class="form-control" formControlName="username">
+                <label for="username">Username<span style="color:red;">*</span></label>
+                <input type="text" value={{juzernejm}} class="form-control" formControlName="username">
                 <div class="error-block" *ngIf="username.invalid && (nextClicked || username.touched)">
                   Please type your username
                 </div>
@@ -34,7 +32,7 @@
 
 
                <div class="form-group col-12">
-                <label for="password" class="form-label">Password</label>
+                <label for="password" class="form-label">Password<span style="color:red;">*</span></label>
                 <input type="password" class="form-control" formControlName="password">
                 <span *ngIf="!password.valid && (password.touched)" class="error-block">
                   <span *ngIf="password.errors['required']">
@@ -47,7 +45,7 @@
               </div>
 
               <div class="form-group col-12">
-                <label for="cpassword" class="form-label">Confirm Password</label>
+                <label for="cpassword" class="form-label">Confirm Password<span style="color:red;">*</span></label>
                 <input type="password" class="form-control" formControlName="confirmPassword">
                 <span *ngIf="!confirmPassword.valid && (confirmPassword.touched)" class="error-block">
                   <span *ngIf="confirmPassword.hasError('required')">
@@ -62,32 +60,16 @@
               <div class="form-group col-12">
                 <label for="mobile" class="form-label">Mobile</label>
                 <input type="text" class="form-control" formControlName="mobile">
-                <span *ngIf="!mobile.valid && (mobile.touched)" class="error-block">
-                  <span *ngIf="mobile.hasError('required')">
-                    Please provide mobile
-                  </span>
-                  <span *ngIf="mobile.hasError('maxlength')" class="error-block">
-                    Invalid mobile number
-                  </span>
-                </span>
               </div>
 
               <div class="form-group col-12">
                 <label for="age" class="form-label">Age</label>
                 <input type="text" class="form-control" formControlName="age">
-                <span *ngIf="!age.valid && (age.touched)" class="error-block">
-                  <span *ngIf="age.hasError('required')">
-                    Please provide age
-                  </span>
-                  <span *ngIf="age.hasError('maxlength')" class="error-block">
-                    Invalid age number
-                  </span>
-                </span>
               </div>
 
               <div class="form-group col-12">
-                <label for="city" class="form-label">City</label>
-                <input type="text" class="form-control" formControlName="city">
+                <label for="city" class="form-label">City<span style="color:red;">*</span></label>
+                <input type="text" value={{siti}} class="form-control" formControlName="city">
                 <span *ngIf="!city.valid && (city.touched)" class="error-block">
                   <span *ngIf="city.hasError('required')">
                     Please provide city
@@ -99,36 +81,18 @@
               </div>
 
               <div *ngIf="user.roleId == 2" class="form-group col-12">
-                <label>Salon</label>
-                <div>
-                  <select class="form-control" formControlName="salon">
-                    <option value="">--Select Salon--</option>
-                    <option *ngFor="let salon of salonList" value={{salon.id}}>
-                     {{salon.name}}
-                    </option>
-                  </select>
-                  <div class="error-block" *ngIf="!salon.valid && (salon.touched)">
-                  Please select salon
-                  </div>
+                <label for="salon">Salon<span style="color:red;">*</span></label>
+                <div *ngIf="salonClass">
+                  <h4>{{salonClass.name}}</h4>
                 </div>
 
               </div>
 
                <div class="form-group col-12 mt-5">
-                <button [disabled]="!updateUserForm.valid" type="submit" class="btn btn-primary btn-block">UPDATE</button>
+                <button type="submit" class="btn btn-primary btn-block">UPDATE</button>
                 <button type="reset" class="btn btn-secondary btn-block">Cancel</button>
               </div>
-          </div>
         </form>
       </div>
     </div>
   </div>
-  <!--<div class="col-4">
-    <div class="card-header">
-      <h3>Your salon preview</h3>
-    </div>
-    <div class="shadow-lg p-3 bg-white">
-      <app-salon-card [salon]="salon" hideButton="true"></app-salon-card>
-    </div>
-  </div>
-</div>-->

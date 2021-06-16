@@ -20,6 +20,15 @@ export class EditUserComponent implements OnInit {
   userUpdate = null;
   salonList: Salon[] = [];
   loggedInAdmin: number;
+  userForm: User;
+  ime: string;
+  mail: string;
+  juzernejm: string;
+  ejd: number;
+  siti: string;
+  mobitel: string;
+  salonID: number;
+  salonClass: Salon;
 
 
 
@@ -29,39 +38,57 @@ export class EditUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.loggedInAdmin = +localStorage.getItem("userRole");
-    console.log(this.loggedInAdmin);
+    // console.log(this.loggedInAdmin);
     this.userId = +this.route.snapshot.params['id'];
     //console.log(this.userId);
     this.userService.getUser(this.userId).subscribe(
       data => {
         this.user = data;
-        console.log("USER:", this.user);
+        this.ime = this.user.name;
+        this.mail = this.user.email;
+        this.juzernejm = this.user.username;
+        this.siti = this.user.city;
+        if(this.user.roleId == 2)
+        {
+          this.salonID = this.user.salonId;
+        this.salonService.getSalon(this.salonID).subscribe(
+          s => {
+            this.salonClass = s;
+            console.log("SALON:", this.salonClass);
+          }
+        )}
       }
     )
-    this.salonService.getAllSalons().subscribe(
-      x => {
-        this.salonList = x;
-      }
-    )
-    // this.route.data.subscribe(
-    //   (data: User) => {
-    //     console.log("USER:",data);
-    //     this.user = data['prp'];
+    // this.salonService.getAllSalons().subscribe(
+    //   x => {
+    //     this.salonList = x;
     //   }
     // )
-    this.UpdateUserForm();
+
+     this.UpdateUserForm();
   }
+
+  // getSalon() {
+  //   if(this.salonID) {
+  //     this.salonService.getSalon(this.salonID).subscribe(
+  //       s => {
+  //         this.salonClass = s;
+  //       }
+  //     )
+  //     return this.salonClass;
+  //   }
+  // }
 
   UpdateUserForm() {
     this.updateUserForm = this.fb.group({
-      name: [null, Validators.required],
-      email: [null, [Validators.required, Validators.email]],
-      username: [null, [Validators.required, Validators.minLength(4)]],
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      username: ['', [Validators.required, Validators.minLength(4)]],
       password: [null, [Validators.required, Validators.minLength(8)]],
       confirmPassword: [null, Validators.required],
-      mobile: [null, [Validators.required, Validators.maxLength(12)]],
-      age: [null, Validators.required],
-      city: [null, [Validators.required, Validators.minLength(2)]],
+      mobile: [null, Validators.maxLength(12)],
+      age: [null],
+      city: ['', [Validators.required, Validators.minLength(2)]],
       salon: [null]
     }, {validators: this.passwordMatchingValidator})
   }
@@ -110,14 +137,19 @@ export class EditUserComponent implements OnInit {
  updateUser(userId: number) {
    this.userService.getUser(userId).subscribe(
      user => {
-       user.name = this.name.value;
-       user.email = this.email.value;
-       user.username = this.username.value;
+       if(!this.name.value) user.name = this.ime;
+       else user.name = this.name.value;
+       if(!this.email.value) user.email = this.mail;
+       else user.email = this.email.value;
+       if(!this.username.value) user.username = this.juzernejm;
+       else user.username = this.username.value;
        user.password = this.password.value;
-       user.city = this.city.value;
+       if(!this.city.value) user.city = this.siti;
+       else user.city = this.city.value;
        user.age = this.age.value;
        user.mobile = this.mobile.value;
-       if(this.user.roleId == 2) user.salonId = this.salon.value;
+       if(this.user.roleId == 2 && !this.salonClass) user.salonId = this.salon.value;
+       else if(this.user.roleId == 2 && this.salonClass) user.salonId = this.salonClass.id;
        //user.roleId = this.user.roleId;
        this.userService.updateUser(this.userId, user).subscribe(
          () => {

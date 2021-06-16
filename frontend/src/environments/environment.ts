@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  userApi: "https://localhost:44393/api"
+  salonApi: "https://localhost:44393/api/salons",
+  userApi: "https://localhost:44393/api/users",
+  appointmentApi: "https://localhost:44393/api/appointments"
 };
 
 /*

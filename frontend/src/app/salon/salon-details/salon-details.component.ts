@@ -35,6 +35,7 @@ export class SalonDetailsComponent implements OnInit {
   appointmentList: Appointment[] = [];
   user: User;
   treatment: Treatment;
+  userToDelete: User;
 
 
   constructor(private salonService: SalonService, private appointmentService: AppointmentService,
@@ -45,7 +46,7 @@ export class SalonDetailsComponent implements OnInit {
    this.salonId = +this.route.snapshot.params['id'];
    this.route.data.subscribe(
      (data: Salon) => {
-      console.log(data);
+      // console.log(data);
        this.salonDetail = data['prp'];
        if(this.salonDetail.image) {
         this.salonDetail.image = atob(this.salonDetail.image); }
@@ -64,12 +65,13 @@ export class SalonDetailsComponent implements OnInit {
             for(var x = 0; x < this.employees.length; x++) {
               if(this.employees[x].salonId === this.salonId) {
               this.employee = (this.employees[x]);
-               console.log(this.employee);
+              //  console.log(this.employee);
                this.empList.push(this.employee);
             }
             }
           }
         )
+
         // this.appointmentService.getAllAppointments().subscribe(
         //   apt => {
         //     this.appointments = apt;
@@ -166,6 +168,22 @@ export class SalonDetailsComponent implements OnInit {
     }
   }
 
+  deleteUser(id: number) {
+    this.userService.getUser(id).subscribe(
+      data => {
+        this.userToDelete = data;
+      }
+    )
+    if(confirm("Amel, are you sure you want to delete " + this.userToDelete.name + '?')) {
+      this.userService.deleteUser(id)
+    .subscribe((data) => {
+      console.log(data);
+      this.alertifyService.success("User removed successfully.");
+      window.location.reload();
+    })
+    }
+  }
+
   // getApps() {
   //   this.appointmentService.getAllAppointments().subscribe(
   //     data => {
@@ -179,7 +197,7 @@ export class SalonDetailsComponent implements OnInit {
     this.userService.getAllTreatments().subscribe(
       data => {
         this.treatments = data;
-        console.log("Treatments:", this.treatments);
+        // console.log("Treatments:", this.treatments);
       }
     )
   }

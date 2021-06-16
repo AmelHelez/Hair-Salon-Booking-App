@@ -18,3 +18,9 @@
 .clear {
   clear: both;
 }
+
+.username {
+  font-style: italic;
+  color: #1E90FF;
+  font-weight: 500;
+}

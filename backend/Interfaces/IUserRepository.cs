@@ -16,6 +16,8 @@ namespace backend.Interfaces
         void RegisterEmployee(string name, string email, string username, int age, string city, string mobile, int? salonId, string password);
 
         void Update(int id, string name, string email, string username, int age, string city, string mobile, int? salonId, string password);
+
+        void Delete(int id);
         Task<bool> UserAlreadyExists(string username, string email);
         Task<bool> SaveAsync();
 

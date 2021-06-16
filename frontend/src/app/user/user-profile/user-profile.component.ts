@@ -15,12 +15,18 @@ export class UserProfileComponent implements OnInit {
   user: User;
   name: string;
   salon: Salon;
+  loggedInUser: number;
+  userRole: number;
+
 
   constructor(private route: ActivatedRoute, private userService: UserService,
     private salonService: SalonService) { }
 
   ngOnInit(): void {
     this.userId = +this.route.snapshot.params['id'];
+    this.loggedInUser = +localStorage.getItem("userId");
+    this.userRole = +localStorage.getItem("userRole");
+    //  console.log("ROLE", this.userRole);
     this.userService.getUser(this.userId).subscribe(
       data => {
         this.user = data;

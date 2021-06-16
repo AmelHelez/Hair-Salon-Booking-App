@@ -78,14 +78,48 @@ div.card-body:hover h1 {
 }
 
 .nums {
-  border: 1px solid royalblue;
-  border-width: 1rem;
-  border-radius: 10px;
+  /* border: 1px solid royalblue; */
+  /* border-width: 1rem; */
+  /* border-radius: 10px; */
   padding: 10px 0;
   width: 90%;
   margin-left: 35px;
 }
 
+.brojevi {
+  font-style: italic;
+  color: #E9967A;
+  font-weight: 400;
+}
+
+#td {
+  color: #00BFFF;
+  margin-right: 25px;
+}
+
+
+#td-delete{
+  color: #CD5C5C;
+  border: none;
+  background-color: white;
+}
+
+.buttonDelete {
+  width: 60px;
+}
+
+.mobile {
+  width: 150px;
+}
+
+.mobile a:hover {
+  text-decoration: none;
+}
+
+/* button {
+  border: none;
+  background-color: white;
+} */
 
 
 

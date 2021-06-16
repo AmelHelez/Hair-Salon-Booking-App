@@ -16,7 +16,6 @@ export class UpdateSalonComponent implements OnInit {
 
   updateSalonForm: FormGroup;
   nextClicked: boolean;
-  //salon: Salon;
   salon = new SalonClass();
   salonUpdate = null;
   salonId: number;
@@ -24,16 +23,11 @@ export class UpdateSalonComponent implements OnInit {
   imageChangedEvent: any = '';
   public base64Slika: string;
   croppedImage: any = '';
+  ime: string;
+  adresa: string;
+  grad: string;
+  salonNew: Salon;
 
-  /*
-  salonView: Salon = {
-    id: null,
-    name: '',
-    address: '',
-    city: '',
-    employeeNumber: null
-   }
-*/
   constructor(private fb: FormBuilder, private router: Router, private route: ActivatedRoute,
     private salonService: SalonService, private alertifyService: AlertifyService) { }
 
@@ -70,14 +64,23 @@ export class UpdateSalonComponent implements OnInit {
        this.salon = data['prp'];
      }
    )
+   this.salonService.getSalon(this.salonId).subscribe(
+     x => {
+       this.salonNew = x;
+       this.ime = this.salonNew.name;
+       this.grad = this.salonNew.city;
+       this.adresa = this.salonNew.address;
+     }
+   )
     this.CreateAddSalonForm();
   }
 
+
   CreateAddSalonForm() {
     this.updateSalonForm = this.fb.group({
-      name: [null, Validators.required],
-      city: [null, Validators.required],
-      address: [null, Validators.required],
+      name: ['', Validators.required],
+      city: ['', Validators.required],
+      address: ['', Validators.required],
       employeeNumber: [null],
       image: [null],
       phoneNumber: [null, [Validators.maxLength(12)]],
@@ -140,18 +143,16 @@ export class UpdateSalonComponent implements OnInit {
 
   updateSalon(salonId: number) {
     this.salonService.getSalon(salonId).subscribe(salon => {
-      //this.massage = null;
-     // this.dataSaved = false;
-     // this.salonUpdate = salon.id;
-     salon.name = this.name.value;
-     salon.city = this.city.value;
-     salon.address = this.address.value;
+     if(!this.name.value) salon.name = this.ime;
+     else salon.name = this.name.value;
+     if(!this.city.value) salon.city = this.grad;
+     else salon.city = this.city.value;
+     if(!this.address.value) salon.address = this.adresa;
+     else salon.address = this.address.value;
      salon.employeeNumber = this.employeeNumber.value;
      salon.image = btoa(this.croppedImage);
      salon.phoneNumber = this.phoneNumber.value;
      salon.email = this.email.value;
-     //this.updateSalonForm.controls['city'].setValue(this.salon.city);
-     //this.mapSalon();
      this.salonService.updateSalon(this.salonId, salon)
      .subscribe(() => {
       this.alertifyService.success("SALON UPDATED!");
@@ -162,14 +163,4 @@ export class UpdateSalonComponent implements OnInit {
      })
     });
   }
-/*
-  mapSalon(): void {
-    //this.salon.id = this.salonService.addPropID();
-    //this.salon.id = this.salonService.getSalon()
-    this.salon.name = this.name.value;
-    this.salon.address = this.address.value;
-    this.salon.city = this.city.value;
-    this.salon.employeeNumber = +this.employeeNumber.value;
-  }*/
-
 }

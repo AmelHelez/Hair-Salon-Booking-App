@@ -1,3 +1,10 @@
+<!-- <label>Search by role: &nbsp; </label>
+  <mat-form-field>
+    <input matInput [(ngModel)]="roleId">
+  </mat-form-field>
+  <button type="button" class="searchButton btn btn-outline-primary" (click)="onRoleFilter()">Search</button>
+  <button type="button" class="btn btn-outline-info" (click)="onRoleFilterClear()">Clear</button> -->
+
 <h2>All users</h2>
 <table class="table">
   <thead>
@@ -17,18 +24,33 @@
   <tbody *ngFor="let u of users; index as i">
     <tr>
       <th scope="row">{{i+1}}</th>
-      <td>{{u.name}}</td>
+      <td  style="width: 170px; color: #808000; font-weight: 600;">{{u.name}}</td>
       <td>{{u.email}}</td>
-      <td>{{u.username}}</td>
+      <td style="font-style: italic;">{{u.username}}</td>
       <td>{{u.city}}</td>
       <td>{{u.age}}</td>
-      <td *ngIf="u.mobile">{{u.mobile}}</td>
+      <td class="mobile" *ngIf="u.mobile">{{u.mobile}}</td>
       <td *ngIf="!u.mobile">Not available</td>
       <td *ngIf="u.roleId == 2" style="color:#8B0000; font-weight: 600;">Employee</td>
-      <td *ngIf="u.roleId == 3" style="color:#008B8B; font-weight: 600;">Client</td>
-      <td id="td"><a routerLink="/edit-user/{{u.id}}">Edit</a></td>
+      <td *ngIf="u.roleId == 3" style="color:#20B2AA; font-weight: 600;">Client</td>
+      <td *ngIf="u.roleId == 2" class="mobile"><a id="td" routerLink="/edit-user/{{u.id}}">
+        <i class="fas fa-user-edit"></i>
+      </a>
+      <button id="td-delete" (click)="deleteUser(u.id)">
+        <i class="fas fa-trash"></i>
+      </button>
+    </td>
+    <td *ngIf="u.roleId == 3">
+    <button class="buttonDelete" id="td-delete" (click)="deleteUser(u.id)">
+      <i class="fas fa-trash"></i>
+    </button>
+  </td>
+      <!-- <td id="td-delete"><a routerLink="/edit-user/{{u.id}}">
+        <i class="fas fa-trash"></i>
+      </a></td> -->
+
       <!-- <td *ngIf="u.roleId == 3" style="text-align: center;">/</td> -->
-      <td *ngIf="u.roleId == 2">{{u.salonName|titlecase}}</td>
+      <td class="salon" *ngIf="u.roleId == 2">{{u.salonName|titlecase}}</td>
       <td *ngIf="u.roleId == 3">/</td>
 
     </tr>

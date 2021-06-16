@@ -30,7 +30,6 @@ namespace backend.Repositories
         {
             return await dc.Users
                 .Include(u => u.Role)
-                .Include(u => u.Appointments)
                 .Where(u => u.Id == id).FirstOrDefaultAsync();
         }
 
@@ -150,6 +149,13 @@ namespace backend.Repositories
             dc.Users.Update(user);
 
             //return _mapper.Map<Model.User>(entity);
+        }
+
+        public void Delete(int id)
+        {
+            var user = dc.Users.Find(id);
+            dc.Users.Remove(user);
+
         }
     }
 }

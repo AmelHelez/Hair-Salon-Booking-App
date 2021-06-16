@@ -1,12 +1,27 @@
-td a {
-  color: #1E90FF;
-  text-decoration: none;
-}
 
 #td {
-  text-align: center;
+  color: #00BFFF;
+  margin-right: 25px;
 }
 
-td a:hover {
-  text-decoration: underline #1E90FF;
+
+#td-delete{
+  color: #CD5C5C;
+}
+
+.buttonDelete {
+  width: 60px;
+}
+
+.mobile {
+  width: 150px;
+}
+
+.salon {
+  width: 130px;
+}
+
+button {
+  border: none;
+  background-color: white;
 }

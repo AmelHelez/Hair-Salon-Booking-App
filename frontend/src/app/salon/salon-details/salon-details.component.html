@@ -11,10 +11,10 @@
       <div class="card-footer">
         <div class="buttons">
           <div *ngIf="loggedIn() && whichRole() == 1" class="admin-premises">
-            <button class="btn btn-primary" style="margin-bottom: 7px; margin-top: -2px;"
-            routerLink="/admin/add-employee/{{salonDetail.id}}">Add employees for {{salonDetail.name}}</button>
+            <button *ngIf="salonDetail.employeeNumber !== empList.length" class="btn btn-primary" style="margin-bottom: 7px; margin-top: -2px;"
+            routerLink="/admin/add-employee/{{salonDetail.id}}">Register Employees</button>
             <button class="btn btn-success" style="margin-bottom: 7px; margin-top: -2px;"
-            routerLink="/update/{{salonDetail.id}}">Edit (only Admin)</button>
+            routerLink="/update/{{salonDetail.id}}">Edit Salon Details</button>
             <button class="btn btn-danger" style="margin-bottom: 7px; margin-top: -2px;"
             (click)="deleteSalon(salonDetail.name)">Delete Salon</button>
           </div>
@@ -32,29 +32,48 @@
 
                 <div class="heading"  style="padding: 10px;">
                   <div>
-                    <h3>Address: <span style="color:#DAA520">{{salonDetail.address}}</span></h3>
-                    <h3>In {{salonDetail.city}}</h3>
+                    <h3 style="color:#DAA520">{{salonDetail.address}}, {{salonDetail.city}}</h3>
                   </div>
-                    <p>Number of employees: <b class="borderNumber">{{salonDetail.employeeNumber}}</b></p>
+                    <p *ngIf="salonDetail.employeeNumber >= empList.length">Number of employees: <b class="borderNumber">{{salonDetail.employeeNumber}}</b></p>
+                    <p *ngIf="salonDetail.employeeNumber < empList.length">Number of employees: <b class="borderNumber">{{empList.length}}</b></p>
                     <p>Number of registered employees: <b class="borderNumber">{{empList.length}}</b></p>
                     <br />
                     <div class="nums" style="padding: 10px;">
-                      <h4 style="text-align: center;">Employees:</h4>
-                      <hr class="hrr" />
-                      <p *ngIf="empList.length == 0">No named employees</p>
-                      <ul *ngFor="let e of empList">
-                        <li>{{e.name}}</li>
-                        <li>{{e.age}} years old</li>
-                        <li>{{e.city}}</li>
-                        <hr class="hr-empList">
-                        <div class="clear"></div>
-                      </ul>
-                      <p *ngIf="empList.length < salonDetail.employeeNumber && salonDetail.employeeNumber - empList.length == 1">
-                        {{salonDetail.employeeNumber - empList.length}} employee to be added soon
-                      </p>
-                      <p *ngIf="empList.length < salonDetail.employeeNumber && salonDetail.employeeNumber - empList.length > 1">
-                        {{salonDetail.employeeNumber - empList.length}} employees to be added soon
-                      </p>
+                       <h4 style="text-align: center;">Employees:</h4>
+                     <hr class="hrr" /> <br>
+                     <p class="brojevi" *ngIf="empList.length < salonDetail.employeeNumber && salonDetail.employeeNumber - empList.length == 1">
+                      ({{salonDetail.employeeNumber - empList.length}} employee to be added soon)
+                    </p>
+                    <p class="brojevi" *ngIf="empList.length < salonDetail.employeeNumber && salonDetail.employeeNumber - empList.length > 1">
+                     ({{salonDetail.employeeNumber - empList.length}} employees to be added soon)
+                    </p>
+                     <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Full name</th>
+                          <th scope="col">Age</th>
+                          <th scope="col">Phone number</th>
+                          <th *ngIf="loggedIn() && whichRole() == 1" scope="col">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody *ngFor="let u of empList; index as i">
+                        <tr>
+                          <th scope="row">{{i+1}}</th>
+                          <td><a style="width: 170px; color: royalblue; font-weight: 600;" routerLink="/profile/{{u.id}}">{{u.name}}</a></td>
+                          <td>{{u.age}}</td>
+                          <td class="mobile" *ngIf="u.mobile">{{u.mobile}}</td>
+                          <td *ngIf="!u.mobile" class="brojevi">Not available</td>
+                          <td *ngIf="loggedIn() && whichRole() == 1" class="mobile"><a id="td" routerLink="/edit-user/{{u.id}}">
+                            <i class="fas fa-user-edit"></i>
+                          </a>
+                          <button *ngIf="loggedIn() && whichRole() == 1" id="td-delete" (click)="deleteUser(u.id)">
+                            <i class="fas fa-trash"></i>
+                          </button>
+                        </td>
+                        </tr>
+                         </tbody>
+                    </table>
                     </div>
                 </div>
               </div>
@@ -106,13 +125,7 @@
               <div *ngIf="!salonDetail.phoneNumber && !salonDetail.email">
                 <h5>Unfortunately, we don't have neither phone number nor email.</h5>
               </div>
-              <hr> <br>
-              <div *ngIf="empList.length > 0" class="nums">
-                <h4 style="text-align: center;">Employee phone numbers <hr class="hrr"></h4>
-                <div class="numbers" *ngFor="let e of empList">
-                  <p>{{e.name}}: <span style="color: #DAA520; font-weight: 600;">{{e.mobile}}</span></p>
-                </div>
-              </div>
+              <hr>
            </tab>
           </tabset>
         </div>

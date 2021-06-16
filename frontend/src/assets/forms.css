@@ -16,6 +16,10 @@
   color: white;
 }
 
+.card-header > h3 {
+  margin-top: 7px !important;
+}
+
 .card-header {
   height: 55px;
   padding: 4px 10px !important;

@@ -1,7 +1,9 @@
 <div class="margin"></div>
 <div class="card">
   <div class="card-body">
-    <a routerLink="/edit-user/{{user.id}}">Edit User</a>
+    <a *ngIf="user.id == loggedInUser || userRole == 1" routerLink="/edit-user/{{user.id}}">
+      <i class="fas fa-user-edit"></i>
+    </a>
     <h1 class="card-title" style="text-align: center;">{{user.name}}</h1>
     <hr>
     <h3>My profile</h3>
@@ -20,14 +22,15 @@
       <tbody>
         <tr>
           <td>{{user.email}}</td>
-          <td>{{user.username}}</td>
+          <td class="username">{{user.username}}</td>
           <td>{{user.city}}</td>
           <td>{{user.age}}</td>
           <td *ngIf="user.mobile">{{user.mobile}}</td>
           <td *ngIf="!user.mobile">Not available</td>
+          <td *ngIf="user.roleId == 1" style="color:#DAA520; font-weight: 600;">Administrator</td>
           <td *ngIf="user.roleId == 2" style="color:#8B0000; font-weight: 600;">Employee</td>
           <td *ngIf="user.roleId == 3" style="color:#008B8B; font-weight: 600;">Client</td>
-          <td *ngIf="user.roleId == 3" style="text-align: center;">/</td>
+          <!-- <td *ngIf="user.roleId == 3" style="text-align: center;">/</td> -->
           <td *ngIf="user.roleId == 2">{{name|titlecase}}</td>
           <!-- <td *ngIf="user.roleId == 3">/</td> -->
         </tr>

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from '../models/user';
+import { User, UserForLogin } from '../models/user';
 import { Appointment } from '../models/appointment';
 import { Treatment } from '../models/treatment';
 
@@ -8,16 +8,21 @@ import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+const baseUrl = environment.userApi;
+
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
   constructor(private http: HttpClient) { }
-  baseUrl = environment.userApi;
+
+  authUser(user: UserForLogin) {
+    return this.http.post(baseUrl + "/login", user);
+  }
 
   addUser(user: User) {
-    return this.http.post(this.baseUrl + "/users/register", user);
+    return this.http.post(baseUrl + "/register", user);
   /*  let users = [];
     if (localStorage.getItem('Useri')) {
       users = JSON.parse(localStorage.getItem('Useri'));
@@ -29,38 +34,11 @@ export class UserService {
   }
 
   addEmployee(user: User) {
-    return this.http.post(this.baseUrl + "/users/registeremp", user);
+    return this.http.post(baseUrl + "/registeremp", user);
   }
 
   getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>("https://localhost:44393/api/users");
-    /*.pipe(
-      map(data => {
-        const usersArray: Array<User> = [];
-        const localProperties = JSON.parse(localStorage.getItem('newUser'));;
-
-        if (localProperties) {
-          for (const id in localProperties) {
-              if(localProperties.hasOwnProperty(id)) {
-                usersArray.push(localProperties[id]);
-              }
-            else {
-              usersArray.push(localProperties[id]);
-            }
-          }
-        }
-
-        for (const id in data) {
-            if(data.hasOwnProperty(id)) {
-              usersArray.push(data[id]);
-            }
-          else {
-            usersArray.push(data[id]);
-          }
-        }
-        return usersArray;
-      })
-    );*/
+    return this.http.get<User[]>(baseUrl);
     }
 
   getUser(id: number) {
@@ -72,7 +50,11 @@ export class UserService {
   }
 
   updateUser(id: number, user: User) {
-    return this.http.put("https://localhost:44393/api/users/" + id, user);
+    return this.http.put(baseUrl + '/' + id, user);
+  }
+
+  deleteUser(userId: number) {
+    return this.http.delete(baseUrl + '/' + userId);
   }
 
 

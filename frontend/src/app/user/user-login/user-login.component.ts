@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { UserForLogin } from 'src/app/models/user';
 import { AlertifyService } from 'src/app/services/alertify.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-user-login',
@@ -12,7 +13,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class UserLoginComponent implements OnInit {
 
-  constructor(private authService: AuthService,
+  constructor(private userService: UserService,
     private alertifyService: AlertifyService, private router: Router) { }
 
   ngOnInit(): void {
@@ -20,7 +21,7 @@ export class UserLoginComponent implements OnInit {
 
   onLogin(loginForm: NgForm) {
     //console.log(loginForm.value);
-    this.authService.authUser(loginForm.value).subscribe(
+    this.userService.authUser(loginForm.value).subscribe(
       (response: UserForLogin) => {
         console.log(response);
         const user = response;
@@ -42,17 +43,7 @@ export class UserLoginComponent implements OnInit {
           this.alertifyService.success("You are successfully logged in!");
           this.router.navigate(['/']);
         }
-
-
-      }
-    );
-    /*if(token) {
-      localStorage.setItem("mytoken", token.name);
-      this.alertifyService.success("Login successful!");
-      this.router.navigate(['/']);
-    } else {
-      this.alertifyService.error("Login unsuccessful..");
-    }*/
-  }
+      });
+}
 
 }

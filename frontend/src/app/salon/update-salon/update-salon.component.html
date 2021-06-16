@@ -2,32 +2,37 @@
   <div class="col-12 shadow-lg p-0 bg-white">
     <div class="card">
       <div class="card-header">
-        <h3 style="text-align: center;">Upate Salon</h3>
+        <h3 style="text-align: center; margin-top: 7px;">Upate Salon</h3>
       </div>
       <div class="card-body">
         <form [formGroup]="updateSalonForm" (ngSubmit)="updateSalon(salon.id)">
-          <div class="tab-panel">
               <div class="form-group col-12">
-                <label>Name<span style="color:red;">*</span></label>
-                <input type="text" class="form-control" formControlName="name">
-                <div class="error-block" *ngIf="name.invalid && (nextClicked || name.touched)">
-                  Please type your salon's name
+                <label for="name">Name<span style="color:red;">*</span></label>
+                <input type="text" value={{ime}} class="form-control" formControlName="name">
+                <div *ngIf="!ime">
+                  <div class="error-block" *ngIf="name.invalid && (nextClicked || name.touched)">
+                    Please type your salon's name
+                  </div>
                 </div>
               </div>
 
                <div class="form-group col-12">
                  <label>Address<span style="color:red;">*</span></label>
-                 <input type="text" class="form-control" formControlName="address">
-                 <div class="error-block" *ngIf="address.invalid && (nextClicked || address.touched)">
-                   Please type your salon's address
+                 <input type="text" value={{adresa}} class="form-control" formControlName="address">
+                 <div *ngIf="!adresa">
+                  <div class="error-block" *ngIf="address.invalid && (nextClicked || address.touched)">
+                    Please type your salon's address
+                  </div>
                  </div>
                </div>
 
                <div class="form-group col-12">
                 <label>City<span style="color:red;">*</span></label>
-                <input type="text" class="form-control" formControlName="city">
-                <div class="error-block" *ngIf="city.invalid && (nextClicked || city.touched)">
-                  Please type your salon's city
+                <input type="text" value={{grad}} class="form-control" formControlName="city">
+                <div *ngIf="!grad">
+                  <div class="error-block" *ngIf="city.invalid && (nextClicked || city.touched)">
+                    Please type your salon's city
+                  </div>
                 </div>
                </div>
 
@@ -38,9 +43,6 @@
                 <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
                 [aspectRatio]="4 / 3" resizeToWidth="255" resizeToHeight="255"
                 (imageCropped)="imageCropped($event)"></image-cropper>
-                <div class="error-block" *ngIf="!image.valid && (nextClicked || image.touched)">
-                  Please type your salon's image
-                </div>
                </div>
                <div>
                  <h5 *ngIf="croppedImage.length>10">This will be your profile photo:</h5>
@@ -50,42 +52,23 @@
                <div class="form-group col-12">
                 <label>Number of employees</label>
                 <input type="number" class="form-control" formControlName="employeeNumber">
-                <div class="error-block" *ngIf="!employeeNumber.valid && (nextClicked || employeeNumber.touched)">
-                  Please type your salon's employee number
-                </div>
                </div>
 
                <div class="form-group col-12">
                 <label>Phone number</label>
                 <input type="text" class="form-control" formControlName="phoneNumber">
-                <div class="error-block" *ngIf="!phoneNumber.valid && (nextClicked || phoneNumber.touched)">
-                  Please type your salon's phone number
-                </div>
                </div>
 
                <div class="form-group col-12">
                 <label>Email</label>
                 <input type="email" class="form-control" formControlName="email">
-                <div class="error-block" *ngIf="!email.valid && (nextClicked || email.touched)">
-                  Please type your salon's email
-                </div>
                </div>
 
                <div class="form-group col-12 mt-5">
-                <button [disabled]="!updateSalonForm.valid" type="submit" class="btn btn-primary btn-block">UPDATE</button>
+                <button type="submit" class="btn btn-primary btn-block">UPDATE</button>
                 <button type="reset" class="btn btn-secondary btn-block">Cancel</button>
               </div>
-          </div>
         </form>
       </div>
     </div>
   </div>
-  <!--<div class="col-4">
-    <div class="card-header">
-      <h3>Your salon preview</h3>
-    </div>
-    <div class="shadow-lg p-3 bg-white">
-      <app-salon-card [salon]="salon" hideButton="true"></app-salon-card>
-    </div>
-  </div>
-</div>-->

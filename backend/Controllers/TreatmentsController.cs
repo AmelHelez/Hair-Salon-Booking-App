@@ -33,7 +33,7 @@ namespace backend.Controllers
         public async Task<ActionResult<Treatment>> GetTreatment(int id)
         {
             var treatment = await _context.Treatments
-                .Include(t => t.Appointments)
+                //.Include(t => t.Appointments)
                 .Where(t => t.Id == id).FirstOrDefaultAsync();
 
             if (treatment == null)

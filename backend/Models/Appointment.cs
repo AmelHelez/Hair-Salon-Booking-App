@@ -9,7 +9,6 @@ namespace backend.Models
     {
         public int Id { get; set; }
         public string AppointmentDate { get; set; }
-        public string AppointmentTime { get; set; }
         public int SalonId { get; set; }
         public Salon Salon { get; set; }
         public int UserId { get; set; }

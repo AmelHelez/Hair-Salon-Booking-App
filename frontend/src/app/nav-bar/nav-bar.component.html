@@ -1,11 +1,11 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
   <div class="container-fluid">
-    <a *ngIf="whichRole() == 1 && loggedIn()" class="navbar-brand" routerLink="/">Admin</a>
-    <a *ngIf="whichRole() == 2 && loggedIn()" class="navbar-brand" routerLink="/">Employee</a>
-    <a *ngIf="whichRole() == 3 && loggedIn()" class="navbar-brand" routerLink="/">Klijent</a>
-    <a *ngIf="!loggedIn()" class="navbar-brand" routerLink="/">
-    <img src="assets/images/logoNew.png" alt="Application Logo">
-    </a>
+    <a class="navbar-brand" routerLink="/">
+      <img src="assets/images/logoNew.png" alt="Application Logo">
+      </a>
+    <a *ngIf="whichRole() == 1 && loggedIn()" class="navbar-brand">Admin</a>
+    <a *ngIf="whichRole() == 2 && loggedIn()" class="navbar-brand">Employee</a>
+    <a *ngIf="whichRole() == 3 && loggedIn()" class="navbar-brand">Client</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -13,15 +13,6 @@
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
           <a *ngIf="loggedIn()" class="nav-link" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active" aria-current="page" routerLink="/">Salon list</a>
-        </li>
-        <!-- <li class="nav-item">
-          <a class="nav-link" *ngIf="whichRole() == 1 && loggedIn()" routerLinkActive="active" routerLink="/admin/add-salon">Add salon</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" *ngIf="whichRole() == 1 && loggedIn()" routerLink="/admin/add-employee">Add employees</a>
-        </li> -->
-        <li class="nav-item">
-          <a class="nav-link" *ngIf="whichRole() == 1 && loggedIn()" routerLink="/admin/users">See all registered users</a>
         </li>
       </ul>
 
@@ -45,10 +36,14 @@
               routerLink="/admin/add-salon">
               <i class="fas fa-plus-circle"></i>Add Salon</a>
               <a *ngIf="loggedIn() && (whichRole() == 2 || whichRole() == 3)"
-              routerLink="/profile/{{user.id}}" class="dropdown-item">
+              href="/profile/{{user.id}}" class="dropdown-item">
                 <i class="far fa-user-circle"></i>
                 My Profile
               </a>
+              <a class="dropdown-item" *ngIf="whichRole() == 1 && loggedIn()"
+              routerLink="/admin/users">
+              <i class="fas fa-users"></i>Registered users</a>
+
               <a *ngIf="whichRole() == 1 && loggedIn()" routerLink="/admin/add-employee" class="dropdown-item">
                 <i class="fas fa-user-plus"></i>
                 Register Employee

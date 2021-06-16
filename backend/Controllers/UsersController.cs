@@ -80,7 +80,7 @@ namespace backend.Controllers
 
         }
 
-         
+
 
         // POST: api/Users
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
@@ -93,22 +93,27 @@ namespace backend.Controllers
 
              return CreatedAtAction("GetUser", new { id = user.Id }, user);
          }
+        */
 
-         // DELETE: api/Users/5
-         [HttpDelete("{id}")]
+        // DELETE: api/Users/5
+        [HttpDelete("{id}")]
          public async Task<ActionResult<User>> DeleteUser(int id)
          {
-             var user = await _context.Users.FindAsync(id);
-             if (user == null)
-             {
-                 return NotFound();
-             }
+            var user = await userRepository.GetUserDetails(id);
+            userRepository.Delete(user.Id);
+            await userRepository.SaveAsync();
 
-             _context.Users.Remove(user);
-             await _context.SaveChangesAsync();
+            //var user = await _context.Users.FindAsync(id);
+            //if (user == null)
+            //{
+            //    return NotFound();
+            //}
 
-             return user;
-         }*/
+            //_context.Users.Remove(user);
+            // await _context.SaveChangesAsync();
+
+             return StatusCode(201);
+         }
 
         //api/users/login
         [HttpPost("login")]

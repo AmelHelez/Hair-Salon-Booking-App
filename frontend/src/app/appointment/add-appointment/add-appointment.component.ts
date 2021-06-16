@@ -75,13 +75,13 @@ export class AddAppointmentComponent implements OnInit {
     this.addAppointmentForm = this.fb.group({
       // appointmentDate: [null, Validators.required],
       // appointmentTime: [null, Validators.required],
-      appointmentDateTime: [null, Validators.required],
+      appointmentDate: [null, Validators.required],
       treatment: [null, Validators.required],
       employee: [null, Validators.required]
   })
 }
-get appointmentDateTime() {
-    return this.addAppointmentForm.get('appointmentDateTime') as FormControl;
+get appointmentDate() {
+    return this.addAppointmentForm.get('appointmentDate') as FormControl;
    }
 
   // get appointmentDate() {
@@ -108,7 +108,7 @@ get appointmentDateTime() {
 
   onSubmit2() {
     console.log(this.addAppointmentForm.value);
-    this.mapSalon();
+    this.mapApp();
    // this.salon.image = this.image.value;
     this.appointmentService.addAppointment(this.appointment).subscribe(
       (response: Appointment) => {
@@ -117,9 +117,9 @@ get appointmentDateTime() {
         const appointment = response;
        // localStorage.setItem('appointmentDate', appointment.appointmentDate.toString());
         //localStorage.setItem('appointmentTime', appointment.appointmentTime.toString());
-        localStorage.setItem('appointment', appointment.appointmentDateTime.toString());
+        localStorage.setItem('appointment', appointment.appointmentDate.toString());
         this.router.navigate([`/salon-details/${this.salonId}`]);
-        this.alertifyService.success("APPOINTMENT ADDED YEAAAAAH!");
+        this.alertifyService.success("APPOINTMENT ADDED!");
       }
         //  error => {
       //   console.log(error);
@@ -154,10 +154,10 @@ get appointmentDateTime() {
   // }
 
 
-  mapSalon(): void {
+  mapApp(): void {
    //this.appointment.appointmentDate = this.appointmentDate.value;
    //this.appointment.appointmentTime = this.appointmentTime.value;
-   this.appointment.appointmentDateTime = this.appointmentDateTime.value;
+   this.appointment.appointmentDate = this.appointmentDate.value;
    this.appointment.treatmentId = this.treatment.value;
    this.appointment.salonId = this.salonId;
    this.appointment.userId = this.userId;

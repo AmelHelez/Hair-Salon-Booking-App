@@ -24,13 +24,11 @@ export class SalonListComponent implements OnInit {
   ngOnInit(): void {
     this.salonService.getAllSalons().subscribe(
       data => {
-        console.log(data);
+        // console.log(data);
         this.salons = data as Salon[];
-       // console.log(atob(this.salons[29].image));
         for(var i = 0; i < this.salons.length; i++) {
           if(this.salons[i].image) {
           this.salons[i].image = atob(this.salons[i].image);
-          //console.log(atob(this.salons[i].image));
         }
         this.salons[i].city = this.salons[i].city.toUpperCase();
         this.salons[i].name = this.salons[i].name.toUpperCase();
