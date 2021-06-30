@@ -36,6 +36,11 @@ export class SalonDetailsComponent implements OnInit {
   user: User;
   treatment: Treatment;
   userToDelete: User;
+  employeeApp: User;
+  todaysDate: number = +new Date().getDate().toString();
+  todaysMonth: number = +new Date().getMonth().toString();
+  appDate: number;
+  appMonth: number;
 
 
   constructor(private salonService: SalonService, private appointmentService: AppointmentService,
@@ -46,7 +51,7 @@ export class SalonDetailsComponent implements OnInit {
    this.salonId = +this.route.snapshot.params['id'];
    this.route.data.subscribe(
      (data: Salon) => {
-      // console.log(data);
+      //  console.log("MONTH", this.todaysMonth);
        this.salonDetail = data['prp'];
        if(this.salonDetail.image) {
         this.salonDetail.image = atob(this.salonDetail.image); }
@@ -61,39 +66,54 @@ export class SalonDetailsComponent implements OnInit {
         this.userService.getAllUsers().subscribe(
           xs => {
             this.employees = xs;
-            //console.log(this.employees);
             for(var x = 0; x < this.employees.length; x++) {
               if(this.employees[x].salonId === this.salonId) {
               this.employee = (this.employees[x]);
-              //  console.log(this.employee);
                this.empList.push(this.employee);
             }
             }
           }
         )
 
-        // this.appointmentService.getAllAppointments().subscribe(
-        //   apt => {
-        //     this.appointments = apt;
-        //     for(var x = 0; x < this.appointments.length; x++) {
-        //       if(this.appointments[x].salonId === this.salonId) {
-        //        // this.appointment = this.appointments[x];
-        //        // this.appointment.employeeName = this.employee.name;
-        //        // console.log("App:", this.appointment);
-        //        this.userService.getUser(this.appointments[x].userId)
-        //        .subscribe(data => {
-        //          this.user = data;
-        //        })
-        //        this.userService.getTreatment(this.appointments[x].treatmentId)
-        //        .subscribe(x => {
-        //          this.treatment = x;
-        //          console.log("TREATMENT:", this.treatment);
-        //        })
-        //         this.appointmentList.push(this.appointments[x]);
-        //       }
-        //     }
-        //   }
-        // )
+        this.appointmentService.getAllAppointments().subscribe(
+          apt => {
+            this.appointments = apt;
+            if(this.appointments.length > 0) {
+              console.log("Appointmenti: ", this.appointments);
+            for(var x = 0; x < this.appointments.length; x++) {
+              if(this.appointments[x].salonId === this.salonId) {
+                this.appDate = +new Date(this.appointments[x].appointmentDate).getDate().toString();
+                this.appMonth = +new Date(this.appointments[x].appointmentDate).getMonth().toString();
+                if(this.appDate == this.todaysDate && this.appMonth == this.todaysMonth)
+                this.appointmentList.push(this.appointments[x]);
+                // console.log(`DATE: ${this.appDate} and MONTH: ${this.appMonth}`);
+                // console.log(this.appointments[x].appointmentDate);
+               // this.appointment = this.appointments[x];
+               // this.appointment.employeeName = this.employee.name;
+               // console.log("App:", this.appointment);
+               if(this.appointments[x].userId) {
+               this.userService.getUser(this.appointments[x].userId)
+               .subscribe(data => {
+                 this.user = data;
+               })}
+               if(this.appointments[x].employeeId) {
+               this.userService.getUser(this.appointments[x].employeeId)
+               .subscribe(e => {
+                 this.employeeApp = e;
+               })}
+               if(this.appointments[x].treatmentId) {
+               this.userService.getTreatment(this.appointments[x].treatmentId)
+               .subscribe(x => {
+                 this.treatment = x;
+               })}
+              //  this.appointmentList.push(this.appointments[x]);
+              }
+            }
+          }
+            // console.log("APPOINTMENTS: ", this.appointmentList);
+
+          }
+        )
       }
 
    )
@@ -139,7 +159,6 @@ export class SalonDetailsComponent implements OnInit {
     }
   ];
 
-    //this.getApps();
     this.getTreatments();
   }
 
@@ -154,8 +173,6 @@ export class SalonDetailsComponent implements OnInit {
     else if(this.userRole == 2) return 2;
     else return 3;
   }
-
-
 
   deleteSalon(name: string) {
     if(confirm("Amel, are you sure you want to delete " + name + '?')) {
@@ -197,7 +214,6 @@ export class SalonDetailsComponent implements OnInit {
     this.userService.getAllTreatments().subscribe(
       data => {
         this.treatments = data;
-        // console.log("Treatments:", this.treatments);
       }
     )
   }

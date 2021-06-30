@@ -35,7 +35,7 @@ export class UserLoginComponent implements OnInit {
           this.router.navigate(['/']);
         }
         else if(user.roleId == 2) {
-          this.alertifyService.success("You are successfully logged in!/nYou are automatically navigated to your salon.");
+          this.alertifyService.success("You are successfully logged in!");
           this.router.navigate([`/employee/${user.id}`]);
         }
 

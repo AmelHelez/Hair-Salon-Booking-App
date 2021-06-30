@@ -1,3 +1,5 @@
+import { Appointment } from "./appointment";
+
 export interface User {
   id: number;
   name: string;
@@ -10,6 +12,7 @@ export interface User {
   roleId: number;
   salonId?: number;
   salonName?: string;
+  appointments?: Appointment[];
 }
 
 export interface UserForLogin {

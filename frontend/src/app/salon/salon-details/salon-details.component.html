@@ -19,7 +19,7 @@
             (click)="deleteSalon(salonDetail.name)">Delete Salon</button>
           </div>
 
-          <button class="btn btn-primary" *ngIf="loggedIn() && whichRole() == 3" routerLink="/book/{{salonDetail.id}}">Book an appointment</button>
+          <button class="btn btn-primary" *ngIf="loggedIn() && (whichRole() == 2 || whichRole() == 3)" routerLink="/book/{{salonDetail.id}}">Book an appointment</button>
         </div>
       </div>
         </div>
@@ -83,13 +83,14 @@
             </tab>
             <tab heading="Appointments">
               <h3 style="text-align: center;">Today's appointments</h3>
-              <table class="table">
+              <table *ngIf="appointmentList.length > 0" class="table">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">Date</th>
+                    <th scope="col">Time</th>
                     <th scope="col">Employee</th>
-                    <th scope="col">Client</th>
+                    <th *ngIf="whichRole() != 3" scope="col">Client</th>
                     <th scope="col">Type</th>
                     <th scope="col">Price</th>
                   </tr>
@@ -97,12 +98,12 @@
                 <tbody *ngFor="let app of appointmentList; index as i">
                   <tr>
                     <th scope="row">{{i+1}}</th>
-                    <td>{{app.id}}</td>
-                    <td>{{app.appDate}}</td>
-                    <td>{{app.employeeName}}</td>
-                    <td>{{user.name}}</td>
-                    <td>{{treatment.name}}</td>
-                    <td>{{treatment.cost}} BAM</td>
+                    <td>{{app.appointmentDate | date: "dd/MM/yyyy"}}</td>
+                    <td>{{app.appointmentTime | date: "shortTime"}}</td>
+                    <td *ngIf="employeeApp">{{employeeApp.name}}</td>
+                    <td *ngIf="user && whichRole() != 3">{{user.name}}</td>
+                    <td *ngIf="treatment">{{treatment.name}}</td>
+                    <td *ngIf="treatment" style="text-decoration: underline;">{{treatment.cost}} BAM</td>
                   </tr>
                    </tbody>
               </table>

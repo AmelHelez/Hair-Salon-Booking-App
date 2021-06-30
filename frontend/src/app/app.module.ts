@@ -13,6 +13,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 // import { NgxMatDatetimePickerModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
  import { MatInputModule } from '@angular/material/input';
  import {MatFormFieldModule} from '@angular/material/form-field';
+ import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+
 
 import {MatNativeDateModule} from '@angular/material/core';
 // import { TimepickerModule } from 'ngx-bootstrap/timepicker';
@@ -91,7 +93,8 @@ import { FooterComponent } from './footer/footer.component';
     // NgxMatTimepickerModule,
     // NgxMatDatetimePickerModule,
       MatInputModule,
-     MatNativeDateModule
+     MatNativeDateModule,
+     TimepickerModule.forRoot()
     // MatDatepickerModule,
     // MatDatetimepickerModule
     // MomentDatetimeAdapter,

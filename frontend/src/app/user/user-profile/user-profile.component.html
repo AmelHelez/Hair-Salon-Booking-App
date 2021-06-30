@@ -1,7 +1,7 @@
 <div class="margin"></div>
 <div class="card">
   <div class="card-body">
-    <a *ngIf="user.id == loggedInUser || userRole == 1" routerLink="/edit-user/{{user.id}}">
+    <a *ngIf="user.id == loggedInUser || whichRole() == 1" routerLink="/edit-user/{{user.id}}">
       <i class="fas fa-user-edit"></i>
     </a>
     <h1 class="card-title" style="text-align: center;">{{user.name}}</h1>
@@ -33,6 +33,29 @@
           <!-- <td *ngIf="user.roleId == 3" style="text-align: center;">/</td> -->
           <td *ngIf="user.roleId == 2">{{name|titlecase}}</td>
           <!-- <td *ngIf="user.roleId == 3">/</td> -->
+        </tr>
+         </tbody>
+    </table>
+    <h3>My Appointments</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Time</th>
+          <th scope="col">Salon</th>
+          <th scope="col">Employee</th>
+          <th scope="col">Type</th>
+          <th scope="col">Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let a of appointments">
+          <td>{{a.appointmentDate | date: "dd/MM/yyyy"}}</td>
+          <td>{{a.appointmentTime | date: "shortTime"}}</td>
+          <td>{{a.salonId}}</td>
+          <td>{{a.employeeId}}</td>
+          <td>{{a.treatmentId}}</td>
+          <td>{{a.price}}</td>
         </tr>
          </tbody>
     </table>

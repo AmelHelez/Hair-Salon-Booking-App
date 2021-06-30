@@ -1,6 +1,7 @@
-import { Time } from "@angular/common";
+import { Time } from '@angular/common';
+import { Appointment } from './appointment';
 
-export interface Appointment {
+export class AppointmentClass implements Appointment {
   id: number;
   appointmentDate: Date;
   appointmentTime: Time;
