@@ -80,6 +80,11 @@ namespace backend.Controllers
         [HttpPost]
         public async Task<ActionResult<Appointment>> PostAppointment(Appointment appointment)
         {
+            appointment.AppointmentDate = appointment.AppointmentDate.AddDays(1);
+            DateTime time = appointment.AppointmentTime;
+            appointment.AppointmentTime = appointment.AppointmentDate.AddHours(time.Hour + 4)
+                .AddMinutes(time.Minute).AddSeconds(time.Second).AddDays(-1);
+            appointment.AppointmentDate = appointment.AppointmentTime;
             _context.Appointments.Add(appointment);
             await _context.SaveChangesAsync();
 

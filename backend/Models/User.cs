@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -33,7 +34,11 @@ namespace backend.Models
         public int? SalonId { get; set; }
         public virtual Salon Salon { get; set; }
 
-        public virtual ICollection<Appointment>? Appointments { get; set; }
+        [InverseProperty(nameof(Appointment.User))]
+        public ICollection<Appointment>? Appointments { get; set; }
+
+        [InverseProperty(nameof(Appointment.Employee))]
+        public ICollection<Appointment>? AppointmentsEmployee { get; set; }
 
     }
 }

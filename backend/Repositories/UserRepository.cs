@@ -22,7 +22,10 @@ namespace backend.Repositories
 
         public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
-            return await dc.Users.ToListAsync();
+            return await dc.Users
+                .Include(u => u.Appointments)
+                .Include(u => u.AppointmentsEmployee)
+                .ToListAsync();
         }
 
 
@@ -30,6 +33,8 @@ namespace backend.Repositories
         {
             return await dc.Users
                 .Include(u => u.Role)
+                .Include(u => u.Appointments)
+                .Include(u => u.AppointmentsEmployee)
                 .Where(u => u.Id == id).FirstOrDefaultAsync();
         }
 
