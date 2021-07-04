@@ -1,12 +1,12 @@
 <div class="margin"></div>
 <div class="card">
   <div class="card-body">
-    <a *ngIf="user.id == loggedInUser || whichRole() == 1" routerLink="/edit-user/{{user.id}}">
+    <a *ngIf="userId == loggedInUserId || (whichRole() == 1 && userProfileRole() == 2)" routerLink="/edit-user/{{userId}}">
       <i class="fas fa-user-edit"></i>
     </a>
-    <h1 class="card-title" style="text-align: center;">{{user.name}}</h1>
+    <h1 class="card-title" style="text-align: center;">{{userName}}</h1>
     <hr>
-    <h3>My profile</h3>
+    <h3>Profile Details</h3>
     <table class="table">
       <thead>
         <tr>
@@ -16,7 +16,7 @@
           <th scope="col">Age</th>
           <th scope="col">Phone number</th>
           <th scope="col">Role</th>
-          <th *ngIf="user.roleId == 2" scope="col">Salon</th>
+          <th *ngIf="usersRole() == 2" scope="col">Salon</th>
         </tr>
       </thead>
       <tbody>
@@ -27,23 +27,24 @@
           <td>{{user.age}}</td>
           <td *ngIf="user.mobile">{{user.mobile}}</td>
           <td *ngIf="!user.mobile">Not available</td>
-          <td *ngIf="user.roleId == 1" style="color:#DAA520; font-weight: 600;">Administrator</td>
-          <td *ngIf="user.roleId == 2" style="color:#8B0000; font-weight: 600;">Employee</td>
-          <td *ngIf="user.roleId == 3" style="color:#008B8B; font-weight: 600;">Client</td>
-          <!-- <td *ngIf="user.roleId == 3" style="text-align: center;">/</td> -->
-          <td *ngIf="user.roleId == 2">{{name|titlecase}}</td>
-          <!-- <td *ngIf="user.roleId == 3">/</td> -->
+          <td *ngIf="usersRole() == 1" style="color:#DAA520; font-weight: 600;">Administrator</td>
+          <td *ngIf="usersRole() == 2" style="color:#8B0000; font-weight: 600;">Employee</td>
+          <td *ngIf="usersRole() == 3" style="color:#008B8B; font-weight: 600;">Client</td>
+          <!-- <td *ngIf="whichRole() == 3" style="text-align: center;">/</td> -->
+          <td *ngIf="usersRole() == 2" style="font-weight: 600;">{{name|titlecase}}</td>
+          <!-- <td *ngIf="whichRole() == 3">/</td> -->
         </tr>
          </tbody>
     </table>
-    <h3>My Appointments</h3>
+    <br> <br> <br>
+    <h3>Appointments</h3>
     <table class="table">
       <thead>
         <tr>
           <th scope="col">Date</th>
           <th scope="col">Time</th>
-          <th scope="col">Salon</th>
-          <th scope="col">Employee</th>
+          <th *ngIf="usersRole() == 3" scope="col">Salon</th>
+          <th *ngIf="usersRole() == 3" scope="col">Employee</th>
           <th scope="col">Type</th>
           <th scope="col">Price</th>
         </tr>
@@ -52,10 +53,10 @@
         <tr *ngFor="let a of appointments">
           <td>{{a.appointmentDate | date: "dd/MM/yyyy"}}</td>
           <td>{{a.appointmentTime | date: "shortTime"}}</td>
-          <td>{{a.salonId}}</td>
-          <td>{{a.employeeId}}</td>
-          <td>{{a.treatmentId}}</td>
-          <td>{{a.price}}</td>
+          <td *ngIf="usersRole() == 3">{{a.salonName}}</td>
+          <td *ngIf="usersRole() == 3">{{a.empName}}</td>
+          <td>{{a.treatmentName}}</td>
+          <td>{{a.trPrice}} BAM</td>
         </tr>
          </tbody>
     </table>

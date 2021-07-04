@@ -22,9 +22,12 @@ export class SalonListComponent implements OnInit {
   constructor(private salonService: SalonService) { }
 
   ngOnInit(): void {
+   this.getAllSalons();
+  }
+
+  getAllSalons() {
     this.salonService.getAllSalons().subscribe(
       data => {
-        // console.log(data);
         this.salons = data as Salon[];
         for(var i = 0; i < this.salons.length; i++) {
           if(this.salons[i].image) {
@@ -34,9 +37,6 @@ export class SalonListComponent implements OnInit {
         this.salons[i].name = this.salons[i].name.toUpperCase();
 
         }
-      }, error => {
-        console.log("This is the error:");
-        console.log(error);
       }
     )
   }

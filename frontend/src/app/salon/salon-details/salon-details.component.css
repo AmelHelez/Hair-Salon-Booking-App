@@ -108,6 +108,13 @@ div.card-body:hover h1 {
   width: 60px;
 }
 
+.line {
+  width: 45%;
+  margin: auto;
+  height: 2.5px;
+  background-color: black;
+}
+
 .mobile {
   width: 150px;
 }

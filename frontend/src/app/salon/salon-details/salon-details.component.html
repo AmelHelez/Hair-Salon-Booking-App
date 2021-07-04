@@ -77,22 +77,23 @@
                     </div>
                 </div>
               </div>
-          </tab>
+           </tab>
             <tab heading="Photos">
               <ngx-gallery [options]="galleryOptions" [images]="galleryImages" class="ngx-gallery"></ngx-gallery>
             </tab>
-            <tab heading="Appointments">
+            <tab heading="Today's Appointments">
               <h3 style="text-align: center;">Today's appointments</h3>
+              <hr class="line">
               <table *ngIf="appointmentList.length > 0" class="table">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">Date</th>
                     <th scope="col">Time</th>
-                    <th scope="col">Employee</th>
+                    <th *ngIf="loggedIn()" scope="col">Employee</th>
                     <th *ngIf="whichRole() != 3" scope="col">Client</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Price</th>
+                    <th *ngIf="loggedIn()" scope="col">Type</th>
+                    <th *ngIf="loggedIn()" scope="col">Price</th>
                   </tr>
                 </thead>
                 <tbody *ngFor="let app of appointmentList; index as i">
@@ -100,15 +101,43 @@
                     <th scope="row">{{i+1}}</th>
                     <td>{{app.appointmentDate | date: "dd/MM/yyyy"}}</td>
                     <td>{{app.appointmentTime | date: "shortTime"}}</td>
-                    <td *ngIf="employeeApp">{{employeeApp.name}}</td>
+                    <td *ngIf="employeeApp && loggedIn()">{{employeeApp.name}}</td>
                     <td *ngIf="user && whichRole() != 3">{{user.name}}</td>
-                    <td *ngIf="treatment">{{treatment.name}}</td>
-                    <td *ngIf="treatment" style="text-decoration: underline;">{{treatment.cost}} BAM</td>
+                    <td *ngIf="treatment && loggedIn()">{{treatment.name}}</td>
+                    <td *ngIf="treatment && loggedIn()" style="text-decoration: underline;">{{treatment.cost}} BAM</td>
                   </tr>
                    </tbody>
               </table>
-
            </tab>
+           <tab heading="Future Appointments">
+            <h3 style="text-align: center;">Future appointments</h3>
+            <hr class="line"/>
+            <table *ngIf="appointmentList.length > 0" class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Time</th>
+                  <th *ngIf="loggedIn()" scope="col">Employee</th>
+                  <th *ngIf="whichRole() != 3" scope="col">Client</th>
+                  <th *ngIf="loggedIn()" scope="col">Type</th>
+                  <th *ngIf="loggedIn()" scope="col">Price</th>
+                </tr>
+              </thead>
+              <tbody *ngFor="let app of allApps; index as i">
+                <tr>
+                  <th scope="row">{{i+1}}</th>
+                  <td>{{app.appointmentDate | date: "dd/MM/yyyy"}}</td>
+                  <td>{{app.appointmentTime | date: "shortTime"}}</td>
+                  <td *ngIf="employeeApp && loggedIn()">{{employeeApp.name}}</td>
+                  <td *ngIf="user && whichRole() != 3">{{user.name}}</td>
+                  <td *ngIf="treatment && loggedIn()">{{treatment.name}}</td>
+                  <td *ngIf="treatment && loggedIn()" style="text-decoration: underline;">{{treatment.cost}} BAM</td>
+                </tr>
+                 </tbody>
+            </table>
+
+         </tab>
             <tab heading="Contact">
               <div *ngIf="salonDetail.phoneNumber && salonDetail.email">
                 <h4>Phone Number: {{salonDetail.phoneNumber}}</h4>

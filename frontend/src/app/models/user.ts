@@ -13,6 +13,7 @@ export interface User {
   salonId?: number;
   salonName?: string;
   appointments?: Appointment[];
+  appointmentsEmployee?: Appointment[];
 }
 
 export interface UserForLogin {

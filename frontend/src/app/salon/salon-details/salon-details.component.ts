@@ -41,6 +41,8 @@ export class SalonDetailsComponent implements OnInit {
   todaysMonth: number = +new Date().getMonth().toString();
   appDate: number;
   appMonth: number;
+  allApps: Appointment[] = [];
+
 
 
   constructor(private salonService: SalonService, private appointmentService: AppointmentService,
@@ -84,8 +86,15 @@ export class SalonDetailsComponent implements OnInit {
               if(this.appointments[x].salonId === this.salonId) {
                 this.appDate = +new Date(this.appointments[x].appointmentDate).getDate().toString();
                 this.appMonth = +new Date(this.appointments[x].appointmentDate).getMonth().toString();
-                if(this.appDate == this.todaysDate && this.appMonth == this.todaysMonth)
+                if(this.appDate == this.todaysDate && this.appMonth == this.todaysMonth) {
                 this.appointmentList.push(this.appointments[x]);
+                this.appointmentList.sort((a,b) => new Date(a.appointmentDate).getTime() - new Date(b.appointmentDate).getTime())
+                }
+                else if(this.appDate > this.todaysDate && this.appMonth >= this.todaysMonth) {
+                this.allApps.push(this.appointments[x]);
+                this.allApps.sort((a,b) => new Date(a.appointmentDate).getTime() - new Date(b.appointmentDate).getTime())
+
+                }
                 // console.log(`DATE: ${this.appDate} and MONTH: ${this.appMonth}`);
                 // console.log(this.appointments[x].appointmentDate);
                // this.appointment = this.appointments[x];

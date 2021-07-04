@@ -23,6 +23,8 @@ import {MatNativeDateModule} from '@angular/material/core';
 // import {MatMomentDatetimeModule} from "@mat-datetimepicker/moment";
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { MAT_DATE_LOCALE } from '@angular/material/core'
+
 
 
 
@@ -106,6 +108,7 @@ import { FooterComponent } from './footer/footer.component';
       useClass: HttpErrorInterceptorService,
       multi: true
     },
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     SalonService,
     UserService,
     AuthService,

@@ -14,7 +14,7 @@ export class HttpErrorInterceptorService implements HttpInterceptor {
 
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    console.log("HTTP Request started");
+    // console.log("HTTP Request started");
     return next.handle(req)
     .pipe(
       retryWhen(error => this.retryRequest(error, 10)),

@@ -11,6 +11,7 @@ import { SalonService } from 'src/app/salon/salon.service';
 import { AlertifyService } from 'src/app/services/alertify.service';
 import { AppointmentService } from 'src/app/services/appointment.service';
 import { UserService } from 'src/app/services/user.service';
+import { Time } from '@angular/common';
 
 @Component({
   selector: 'app-add-appointment',
@@ -22,6 +23,9 @@ export class AddAppointmentComponent implements OnInit {
   month: number = new Date().getMonth();
   day: number = new Date().getDate();
   datum: Date = new Date(this.year, this.month, this.day);
+  sati: number = new Date().getHours();
+  minute: number = new Date().getMinutes();
+  todaysTime: Date = new Date(this.year,this.month,this.day,this.sati,this.minute);
   addAppointmentForm: FormGroup;
   nextClicked: boolean;
   salonId: number;
@@ -39,13 +43,16 @@ export class AddAppointmentComponent implements OnInit {
   userId: number;
   user: User;
   allTimes: any[] = [];
+  disabled: Time[] = [];
+  mytime: Date = new Date();
+  isDisabled: boolean = false;
 
   constructor(private fb: FormBuilder, private router: Router, private appointmentService: AppointmentService,
     private route: ActivatedRoute, private userService: UserService, private alertifyService: AlertifyService) { }
 
 
   ngOnInit(): void {
-    console.log("DATUM", this.datum);
+    console.log("DATUM", this.sati);
     this.salonId = +this.route.snapshot.params['id'];
     this.route.data.subscribe(
       (data: Salon) => {
@@ -57,7 +64,6 @@ export class AddAppointmentComponent implements OnInit {
             for(var x = 0; x < this.employees.length; x++) {
               if(this.employees[x].salonId === this.salonId) {
               this.employee = this.employees[x];
-              //  console.log("Employee:",this.employee);
                this.empList.push(this.employee);
             }
             if(this.employees[x].roleId == 3) this.clientList.push(this.employees[x]);
@@ -68,23 +74,16 @@ export class AddAppointmentComponent implements OnInit {
     )
     this.appointmentService.getAllAppointments().subscribe(
       ap => {
-        // this.allTimes = ap;
         for(var x = 0; x < ap.length; x++) {
-          if(ap[x].appointmentDate == this.appointmentDate.value) {
-            if(ap[x].appointmentTime) continue;
-          }
+          if(this.mytime == ap[x].appointmentDate) this.isDisabled = true;
+          this.disabled.push(ap[x].appointmentTime);
         }
       }
     )
     this.getUser();
     this.CreateAddAppointmentForm();
-    // if(this.appointmentTime.value) console.log(this.appointmentTime.value);
-
   }
 
-  // openPicker(picker : NgxMatDatetimePicker<Date>){
-  //   picker.open();
-  // }
 
 
   CreateAddAppointmentForm() {
@@ -132,25 +131,14 @@ export class AddAppointmentComponent implements OnInit {
 
   onSubmit2() {
     console.log(this.addAppointmentForm.value);
-    // console.log("APPOINTMENT DATE:", this.appointmentTime.value);
     this.mapApp();
-   // this.salon.image = this.image.value;
     this.appointmentService.addAppointment(this.appointment).subscribe(
       (response: Appointment) => {
-        console.log("Da vidimo: ");
-        console.log(response);
         const appointment = response;
-       // localStorage.setItem('appointmentDate', appointment.appointmentDate.toString());
-        //localStorage.setItem('appointmentTime', appointment.appointmentTime.toString());
         localStorage.setItem('appointment', appointment.appointmentDate.toString());
         this.router.navigate([`/details/${this.salonId}`]);
         this.alertifyService.success("APPOINTMENT ADDED!");
-      },
-         error => {
-       this.alertifyService.error("Form invalid!");
-       }
-      );
-
+      });
   }
 
   getUser() {
@@ -173,20 +161,14 @@ export class AddAppointmentComponent implements OnInit {
     )
   }
 
-  // openPicker(picker : NgxMatDatetimePicker<Date>){
-  //   picker.open();
-
-  // }
-
 
   mapApp(): void {
    if(this.appointmentDate.value >= this.datum) this.appointment.appointmentDate = this.appointmentDate.value;
-   this.appointment.appointmentTime = this.appointmentTime.value;
+   if(this.appointmentTime.value >= this.todaysTime) this.appointment.appointmentTime = this.appointmentTime.value;
    this.appointment.treatmentId = this.treatment.value;
    this.appointment.salonId = this.salonId;
    if(this.user.roleId == 3) this.appointment.userId = this.userId;
    else this.appointment.userId = this.client.value;
    this.appointment.employeeId = this.employeeControl.value;
   }
-
 }

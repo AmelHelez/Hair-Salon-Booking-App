@@ -14,6 +14,10 @@ import { UserListComponent } from './user/user-list/user-list.component';
 import { UserLoginComponent } from './user/user-login/user-login.component';
 import { UserProfileComponent } from './user/user-profile/user-profile.component';
 import { UserRegisterComponent } from './user/user-register/user-register.component';
+import { AdminGuardService as AdminGuard} from './services/admin-guard.service';
+import { AuthGuardService as AuthGuard} from './services/auth-guard.service';
+
+
 
 const routes: Routes = [
   {
@@ -29,31 +33,34 @@ const routes: Routes = [
     path: "register", component: UserRegisterComponent
   },
   {
-    path: "admin/add-salon", component: AddSalonComponent
+    path: "admin/add-salon", component: AddSalonComponent, canActivate: [AdminGuard]
   },
   {
-    path: "update/:id", component: UpdateSalonComponent, resolve: {prp: SalonDetailResolverService}
+    path: "update/:id", component: UpdateSalonComponent, resolve: {prp: SalonDetailResolverService}, canActivate: [AdminGuard]
   },
   {
-    path: "admin/add-employee", component: AddEmployeeComponent
+    path: "admin/add-employee", component: AddEmployeeComponent, canActivate: [AdminGuard]
   },
   {
-    path: "admin/add-employee/:id", component: AddEmployeeComponent, resolve: {prp: SalonDetailResolverService}
+    path: "admin/add-employee/:id", component: AddEmployeeComponent, resolve: {prp: SalonDetailResolverService}, canActivate: [AdminGuard]
   },
   {
-    path: "employee/:id", component: EmployeeHomeComponent
+    path: "employee/:id", component: EmployeeHomeComponent, canActivate: [AuthGuard]
   },
   {
-    path: "book/:id", component: AddAppointmentComponent, resolve: {prp: SalonDetailResolverService}
+    path: "book/:id", component: AddAppointmentComponent, resolve: {prp: SalonDetailResolverService}, canActivate: [AuthGuard]
   },
   {
-    path: "admin/users", component: UserListComponent
+    path: "admin/users", component: UserListComponent, canActivate: [AdminGuard]
   },
   {
-    path: "edit-user/:id", component: EditUserComponent, resolve: {prp: SalonDetailResolverService}
+    path: "edit-user/:id", component: EditUserComponent, resolve: {prp: SalonDetailResolverService}, canActivate: [AuthGuard]
   },
   {
-    path: "profile/:id", component: UserProfileComponent
+    path: "profile/:id", component: UserProfileComponent, canActivate: [AuthGuard]
+  },
+  {
+    path: "**", redirectTo: ''
   }
 ];
 

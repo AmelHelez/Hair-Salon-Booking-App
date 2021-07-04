@@ -5,7 +5,11 @@ export interface Appointment {
   appointmentDate: Date;
   appointmentTime: Time;
   salonId: number;
+  salonName?: string;
   employeeId: number;
+  empName?: string;
   userId: number;
   treatmentId: number;
+  treatmentName?: string;
+  trPrice?: number;
 }

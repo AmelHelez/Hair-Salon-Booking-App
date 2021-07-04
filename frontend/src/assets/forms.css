@@ -18,6 +18,7 @@
 
 .card-header > h3 {
   margin-top: 7px !important;
+  text-align: center !important;
 }
 
 .card-header {

@@ -151,24 +151,7 @@ onFileSelect(event) {
 
   }
 
-  /*updateSalon(salonId: number) {
-    this.salonService.getSalon(salonId).subscribe(salon => {
-      //this.massage = null;
-     // this.dataSaved = false;
-      this.salonUpdate = salon.id;
-      this.addSalonForm.controls['name'].setValue(salon.name);
-      this.addSalonForm.controls['city'].setValue(salon.city);
-      this.addSalonForm.controls['address'].setValue(salon.address);
-      this.addSalonForm.controls['employeeNumber'].setValue(salon.employeeNumber);
-    });
-
-  }*/
-
-
-
   mapSalon(): void {
-    //this.salon.id = this.salonService.addPropID();
-    //this.salon.id = this.salonService.getSalon()
     this.salon.name = this.name.value;
     this.salon.address = this.address.value;
     this.salon.city = this.city.value;

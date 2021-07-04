@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { User, UserForLogin } from '../models/user';
 import { Appointment } from '../models/appointment';
 import { Treatment } from '../models/treatment';
-
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -21,16 +20,20 @@ export class UserService {
     return this.http.post(baseUrl + "/login", user);
   }
 
+  isAuthenticated(): boolean {
+     const token = localStorage.getItem("mytoken");
+     if(token) return true;
+     else return false;
+  }
+
   addUser(user: User) {
     return this.http.post(baseUrl + "/register", user);
-  /*  let users = [];
-    if (localStorage.getItem('Useri')) {
-      users = JSON.parse(localStorage.getItem('Useri'));
-      users = [user, ...users];
-    } else {
-      users = [user];
-    }
-    localStorage.setItem('Useri', JSON.stringify(users));*/
+  }
+
+  isAdmin(): boolean {
+    const role = +localStorage.getItem("userRole");
+    if(role == 1) return true;
+    else return false;
   }
 
   addEmployee(user: User) {
@@ -56,8 +59,6 @@ export class UserService {
   deleteUser(userId: number) {
     return this.http.delete(baseUrl + '/' + userId);
   }
-
-
 
   getAllTreatments(): Observable<Treatment[]> {
     return this.http.get<Treatment[]>("https://localhost:44393/api/treatments");
