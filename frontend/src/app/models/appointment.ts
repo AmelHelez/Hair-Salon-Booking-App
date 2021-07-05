@@ -1,4 +1,6 @@
 import { Time } from "@angular/common";
+import { Treatment } from "./treatment";
+import { User } from "./user";
 
 export interface Appointment {
   id: number;
@@ -7,9 +9,10 @@ export interface Appointment {
   salonId: number;
   salonName?: string;
   employeeId: number;
-  empName?: string;
+  employee?: User;
   userId: number;
+  user?: User;
   treatmentId: number;
-  treatmentName?: string;
-  trPrice?: number;
+  treatment?: Treatment;
+  // cost?: number;
 }

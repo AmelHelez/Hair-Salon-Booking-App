@@ -164,7 +164,7 @@ export class AddAppointmentComponent implements OnInit {
 
   mapApp(): void {
    if(this.appointmentDate.value >= this.datum) this.appointment.appointmentDate = this.appointmentDate.value;
-   if(this.appointmentTime.value >= this.todaysTime) this.appointment.appointmentTime = this.appointmentTime.value;
+   this.appointment.appointmentTime = this.appointmentTime.value;
    this.appointment.treatmentId = this.treatment.value;
    this.appointment.salonId = this.salonId;
    if(this.user.roleId == 3) this.appointment.userId = this.userId;

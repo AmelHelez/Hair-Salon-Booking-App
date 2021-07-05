@@ -86,15 +86,6 @@ export class SalonDetailsComponent implements OnInit {
               if(this.appointments[x].salonId === this.salonId) {
                 this.appDate = +new Date(this.appointments[x].appointmentDate).getDate().toString();
                 this.appMonth = +new Date(this.appointments[x].appointmentDate).getMonth().toString();
-                if(this.appDate == this.todaysDate && this.appMonth == this.todaysMonth) {
-                this.appointmentList.push(this.appointments[x]);
-                this.appointmentList.sort((a,b) => new Date(a.appointmentDate).getTime() - new Date(b.appointmentDate).getTime())
-                }
-                else if(this.appDate > this.todaysDate && this.appMonth >= this.todaysMonth) {
-                this.allApps.push(this.appointments[x]);
-                this.allApps.sort((a,b) => new Date(a.appointmentDate).getTime() - new Date(b.appointmentDate).getTime())
-
-                }
                 // console.log(`DATE: ${this.appDate} and MONTH: ${this.appMonth}`);
                 // console.log(this.appointments[x].appointmentDate);
                // this.appointment = this.appointments[x];
@@ -103,23 +94,31 @@ export class SalonDetailsComponent implements OnInit {
                if(this.appointments[x].userId) {
                this.userService.getUser(this.appointments[x].userId)
                .subscribe(data => {
-                 this.user = data;
+                 this.appointments[x].user = data;
                })}
                if(this.appointments[x].employeeId) {
                this.userService.getUser(this.appointments[x].employeeId)
                .subscribe(e => {
-                 this.employeeApp = e;
+                 this.appointments[x].employee = e;
                })}
                if(this.appointments[x].treatmentId) {
                this.userService.getTreatment(this.appointments[x].treatmentId)
-               .subscribe(x => {
-                 this.treatment = x;
+               .subscribe(tr => {
+                 this.appointments[x].treatment = tr;
                })}
+               if(this.appDate == this.todaysDate && this.appMonth == this.todaysMonth) {
+                this.appointmentList.push(this.appointments[x]);
+                this.appointmentList.sort((a,b) => new Date(a.appointmentDate).getTime() - new Date(b.appointmentDate).getTime())
+                }
+                else if(this.appDate > this.todaysDate && this.appMonth >= this.todaysMonth) {
+                this.allApps.push(this.appointments[x]);
+                this.allApps.sort((a,b) => new Date(a.appointmentDate).getTime() - new Date(b.appointmentDate).getTime())
+                }
               //  this.appointmentList.push(this.appointments[x]);
               }
             }
           }
-            // console.log("APPOINTMENTS: ", this.appointmentList);
+            console.log("APPOINTMENTS: ", this.appointmentList);
 
           }
         )

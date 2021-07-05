@@ -101,10 +101,10 @@
                     <th scope="row">{{i+1}}</th>
                     <td>{{app.appointmentDate | date: "dd/MM/yyyy"}}</td>
                     <td>{{app.appointmentTime | date: "shortTime"}}</td>
-                    <td *ngIf="employeeApp && loggedIn()">{{employeeApp.name}}</td>
-                    <td *ngIf="user && whichRole() != 3">{{user.name}}</td>
-                    <td *ngIf="treatment && loggedIn()">{{treatment.name}}</td>
-                    <td *ngIf="treatment && loggedIn()" style="text-decoration: underline;">{{treatment.cost}} BAM</td>
+                    <td *ngIf="loggedIn()">{{app.empName}}</td>
+                    <td *ngIf="whichRole() != 3">{{app.userName}}</td>
+                    <td *ngIf="loggedIn()">{{app.trName}}</td>
+                    <td *ngIf="loggedIn()" style="text-decoration: underline;">{{app.trPrice}} BAM</td>
                   </tr>
                    </tbody>
               </table>
@@ -112,7 +112,7 @@
            <tab heading="Future Appointments">
             <h3 style="text-align: center;">Future appointments</h3>
             <hr class="line"/>
-            <table *ngIf="appointmentList.length > 0" class="table">
+            <table *ngIf="allApps.length > 0" class="table">
               <thead>
                 <tr>
                   <th scope="col">#</th>
@@ -129,10 +129,10 @@
                   <th scope="row">{{i+1}}</th>
                   <td>{{app.appointmentDate | date: "dd/MM/yyyy"}}</td>
                   <td>{{app.appointmentTime | date: "shortTime"}}</td>
-                  <td *ngIf="employeeApp && loggedIn()">{{employeeApp.name}}</td>
-                  <td *ngIf="user && whichRole() != 3">{{user.name}}</td>
-                  <td *ngIf="treatment && loggedIn()">{{treatment.name}}</td>
-                  <td *ngIf="treatment && loggedIn()" style="text-decoration: underline;">{{treatment.cost}} BAM</td>
+                  <td *ngIf="loggedIn()">{{app.employee.name}}</td>
+                  <td *ngIf="whichRole() != 3">{{app.user.name}}</td>
+                  <td *ngIf="loggedIn()">{{app.treatment.name}}</td>
+                  <td *ngIf="loggedIn()" style="text-decoration: underline;">{{app.treatment.cost}} BAM</td>
                 </tr>
                  </tbody>
             </table>
