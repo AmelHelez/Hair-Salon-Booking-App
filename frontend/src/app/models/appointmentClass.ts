@@ -9,4 +9,5 @@ export class AppointmentClass implements Appointment {
   employeeId: number;
   userId: number;
   treatmentId: number;
+  price?: number;
 }

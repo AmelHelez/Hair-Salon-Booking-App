@@ -18,7 +18,8 @@ namespace backend.Data
         public DbSet<Role> Roles { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Treatment> Treatments { get; set; }
+        public DbSet<SalonTreatment> SalonTreatments { get; set; }
+        public DbSet<Review> Reviews { get; set; }
 
-        
     }
 }

@@ -1,3 +1,4 @@
+import { Review } from './review';
 import {User} from './user';
 
 export class UserClass implements User {
@@ -11,5 +12,5 @@ export class UserClass implements User {
   city: string;
   roleId: number;
   salonId?: number;
-
+  userReviews?: Review[];
 }

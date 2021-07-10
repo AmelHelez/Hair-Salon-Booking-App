@@ -1,0 +1,14 @@
+<form [formGroup]="addReviewForm" (ngSubmit)="onSubmit()">
+
+  <label for="grade">Grade</label>
+  <ngb-rating [(rate)]="currentRate" formControlName="grade"></ngb-rating>
+<hr>
+<pre>Rate: <b>{{currentRate}}</b></pre>
+
+<mat-form-field class="example-full-width" appearance="fill">
+  <mat-label>Leave a comment</mat-label>
+  <textarea matInput placeholder="Ex. It makes me feel..." formControlName="comment"></textarea>
+</mat-form-field>
+  <button class="btn btn-primary" type="submit">Add review</button>
+  <button class="btn btn-secondary" type="button" (click)="onBack()">Go Back</button>
+</form>

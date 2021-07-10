@@ -37,7 +37,7 @@ export class AddEmployeeComponent implements OnInit {
     this.salonId = +this.route.snapshot.params['id'];
    this.route.data.subscribe(
      (data: Salon) => {
-       console.log(data);
+      //  console.log(data);
        this.salonClass = data['prp'];
       // console.log("SALON CLASS:", this.salonClass);
      }

@@ -1,0 +1,50 @@
+<div class="row mb-5">
+  <div class="col-8 shadow-lg p-0 bg-white m-auto">
+    <div class="card">
+      <div class="card-header">
+        <h3>Add a new treatment</h3>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="addTreatmentForm" (ngSubmit)="add()">
+          <div class="form-group col-8">
+            <label>Choose one of the existing treatments</label>
+              <select class="form-control" formControlName="trId">
+                <option value="">--Select Treatment--</option>
+                <option *ngFor="let tr of treatments" value={{tr.id}}>
+                 {{tr.name}}
+                </option>
+              </select>
+          </div>
+
+          <div *ngIf="trId.value" class="form-group col-8">
+            <label>Treatment Price (in BAM)</label>
+             <input placeholder="Ex. 5" type="number" class="form-control" formControlName="price">
+             <div class="error-block" *ngIf="!price && price.touched && trId.value">
+              Please choose the price for one of the existing treatments
+              </div>
+            </div>
+
+            <div *ngIf="trId.value && price.value" class="form-group col-8">
+              <button type="submit" class="btn btn-primary">Add!</button>
+            </div>
+<br><br>
+            <div class="form-group col-8">
+              <p>Want a new treatment? Add it now!</p>
+              <mat-form-field class="example-full-width">
+                <mat-label>Treatment Name</mat-label>
+                <input matInput placeholder="Ex. Haircut" formControlName="newName">
+              </mat-form-field>
+              <mat-form-field class="example-full-width">
+                <mat-label>Treatment Price</mat-label>
+                <input matInput placeholder="Ex. 10BAM" formControlName="newPrice">
+              </mat-form-field>
+              <button *ngIf="newName.value && newPrice.value" mat-raised-button color="primary">Add New!</button>
+
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+

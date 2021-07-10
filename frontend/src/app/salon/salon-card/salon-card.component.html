@@ -5,6 +5,8 @@
   </div>
   <br>
   <h3>{{salon.name|titlecase}} </h3>
-  <h5>{{salon.city|titlecase}} <hr class="hr"></h5>
-  <button class="btn" routerLink="/details/{{salon.id}}">{{salon.name}}'s details</button>
+  <h5>{{salon.city|titlecase}} </h5>
+  <h6 *ngIf="salon.salonReviews.length > 0">Average rating: {{getSalonReviews()}} <hr class="hr"></h6>
+  <h6 *ngIf="salon.salonReviews.length <= 0"><hr class="hr"></h6>
+  <button class="btn" routerLink="/details/{{salon.id}}"><i class="fas fa-info-circle"></i> Profile</button>
 </div>

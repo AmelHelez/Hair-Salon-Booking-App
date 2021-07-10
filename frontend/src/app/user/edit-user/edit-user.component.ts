@@ -54,7 +54,7 @@ export class EditUserComponent implements OnInit {
         this.salonService.getSalon(this.salonID).subscribe(
           s => {
             this.salonClass = s;
-            console.log("SALON:", this.salonClass);
+            // console.log("SALON:", this.salonClass);
           }
         )}
       }

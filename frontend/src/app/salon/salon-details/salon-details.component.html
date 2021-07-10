@@ -7,19 +7,30 @@
       </div>
       <div class="card-body">
         <h1 class="card-title">{{salonDetail.name}} <hr/></h1>
+        <br>
+          <h5 style="color:#DAA520">{{salonDetail.address}}, {{salonDetail.city}}</h5>
+          <p>Working hours: {{salonDetail.opened}}:00 - {{salonDetail.closed}}:00</p>
+          <p *ngIf="salonDetail.employeeNumber >= empList.length">Number of employees: <b class="borderNumber">{{salonDetail.employeeNumber}}</b></p>
+          <p *ngIf="salonDetail.employeeNumber < empList.length">Number of employees: <b class="borderNumber">{{empList.length}}</b></p>
+          <p>Number of registered employees: <b class="borderNumber">{{empList.length}}</b></p>
+          <br />
       </div>
       <div class="card-footer">
         <div class="buttons">
           <div *ngIf="loggedIn() && whichRole() == 1" class="admin-premises">
-            <button *ngIf="salonDetail.employeeNumber !== empList.length" class="btn btn-primary" style="margin-bottom: 7px; margin-top: -2px;"
-            routerLink="/admin/add-employee/{{salonDetail.id}}">Register Employees</button>
-            <button class="btn btn-success" style="margin-bottom: 7px; margin-top: -2px;"
+            <button *ngIf="salonDetail.employeeNumber !== empList.length" class="btn btn-primary adminButtons"
+            routerLink="/admin/add-employee/{{salonDetail.id}}">Register Employee(s)</button>
+            <button class="btn btn-success adminButtons"
             routerLink="/update/{{salonDetail.id}}">Edit Salon Details</button>
-            <button class="btn btn-danger" style="margin-bottom: 7px; margin-top: -2px;"
+            <button class="btn btn-info adminButtons" routerLink="/admin/add-treatments/{{salonDetail.id}}">Add Treatments</button>
+            <button class="btn btn-danger adminButtons"
             (click)="deleteSalon(salonDetail.name)">Delete Salon</button>
           </div>
 
-          <button class="btn btn-primary" *ngIf="loggedIn() && (whichRole() == 2 || whichRole() == 3)" routerLink="/book/{{salonDetail.id}}">Book an appointment</button>
+          <div class="clients">
+            <button class="btn btn-primary" *ngIf="loggedIn() && (whichRole() == 2 || whichRole() == 3)" routerLink="/book/{{salonDetail.id}}">Book an appointment</button>
+            <button class="btn btn-info" *ngIf="loggedIn() && whichRole() == 3" routerLink="/{{salonDetail.id}}/review">Send feedback</button>
+          </div>
         </div>
       </div>
         </div>
@@ -27,20 +38,13 @@
       <div class="col-sm-8 p-0">
         <div class="tab-panel p-3">
           <tabset class="member-tabset">
-            <tab heading="Info">
+            <tab heading="Staff">
               <div class="col-sm-12">
 
                 <div class="heading"  style="padding: 10px;">
-                  <div>
-                    <h3 style="color:#DAA520">{{salonDetail.address}}, {{salonDetail.city}}</h3>
-                  </div>
-                    <p *ngIf="salonDetail.employeeNumber >= empList.length">Number of employees: <b class="borderNumber">{{salonDetail.employeeNumber}}</b></p>
-                    <p *ngIf="salonDetail.employeeNumber < empList.length">Number of employees: <b class="borderNumber">{{empList.length}}</b></p>
-                    <p>Number of registered employees: <b class="borderNumber">{{empList.length}}</b></p>
-                    <br />
                     <div class="nums" style="padding: 10px;">
-                       <h4 style="text-align: center;">Employees:</h4>
-                     <hr class="hrr" /> <br>
+                       <!-- <h4 style="text-align: center;">Employees:</h4>
+                     <hr class="hrr" /> <br> -->
                      <p class="brojevi" *ngIf="empList.length < salonDetail.employeeNumber && salonDetail.employeeNumber - empList.length == 1">
                       ({{salonDetail.employeeNumber - empList.length}} employee to be added soon)
                     </p>
@@ -84,6 +88,7 @@
             <tab heading="Today's Appointments">
               <h3 style="text-align: center;">Today's appointments</h3>
               <hr class="line">
+              <br>
               <table *ngIf="appointmentList.length > 0" class="table">
                 <thead>
                   <tr>
@@ -101,17 +106,22 @@
                     <th scope="row">{{i+1}}</th>
                     <td>{{app.appointmentDate | date: "dd/MM/yyyy"}}</td>
                     <td>{{app.appointmentTime | date: "shortTime"}}</td>
-                    <td *ngIf="loggedIn()">{{app.empName}}</td>
-                    <td *ngIf="whichRole() != 3">{{app.userName}}</td>
-                    <td *ngIf="loggedIn()">{{app.trName}}</td>
-                    <td *ngIf="loggedIn()" style="text-decoration: underline;">{{app.trPrice}} BAM</td>
+                    <td *ngIf="loggedIn()">{{app.employee.name}}</td>
+                    <td *ngIf="whichRole() != 3">{{app.user.name}}</td>
+                    <td *ngIf="loggedIn()">{{app.treatment.name}}</td>
+                    <td *ngIf="loggedIn()" style="text-decoration: underline;">{{app.price}} BAM</td>
                   </tr>
                    </tbody>
               </table>
+              <div class="noApps" *ngIf="appointmentList.length == 0">
+                <p>There are no booked appointments for today.</p>
+                <p *ngIf="whichRole() == 3">Need a quick haircut? <a routerLink="/book/{{getUserId()}}">Book now!</a></p>
+              </div>
            </tab>
            <tab heading="Future Appointments">
             <h3 style="text-align: center;">Future appointments</h3>
             <hr class="line"/>
+            <br>
             <table *ngIf="allApps.length > 0" class="table">
               <thead>
                 <tr>
@@ -132,13 +142,48 @@
                   <td *ngIf="loggedIn()">{{app.employee.name}}</td>
                   <td *ngIf="whichRole() != 3">{{app.user.name}}</td>
                   <td *ngIf="loggedIn()">{{app.treatment.name}}</td>
-                  <td *ngIf="loggedIn()" style="text-decoration: underline;">{{app.treatment.cost}} BAM</td>
+                  <td *ngIf="loggedIn()" style="text-decoration: underline;">{{app.price}} BAM</td>
                 </tr>
                  </tbody>
             </table>
-
+            <div class="noApps" *ngIf="allApps.length == 0">
+              <p>There are still no future bookings made.</p>
+              <p *ngIf="whichRole() == 3">Need a quick haircut? <a routerLink="/book/{{getUserId()}}">Book now!</a></p>
+            </div>
          </tab>
-            <tab heading="Contact">
+         <tab heading="Treatments">
+           <br>
+           <div *ngFor="let tr of salonDetail.salonTreatments">
+             <div class="tretman">
+              <p>{{tr.treatment.name}}</p>
+              <p>Price: {{tr.price}} BAM</p>
+              <div class="clear"></div>
+             </div>
+           </div>
+         </tab>
+         <tab heading="Reviews">
+          <table *ngIf="reviews.length > 0" class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Rating</th>
+                <th scope="col">Comment</th>
+                <th scope="col">User</th>
+                <th scope="col">Date Reviewed</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let r of reviews; index as i">
+              <tr>
+                <th scope="row">{{i+1}}</th>
+                <td style="font-weight: bold; color: #DAA520">{{r.grade}}</td>
+                <td style="font-size: 14px;">{{r.comment}}</td>
+                <td style="font-size: 15px;">{{r.user.name}}</td>
+                <td>{{r.dateReviewed | date: "dd/MM/yyyy"}}</td>
+              </tr>
+            </tbody>
+          </table>
+         </tab>
+            <!-- <tab heading="Contact">
               <div *ngIf="salonDetail.phoneNumber && salonDetail.email">
                 <h4>Phone Number: {{salonDetail.phoneNumber}}</h4>
                 <h4>Email: {{salonDetail.email}}</h4>
@@ -156,7 +201,7 @@
                 <h5>Unfortunately, we don't have neither phone number nor email.</h5>
               </div>
               <hr>
-           </tab>
+           </tab> -->
           </tabset>
         </div>
       </div>

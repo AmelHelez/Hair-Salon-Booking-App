@@ -13,6 +13,11 @@ import { map } from 'rxjs/operators';
 import { Appointment } from 'src/app/models/appointment';
 import { Treatment } from 'src/app/models/treatment';
 import { AlertifyService } from 'src/app/services/alertify.service';
+import { SalonTreatments } from 'src/app/models/salonTreatments';
+import { SalonTreatmentService } from 'src/app/services/salon-treatment.service';
+import { TreatmentService } from 'src/app/services/treatment.service';
+import { ReviewService } from 'src/app/services/review.service';
+import { Review } from 'src/app/models/review';
 
 @Component({
   selector: 'app-salon-details',
@@ -42,29 +47,29 @@ export class SalonDetailsComponent implements OnInit {
   appDate: number;
   appMonth: number;
   allApps: Appointment[] = [];
+  userId: number;
+  salonTreatment: SalonTreatments[] = [];
+  salTreat: SalonTreatments;
+  reviews: Review[] = [];
 
 
 
   constructor(private salonService: SalonService, private appointmentService: AppointmentService,
     private route: ActivatedRoute, private router: Router, private userService: UserService,
-    private alertifyService: AlertifyService) { }
+    private alertifyService: AlertifyService, private salonTreatmentService: SalonTreatmentService,
+    private treatmentService: TreatmentService, private reviewService: ReviewService) { }
 
   ngOnInit(): void {
-   this.salonId = +this.route.snapshot.params['id'];
+      this.getSalonDetails();
+  }
+
+  getSalonDetails() {
+    this.salonId = +this.route.snapshot.params['id'];
    this.route.data.subscribe(
      (data: Salon) => {
-      //  console.log("MONTH", this.todaysMonth);
        this.salonDetail = data['prp'];
        if(this.salonDetail.image) {
         this.salonDetail.image = atob(this.salonDetail.image); }
-       /* this.userService.getAllUsers().pipe(
-          map(employee => {
-            this.employee = employee.find(e => e.salonId === this.salonDetail.id);
-            if(this.employee.salonId)
-            this.salonDetail.employees.push(this.employee);
-          })
-        )
-        console.log("Employees:", this.salonDetail.employees);*/
         this.userService.getAllUsers().subscribe(
           xs => {
             this.employees = xs;
@@ -86,11 +91,6 @@ export class SalonDetailsComponent implements OnInit {
               if(this.appointments[x].salonId === this.salonId) {
                 this.appDate = +new Date(this.appointments[x].appointmentDate).getDate().toString();
                 this.appMonth = +new Date(this.appointments[x].appointmentDate).getMonth().toString();
-                // console.log(`DATE: ${this.appDate} and MONTH: ${this.appMonth}`);
-                // console.log(this.appointments[x].appointmentDate);
-               // this.appointment = this.appointments[x];
-               // this.appointment.employeeName = this.employee.name;
-               // console.log("App:", this.appointment);
                if(this.appointments[x].userId) {
                this.userService.getUser(this.appointments[x].userId)
                .subscribe(data => {
@@ -102,10 +102,14 @@ export class SalonDetailsComponent implements OnInit {
                  this.appointments[x].employee = e;
                })}
                if(this.appointments[x].treatmentId) {
-               this.userService.getTreatment(this.appointments[x].treatmentId)
+               this.treatmentService.getTreatment(this.appointments[x].treatmentId)
                .subscribe(tr => {
                  this.appointments[x].treatment = tr;
-               })}
+                 this.salonTreatmentService.getAllSalonTreatments().pipe(
+                  map(treat => treat.find(t => t.treatmentId === this.appointments[x].treatmentId))
+                ).subscribe(treat => this.appointments[x].price = treat.price)
+               }
+               )}
                if(this.appDate == this.todaysDate && this.appMonth == this.todaysMonth) {
                 this.appointmentList.push(this.appointments[x]);
                 this.appointmentList.sort((a,b) => new Date(a.appointmentDate).getTime() - new Date(b.appointmentDate).getTime())
@@ -114,60 +118,64 @@ export class SalonDetailsComponent implements OnInit {
                 this.allApps.push(this.appointments[x]);
                 this.allApps.sort((a,b) => new Date(a.appointmentDate).getTime() - new Date(b.appointmentDate).getTime())
                 }
-              //  this.appointmentList.push(this.appointments[x]);
               }
             }
           }
-            console.log("APPOINTMENTS: ", this.appointmentList);
 
           }
         )
+        this.getSalonReviews();
       }
 
    )
+   this.images();
 
+  }
 
+  getUserId() {
+    this.userId = +localStorage.getItem("userId");
+    return this.userId;
+  }
 
-   this.galleryOptions = [
-    {
-      width: '100%',
-      height: '465px',
-      thumbnailsColumns: 4,
-      imageAnimation: NgxGalleryAnimation.Slide,
-      preview: true
-    }
+  images() {
+    this.galleryOptions = [
+      {
+        width: '100%',
+        height: '465px',
+        thumbnailsColumns: 4,
+        imageAnimation: NgxGalleryAnimation.Slide,
+        preview: true
+      }
 
-  ];
+    ];
 
-  this.galleryImages = [
-    {
-      small: 'assets/images/salon1.png',
-      medium: 'assets/images/salon1.png',
-      big: 'assets/images/salon1.png'
-    },
-    {
-      small: 'assets/images/salon2.jpg',
-      medium: 'assets/images/salon2.jpg',
-      big: 'assets/images/salon2.jpg'
-    },
-    {
-      small: 'assets/images/salon3.png',
-      medium: 'assets/images/salon3.png',
-      big: 'assets/images/salon3.png'
-    },
-    {
-      small: 'assets/images/salon4.png',
-      medium: 'assets/images/salon4.png',
-      big: 'assets/images/salon4.png'
-    },
-    {
-      small: 'assets/images/salon5.png',
-      medium: 'assets/images/salon5.png',
-      big: 'assets/images/salon5.png'
-    }
-  ];
-
-    this.getTreatments();
+    this.galleryImages = [
+      {
+        small: 'assets/images/salon1.png',
+        medium: 'assets/images/salon1.png',
+        big: 'assets/images/salon1.png'
+      },
+      {
+        small: 'assets/images/salon2.jpg',
+        medium: 'assets/images/salon2.jpg',
+        big: 'assets/images/salon2.jpg'
+      },
+      {
+        small: 'assets/images/salon3.png',
+        medium: 'assets/images/salon3.png',
+        big: 'assets/images/salon3.png'
+      },
+      {
+        small: 'assets/images/salon4.png',
+        medium: 'assets/images/salon4.png',
+        big: 'assets/images/salon4.png'
+      },
+      {
+        small: 'assets/images/salon5.png',
+        medium: 'assets/images/salon5.png',
+        big: 'assets/images/salon5.png'
+      }
+    ];
   }
 
   loggedIn() {
@@ -182,11 +190,17 @@ export class SalonDetailsComponent implements OnInit {
     else return 3;
   }
 
+  getSalonReviews() {
+    this.reviewService.getAllReviews().pipe(
+      map(review => review.find(r => r.salonId === this.salonDetail.id)))
+      .subscribe(review => this.reviews.push(review))
+  }
+
   deleteSalon(name: string) {
     if(confirm("Amel, are you sure you want to delete " + name + '?')) {
       this.salonService.deleteSalon(this.salonId)
     .subscribe((data) => {
-      console.log(data);
+      // console.log(data);
       this.router.navigate(['/']);
       this.alertifyService.success("Salon removed successfully!");
     })
@@ -202,28 +216,9 @@ export class SalonDetailsComponent implements OnInit {
     if(confirm("Amel, are you sure you want to delete " + this.userToDelete.name + '?')) {
       this.userService.deleteUser(id)
     .subscribe((data) => {
-      console.log(data);
       this.alertifyService.success("User removed successfully.");
       window.location.reload();
     })
     }
   }
-
-  // getApps() {
-  //   this.appointmentService.getAllAppointments().subscribe(
-  //     data => {
-  //       this.appointments = data;
-  //       console.log("Data:",data);
-  //     }
-  //   )
-  // }
-
-  getTreatments() {
-    this.userService.getAllTreatments().subscribe(
-      data => {
-        this.treatments = data;
-      }
-    )
-  }
-
 }

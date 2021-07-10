@@ -16,6 +16,11 @@ import { UserProfileComponent } from './user/user-profile/user-profile.component
 import { UserRegisterComponent } from './user/user-register/user-register.component';
 import { AdminGuardService as AdminGuard} from './services/admin-guard.service';
 import { AuthGuardService as AuthGuard} from './services/auth-guard.service';
+import { AddTreatmentComponent } from './treatments/add-treatment/add-treatment.component';
+import { UserReviewsComponent } from './user/user-reviews/user-reviews.component';
+import { AddRoomComponent } from './rooms/add-room/add-room.component';
+import { ChatRoomComponent } from './rooms/chat-room/chat-room.component';
+import { RoomListComponent } from './rooms/room-list/room-list.component';
 
 
 
@@ -34,6 +39,9 @@ const routes: Routes = [
   },
   {
     path: "admin/add-salon", component: AddSalonComponent, canActivate: [AdminGuard]
+  },
+  {
+    path: "admin/add-treatments/:id", component: AddTreatmentComponent, canActivate: [AdminGuard]
   },
   {
     path: "update/:id", component: UpdateSalonComponent, resolve: {prp: SalonDetailResolverService}, canActivate: [AdminGuard]
@@ -59,6 +67,12 @@ const routes: Routes = [
   {
     path: "profile/:id", component: UserProfileComponent, canActivate: [AuthGuard]
   },
+  {
+    path: ":id/review", component: UserReviewsComponent, canActivate: [AuthGuard]
+  },
+  { path: 'roomlist', component: RoomListComponent, canActivate: [AuthGuard] },
+  { path: 'addroom', component: AddRoomComponent },
+  { path: 'chatroom/:roomname', component: ChatRoomComponent },
   {
     path: "**", redirectTo: ''
   }

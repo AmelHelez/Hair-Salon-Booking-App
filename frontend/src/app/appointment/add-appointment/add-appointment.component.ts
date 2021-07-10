@@ -12,6 +12,10 @@ import { AlertifyService } from 'src/app/services/alertify.service';
 import { AppointmentService } from 'src/app/services/appointment.service';
 import { UserService } from 'src/app/services/user.service';
 import { Time } from '@angular/common';
+import { TreatmentService } from 'src/app/services/treatment.service';
+import { map } from 'rxjs/operators';
+import { SalonTreatments } from 'src/app/models/salonTreatments';
+import { SalonTreatmentService } from 'src/app/services/salon-treatment.service';
 
 @Component({
   selector: 'app-add-appointment',
@@ -37,22 +41,29 @@ export class AddAppointmentComponent implements OnInit {
   loggedInUser: string;
   userRole: number;
   appointments: Appointment[] = [];
-  treatments: Treatment[] = [];
+  treatments: SalonTreatments[] = [];
+  tretman: SalonTreatments;
   appointment = new AppointmentClass();
   appointmentList: Appointment[] = [];
   userId: number;
   user: User;
   allTimes: any[] = [];
-  disabled: Time[] = [];
+  minDate = new Date();
+  minDejt = new Date().setDate(this.minDate.getDate() + 1);
+  maxDate = new Date().setDate(this.minDate.getDate() + 7);
+  maxDatee = new Date(this.maxDate);
   mytime: Date = new Date();
   isDisabled: boolean = false;
+  newDate: Date;
 
   constructor(private fb: FormBuilder, private router: Router, private appointmentService: AppointmentService,
-    private route: ActivatedRoute, private userService: UserService, private alertifyService: AlertifyService) { }
+    private route: ActivatedRoute, private userService: UserService, private alertifyService: AlertifyService,
+    private treatmentService: SalonTreatmentService) { }
 
 
   ngOnInit(): void {
-    console.log("DATUM", this.sati);
+    if(this.sati > 19) this.minDate = new Date(this.minDejt);
+    console.log("TAJM:", this.datum);
     this.salonId = +this.route.snapshot.params['id'];
     this.route.data.subscribe(
       (data: Salon) => {
@@ -60,7 +71,6 @@ export class AddAppointmentComponent implements OnInit {
         this.userService.getAllUsers().subscribe(
           xs => {
             this.employees = xs;
-            //console.log(this.employees);
             for(var x = 0; x < this.employees.length; x++) {
               if(this.employees[x].salonId === this.salonId) {
               this.employee = this.employees[x];
@@ -72,14 +82,15 @@ export class AddAppointmentComponent implements OnInit {
         )
       }
     )
-    this.appointmentService.getAllAppointments().subscribe(
-      ap => {
-        for(var x = 0; x < ap.length; x++) {
-          if(this.mytime == ap[x].appointmentDate) this.isDisabled = true;
-          this.disabled.push(ap[x].appointmentTime);
-        }
-      }
-    )
+    // this.appointmentService.getAllAppointments().subscribe(
+    //   ap => {
+    //     for(var x = 0; x < ap.length; x++) {
+    //       if(this.mytime == ap[x].appointmentDate) {this.isDisabled = true;
+    //       this.disabled.push(ap[x].appointmentTime);}
+    //     }
+    //   }
+    // )
+
     this.getUser();
     this.CreateAddAppointmentForm();
   }
@@ -93,7 +104,7 @@ export class AddAppointmentComponent implements OnInit {
       treatment: [null, Validators.required],
       employee: [null, Validators.required],
       client: [null]
-  })
+    })
 }
 
   get appointmentDate() {
@@ -129,15 +140,16 @@ export class AddAppointmentComponent implements OnInit {
   }
 
 
-  onSubmit2() {
+  onSubmit() {
     console.log(this.addAppointmentForm.value);
     this.mapApp();
     this.appointmentService.addAppointment(this.appointment).subscribe(
       (response: Appointment) => {
         const appointment = response;
-        localStorage.setItem('appointment', appointment.appointmentDate.toString());
         this.router.navigate([`/details/${this.salonId}`]);
         this.alertifyService.success("APPOINTMENT ADDED!");
+      }, error => {
+        this.alertifyService.error("Appointment adding failed!");
       });
   }
 
@@ -146,29 +158,40 @@ export class AddAppointmentComponent implements OnInit {
     this.userService.getUser(this.userId)
     .subscribe(user => {
       this.user = user;
-      console.log("USER:", this.user);
     })
     this.getTreatments();
   }
 
   getTreatments() {
-    this.userService.getAllTreatments().subscribe(
-      data => {
-        this.treatments = data;
-        console.log("TREATMENTS: ", this.treatments);
-        return this.treatments;
+    // this.treatmentService.getAllSalonTreatments().pipe(
+    //   map(treatment => treatment.find(t => t.salonId === this.salonId))
+    // ).subscribe(treatment => console.log(treatment));
+    this.treatmentService.getAllSalonTreatments().subscribe(
+      treatment => {
+        for(var x = 0; x < treatment.length; x++) {
+          if(treatment[x].salonId == this.salonId) this.treatments.push(treatment[x]);
+        }
       }
     )
+  }
+
+  findTreatmentPrice() {
+    this.treatments.forEach(tr => {
+      if(tr.treatmentId == +this.treatment.value) this.appointment.price = tr.price;
+    })
   }
 
 
   mapApp(): void {
    if(this.appointmentDate.value >= this.datum) this.appointment.appointmentDate = this.appointmentDate.value;
    this.appointment.appointmentTime = this.appointmentTime.value;
-   this.appointment.treatmentId = this.treatment.value;
+   this.appointment.treatmentId = +this.treatment.value;
+   this.findTreatmentPrice();
    this.appointment.salonId = this.salonId;
    if(this.user.roleId == 3) this.appointment.userId = this.userId;
    else this.appointment.userId = this.client.value;
-   this.appointment.employeeId = this.employeeControl.value;
+   this.appointment.employeeId = +this.employeeControl.value;
   }
+
+
 }

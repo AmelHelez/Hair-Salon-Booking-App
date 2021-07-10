@@ -1,7 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { TabsetComponent } from 'ngx-bootstrap/tabs';
 import { Salon } from '../../models/salon';
 import { SalonClass } from '../../models/salonClass';
 import { AlertifyService } from 'src/app/services/alertify.service';
@@ -16,7 +15,6 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
 export class AddSalonComponent implements OnInit {
   addSalonForm: FormGroup;
   nextClicked: boolean;
-  //salon: Salon;
   salon = new SalonClass();
   fileToUpload: File = null;
   imageChangedEvent: any = '';
@@ -52,16 +50,6 @@ export class AddSalonComponent implements OnInit {
     this.croppedImage = event.base64;
   }
 
-
-
-   /*
-
-
-onFileSelect(event) {
-  const file = event.target.files[0];
-  console.log(file);
-}*/
-
   ngOnInit(): void {
     this.CreateAddSalonForm();
   }
@@ -77,6 +65,8 @@ onFileSelect(event) {
       address: [null, Validators.required],
       employeeNumber: [null],
       image: [null],
+      opened: [null, Validators.required],
+      closed: [null, Validators.required],
       phoneNumber: [null, Validators.maxLength(12)],
       email: [null, Validators.email]
     });
@@ -110,43 +100,30 @@ onFileSelect(event) {
     return this.addSalonForm.get('email') as FormControl;
   }
 
+  get opened() {
+    return this.addSalonForm.get('opened') as FormControl;
+  }
+
+  get closed() {
+    return this.addSalonForm.get('closed') as FormControl;
+  }
+
   onBack() {
     this.router.navigate(['/']);
   }
 
-
-
   onSubmit() {
-    this.nextClicked = true;
-    if(this.addSalonForm.valid) {
-      this.mapSalon();
-      this.salonService.addProperty(this.salon)
-      .subscribe(data => {
-        console.log(data);
-      }, error => {
-        console.log(error);
-      });
-      this.alertifyService.success("Congrats! Your salon is now available for booking!");
-      this.router.navigate(['/']);
-    } else {
-      this.alertifyService.error("Please review the form and provide all valid entries.");
-    }
-
-  }
-
-  onSubmit2() {
     console.log(this.addSalonForm.value);
     this.mapSalon();
+    console.log(this.salon);
     this.salonService.addSalon(this.salon).subscribe(
       (response: Salon) => {
-        console.log("Da vidimo: ");
-        console.log(response);
         const salon = response;
         localStorage.setItem('salonToken', salon.name);
-        this.alertifyService.success("SALON ADDED YEAAAAAH!");
+        this.alertifyService.success("Salon is successfully added!");
         this.router.navigate(['/']);
       }, error => {
-        console.log(error);
+        this.alertifyService.error("Salon registration is unsuccessful.");
       });
 
   }
@@ -159,6 +136,8 @@ onFileSelect(event) {
     this.salon.image = btoa(this.croppedImage);
     this.salon.phoneNumber = this.phoneNumber.value;
     this.salon.email = this.email.value;
+    this.salon.opened = new Date(this.opened.value).getHours();
+    this.salon.closed = new Date(this.closed.value).getHours();
   }
 
 }

@@ -32,7 +32,11 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Salon>>> GetSalons()
         {
-            return await _context.Salons.ToListAsync();
+            return await _context.Salons
+                .Include(s => s.SalonTreatments)
+                   .ThenInclude(st => st.Treatment)
+                .Include(s => s.SalonReviews)
+                .ToListAsync();
             //var salon = await uow.SalonRepository.GetAllSalonsAsync();
 
             //return Ok(salon);
@@ -44,6 +48,8 @@ namespace backend.Controllers
         {
             var salon = await _context.Salons
                 .Include(s => s.Users)
+                .Include(s => s.SalonTreatments)
+                .Include(s => s.SalonReviews)
                 .Where(s => s.Id == id).FirstOrDefaultAsync();
 
             if (salon == null)

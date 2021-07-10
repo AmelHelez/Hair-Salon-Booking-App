@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Salon } from 'src/app/models/salon';
 import { SalonService } from '../salon.service';
@@ -18,7 +17,6 @@ export class SalonListComponent implements OnInit {
   city = '';
   name = '';
 
-
   constructor(private salonService: SalonService) { }
 
   ngOnInit(): void {
@@ -35,12 +33,10 @@ export class SalonListComponent implements OnInit {
         }
         this.salons[i].city = this.salons[i].city.toUpperCase();
         this.salons[i].name = this.salons[i].name.toUpperCase();
-
         }
       }
     )
   }
-
   onCityFilter() {
     this.searchCity = this.city.toUpperCase();
   }

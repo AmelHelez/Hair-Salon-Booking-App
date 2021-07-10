@@ -35,6 +35,9 @@ namespace backend.Migrations
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
                     b.Property<int>("SalonId")
                         .HasColumnType("int");
 
@@ -55,6 +58,37 @@ namespace backend.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Appointments");
+                });
+
+            modelBuilder.Entity("backend.Models.Review", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateReviewed")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Grade")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SalonId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SalonId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("backend.Models.Role", b =>
@@ -87,6 +121,9 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Closed")
+                        .HasColumnType("int");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
@@ -100,6 +137,9 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Opened")
+                        .HasColumnType("int");
+
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
@@ -108,15 +148,37 @@ namespace backend.Migrations
                     b.ToTable("Salons");
                 });
 
-            modelBuilder.Entity("backend.Models.Treatment", b =>
+            modelBuilder.Entity("backend.Models.SalonTreatment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Cost")
+                    b.Property<int>("Price")
                         .HasColumnType("int");
+
+                    b.Property<int>("SalonId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TreatmentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SalonId");
+
+                    b.HasIndex("TreatmentId");
+
+                    b.ToTable("SalonTreatments");
+                });
+
+            modelBuilder.Entity("backend.Models.Treatment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -211,6 +273,44 @@ namespace backend.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("backend.Models.Review", b =>
+                {
+                    b.HasOne("backend.Models.Salon", "Salon")
+                        .WithMany("SalonReviews")
+                        .HasForeignKey("SalonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("backend.Models.User", "User")
+                        .WithMany("UserReviews")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Salon");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("backend.Models.SalonTreatment", b =>
+                {
+                    b.HasOne("backend.Models.Salon", "Salon")
+                        .WithMany("SalonTreatments")
+                        .HasForeignKey("SalonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("backend.Models.Treatment", "Treatment")
+                        .WithMany("SalonTreatments")
+                        .HasForeignKey("TreatmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Salon");
+
+                    b.Navigation("Treatment");
+                });
+
             modelBuilder.Entity("backend.Models.User", b =>
                 {
                     b.HasOne("backend.Models.Role", "Role")
@@ -237,12 +337,18 @@ namespace backend.Migrations
                 {
                     b.Navigation("Appointments");
 
+                    b.Navigation("SalonReviews");
+
+                    b.Navigation("SalonTreatments");
+
                     b.Navigation("Users");
                 });
 
             modelBuilder.Entity("backend.Models.Treatment", b =>
                 {
                     b.Navigation("Appointments");
+
+                    b.Navigation("SalonTreatments");
                 });
 
             modelBuilder.Entity("backend.Models.User", b =>
@@ -250,6 +356,8 @@ namespace backend.Migrations
                     b.Navigation("Appointments");
 
                     b.Navigation("AppointmentsEmployee");
+
+                    b.Navigation("UserReviews");
                 });
 #pragma warning restore 612, 618
         }

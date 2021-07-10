@@ -25,14 +25,22 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Appointment>>> GetAppointments()
         {
-            return await _context.Appointments.ToListAsync();
+            return await _context.Appointments
+                .Include(u => u.Employee)
+                .Include(u => u.User)
+                .Include(u => u.Treatment)
+                .ToListAsync();
         }
 
         // GET: api/Appointments/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Appointment>> GetAppointment(int id)
         {
-            var appointment = await _context.Appointments.FindAsync(id);
+            var appointment = await _context.Appointments
+                .Include(u => u.Employee)
+                .Include(u => u.User)
+                .Include(u => u.Treatment)
+                .Where(u => u.Id == id).FirstOrDefaultAsync();
 
             if (appointment == null)
             {

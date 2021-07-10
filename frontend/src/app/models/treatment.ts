@@ -1,8 +1,9 @@
 import { Appointment } from './appointment';
+import { SalonTreatments } from './salonTreatments';
 
 export interface Treatment {
   id: number;
   name: string;
-  cost: number;
   appointments: Appointment[];
+  salonTreatments?: SalonTreatments[];
 }

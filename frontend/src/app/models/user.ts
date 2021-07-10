@@ -1,4 +1,5 @@
 import { Appointment } from "./appointment";
+import { Review } from "./review";
 
 export interface User {
   id: number;
@@ -14,6 +15,7 @@ export interface User {
   salonName?: string;
   appointments?: Appointment[];
   appointmentsEmployee?: Appointment[];
+  userReviews?: Review[];
 }
 
 export interface UserForLogin {

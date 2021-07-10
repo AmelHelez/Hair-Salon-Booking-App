@@ -54,9 +54,10 @@
           <td>{{a.appointmentDate | date: "dd/MM/yyyy"}}</td>
           <td>{{a.appointmentTime | date: "shortTime"}}</td>
           <td *ngIf="usersRole() == 3">{{a.salonName}}</td>
-          <td *ngIf="usersRole() == 3">{{a.empName}}</td>
-          <td>{{a.treatmentName}}</td>
-          <td>{{a.trPrice}} BAM</td>
+          <td *ngIf="usersRole() == 3">{{a.employee.name}}</td>
+          <td>{{a.treatment.name}}</td>
+          <td>{{a.price}} BAM</td>
+          <td *ngIf="usersRole() == 3 && a.newDate >= today" routerLink="/roomlist"><i class="fas fa-comments"></i></td>
         </tr>
          </tbody>
     </table>

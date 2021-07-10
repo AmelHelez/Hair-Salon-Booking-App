@@ -52,7 +52,6 @@ export class NavBarComponent implements OnInit {
        data => {
          this.user = data;
          return this.user;
-         console.log(this.user);
        }
     )
   }

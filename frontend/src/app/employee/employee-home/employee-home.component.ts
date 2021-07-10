@@ -28,18 +28,18 @@ export class EmployeeHomeComponent implements OnInit {
 
   getEmployee() {
     this.empId = +this.route.snapshot.params['id'];
-    console.log(this.empId);
+    // console.log(this.empId);
     this.userService.getUser(this.empId)
     .subscribe((data: User) => {
       this.employeeSalon = data;
-      console.log("EMPLOYEE:", this.employeeSalon);
+      // console.log("EMPLOYEE:", this.employeeSalon);
      // console.log("Employee:", this.employeeSalon);
      this.salonService.getSalon(this.employeeSalon.salonId)
     .subscribe((data: Salon) => {
       this.salon = data;
       if(this.salon.image)
         this.salon.image = atob(this.salon.image);
-      console.log("Salon:", data);
+      // console.log("Salon:", data);
     });
     });
 

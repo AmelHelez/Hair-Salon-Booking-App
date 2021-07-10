@@ -25,6 +25,7 @@ namespace backend.Repositories
             return await dc.Users
                 .Include(u => u.Appointments)
                 .Include(u => u.AppointmentsEmployee)
+                .Include(u => u.UserReviews)
                 .ToListAsync();
         }
 

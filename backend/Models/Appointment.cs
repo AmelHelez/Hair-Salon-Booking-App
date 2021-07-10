@@ -11,6 +11,7 @@ namespace backend.Models
         public int Id { get; set; }
         public DateTime AppointmentDate { get; set; }
         public DateTime AppointmentTime { get; set; }
+        public int Price { get; set; }
 
         public int SalonId { get; set; }
         public Salon Salon { get; set; }

@@ -8,16 +8,24 @@ import { Salon } from '../../models/salon';
 })
 export class SalonCardComponent implements OnInit {
  @Input() salon: Salon;
-// @Input() hideButton: boolean;
- //slika: string = atob(this.salon.image);
-
-
-    //salon: Salon;
+ average: number;
+ sum: number = 0;
+ cnt: number = 0;
 
   constructor() { }
 
 
   ngOnInit(): void {
+    this.getSalonReviews();
+  }
+
+  getSalonReviews() {
+    for(var x = 0; x < this.salon.salonReviews.length; x++) {
+        this.sum += this.salon.salonReviews[x].grade;
+        this.cnt++;
+    }
+    this.average = this.sum / this.cnt;
+    return this.average;
   }
 
 }

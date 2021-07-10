@@ -25,7 +25,9 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Treatment>>> GetTreatments()
         {
-            return await _context.Treatments.ToListAsync();
+            return await _context.Treatments
+                .Include(t => t.SalonTreatments)
+                .ToListAsync();
         }
 
         // GET: api/Treatments/5
@@ -33,7 +35,7 @@ namespace backend.Controllers
         public async Task<ActionResult<Treatment>> GetTreatment(int id)
         {
             var treatment = await _context.Treatments
-                //.Include(t => t.Appointments)
+                .Include(t => t.SalonTreatments)
                 .Where(t => t.Id == id).FirstOrDefaultAsync();
 
             if (treatment == null)
@@ -79,7 +81,7 @@ namespace backend.Controllers
         // POST: api/Treatments
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
+        [HttpPost("add")]
         public async Task<ActionResult<Treatment>> PostTreatment(Treatment treatment)
         {
             _context.Treatments.Add(treatment);

@@ -20,12 +20,17 @@ namespace backend.Models
         public int EmployeeNumber { get; set; }
 
         public byte[] Image { get; set; }
+        public int Opened { get; set; }
+        public int Closed { get; set; }
 
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
 
         public List<User>? Users { get; set; }
         public virtual ICollection<Appointment> Appointments { get; set; }
+        public ICollection<SalonTreatment> SalonTreatments { get; set; }
+        public ICollection<Review>? SalonReviews { get; set; }
+
 
 
     }

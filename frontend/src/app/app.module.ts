@@ -10,21 +10,27 @@ import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-// import { NgxMatDatetimePickerModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
- import { MatInputModule } from '@angular/material/input';
- import {MatFormFieldModule} from '@angular/material/form-field';
- import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+import { MatInputModule } from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+import {MatButtonModule} from '@angular/material/button';
+import {MatTableModule} from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSortModule } from '@angular/material/sort';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+
 
 
 import {MatNativeDateModule} from '@angular/material/core';
-// import { TimepickerModule } from 'ngx-bootstrap/timepicker';
-// import {MatDatetimepickerModule} from "@mat-datetimepicker/core";
-// import {MomentDatetimeAdapter} from "@mat-datetimepicker/moment";
-// import {MatMomentDatetimeModule} from "@mat-datetimepicker/moment";
+
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MAT_DATE_LOCALE } from '@angular/material/core'
 
+import { DatePipe } from '@angular/common';
 
 
 
@@ -54,6 +60,15 @@ import { UserListComponent } from './user/user-list/user-list.component';
 import { EditUserComponent } from './user/edit-user/edit-user.component';
 import { UserProfileComponent } from './user/user-profile/user-profile.component';
 import { FooterComponent } from './footer/footer.component';
+import { AddTreatmentComponent } from './treatments/add-treatment/add-treatment.component';
+import { TreatmentService } from './services/treatment.service';
+import { SalonTreatmentService } from './services/salon-treatment.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { UserReviewsComponent } from './user/user-reviews/user-reviews.component';
+import { ReviewService } from './services/review.service';
+import { RoomListComponent } from './rooms/room-list/room-list.component';
+import { AddRoomComponent } from './rooms/add-room/add-room.component';
+import { ChatRoomComponent } from './rooms/chat-room/chat-room.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +89,12 @@ import { FooterComponent } from './footer/footer.component';
     UserListComponent,
     EditUserComponent,
     UserProfileComponent,
-    FooterComponent
+    FooterComponent,
+    AddTreatmentComponent,
+    UserReviewsComponent,
+    RoomListComponent,
+    AddRoomComponent,
+    ChatRoomComponent
   ],
   imports: [
     BrowserModule,
@@ -88,16 +108,24 @@ import { FooterComponent } from './footer/footer.component';
     BrowserAnimationsModule,
     NgxGalleryModule,
     ImageCropperModule,
+    MatButtonModule,
     MatFormFieldModule,
     BsDatepickerModule.forRoot(),
+    MatTableModule,
     // TimepickerModule.forRoot(),
     MatDatepickerModule,
     // NgxMatTimepickerModule,
     // NgxMatDatetimePickerModule,
       MatInputModule,
      MatNativeDateModule,
-     TimepickerModule.forRoot()
-    // MatDatepickerModule,
+     TimepickerModule.forRoot(),
+     NgbModule,
+     MatIconModule,
+    MatCardModule,
+    MatProgressSpinnerModule,
+    MatSortModule,
+    MatSnackBarModule,
+    MatSidenavModule
     // MatDatetimepickerModule
     // MomentDatetimeAdapter,
     // MatMomentDatetimeModule
@@ -108,6 +136,7 @@ import { FooterComponent } from './footer/footer.component';
       useClass: HttpErrorInterceptorService,
       multi: true
     },
+    DatePipe,
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     SalonService,
     UserService,
@@ -115,8 +144,9 @@ import { FooterComponent } from './footer/footer.component';
     AlertifyService,
     SalonDetailResolverService,
     AppointmentService,
-   // MatNativeDateModule,
-    // MatDatepickerModule
+    TreatmentService,
+    SalonTreatmentService,
+    ReviewService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

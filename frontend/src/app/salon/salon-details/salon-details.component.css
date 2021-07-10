@@ -115,12 +115,42 @@ div.card-body:hover h1 {
   background-color: black;
 }
 
+.tretman {
+  width: 170px;
+  background-color: #00BFFF;
+  color: white;
+  padding: 10px;
+  border: 1px solid blue;
+  border-radius: 10px;
+  text-align: justify;
+  float: left;
+  margin-right: 15px;
+}
+
+.adminButtons {
+  margin-bottom: 7px;
+  margin-top: -2px;
+}
+
+.noApps {
+  text-align: center;
+  margin-top: 35px;
+}
+
 .mobile {
   width: 150px;
 }
 
+.clients button {
+  width: 165px;
+}
+
 .mobile a:hover {
   text-decoration: none;
+}
+
+.clear {
+  clear: both;
 }
 
 /* button {

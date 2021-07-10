@@ -6,7 +6,10 @@ export const environment = {
   production: false,
   salonApi: "https://localhost:44393/api/salons",
   userApi: "https://localhost:44393/api/users",
-  appointmentApi: "https://localhost:44393/api/appointments"
+  appointmentApi: "https://localhost:44393/api/appointments",
+  treatmentApi: "https://localhost:44393/api/treatments",
+  salonTreatmentApi: "https://localhost:44393/api/salontreatments",
+  reviewApi: "https://localhost:44393/api/reviews"
 };
 
 /*

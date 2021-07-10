@@ -14,5 +14,6 @@ export interface Appointment {
   user?: User;
   treatmentId: number;
   treatment?: Treatment;
-  // cost?: number;
+  price?: number;
+  newDate?: Date;
 }

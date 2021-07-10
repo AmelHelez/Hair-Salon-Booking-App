@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User, UserForLogin } from '../models/user';
 import { Appointment } from '../models/appointment';
-import { Treatment } from '../models/treatment';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -60,15 +59,4 @@ export class UserService {
     return this.http.delete(baseUrl + '/' + userId);
   }
 
-  getAllTreatments(): Observable<Treatment[]> {
-    return this.http.get<Treatment[]>("https://localhost:44393/api/treatments");
-  }
-
-  getTreatment(id: number) {
-    return this.getAllTreatments().pipe(
-      map(treatment => {
-        return treatment.find(t => t.id === id);
-      })
-    )
-  }
 }

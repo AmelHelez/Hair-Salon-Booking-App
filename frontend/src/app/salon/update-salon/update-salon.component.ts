@@ -55,12 +55,10 @@ export class UpdateSalonComponent implements OnInit {
     }
 
 
-
   ngOnInit(): void {
     this.salonId = +this.route.snapshot.params['id'];
    this.route.data.subscribe(
      (data: Salon) => {
-       console.log(data);
        this.salon = data['prp'];
      }
    )
@@ -83,8 +81,11 @@ export class UpdateSalonComponent implements OnInit {
       address: ['', Validators.required],
       employeeNumber: [null],
       image: [null],
+      opened: [null],
+      closed: [null],
       phoneNumber: [null, [Validators.maxLength(12)]],
-      email: [null, [Validators.email]]    });
+      email: [null, [Validators.email]]
+    });
   }
 
   get name() {
@@ -115,6 +116,14 @@ export class UpdateSalonComponent implements OnInit {
     return this.updateSalonForm.get('email') as FormControl;
   }
 
+  get opened() {
+    return this.updateSalonForm.get('opened') as FormControl;
+  }
+
+  get closed() {
+    return this.updateSalonForm.get('closed') as FormControl;
+  }
+
   onBack() {
     this.router.navigate(['/']);
   }
@@ -123,10 +132,8 @@ export class UpdateSalonComponent implements OnInit {
     console.log(this.updateSalonForm.value);
     this.salonService.updateSalon(this.salon.id, this.updateSalonForm.value).subscribe(
       (response: Salon) => {
-        console.log(response);
         const salon = response;
-        //localStorage.getItem('salonToken');
-        this.alertifyService.success("SALON UPDATED!");
+        this.alertifyService.success("Salon is sucessfully updated!");
         this.router.navigate(['/']);
       }, error => {
         console.log(error);
@@ -153,6 +160,10 @@ export class UpdateSalonComponent implements OnInit {
      salon.image = btoa(this.croppedImage);
      salon.phoneNumber = this.phoneNumber.value;
      salon.email = this.email.value;
+     if(!this.opened.value) salon.opened = salon.opened;
+     else salon.opened = new Date(this.opened.value).getHours();
+     if(!this.closed.value) salon.closed = salon.closed;
+     else salon.closed = new Date(this.closed.value).getHours();
      this.salonService.updateSalon(this.salonId, salon)
      .subscribe(() => {
       this.alertifyService.success("SALON UPDATED!");
