@@ -1,0 +1,14 @@
+<div>
+  <p>Appointment date: {{appointment.appointmentDate | date: "dd/MM/yyyy"}}</p>
+  <p>Appointment time: {{appointment.appointmentTime | date: "shortTime"}}</p>
+  <p>Sender (Client): {{user.username}}</p>
+  <p>Message: {{chat.message}}</p>
+</div>
+<form [formGroup]="responseChatForm" (ngSubmit)="updateChat(chat.id)" class="example-form">
+    <input id="okay" type="radio" value="okay" name="action" formControlName="action">
+    <label for="okay">Okay</label>
+    <input id="cancel" type="radio" value="cancel" name="action" formControlName="action">
+              <label for="cancel">Cancel</label>
+  <button mat-raised-button color="primary">Send</button>
+  <button mat-raised-button color="basic">Cancel</button>
+</form>

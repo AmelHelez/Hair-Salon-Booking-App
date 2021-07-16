@@ -126,7 +126,7 @@ namespace backend.Controllers
              if (user == null)
              {
                  apiError.ErrorCode = Unauthorized().StatusCode;
-                 apiError.ErrorMessage = "Invalid User ID or password.";
+                 apiError.ErrorMessage = "Invalid username or password.";
                  apiError.ErrorDetails = "This error appears when provided user id or password does not exist.";
                  return Unauthorized(apiError);
              }
@@ -193,58 +193,7 @@ namespace backend.Controllers
             userRepository.Register(loginReq.Name, loginReq.Email, loginReq.Username, loginReq.Age, loginReq.City, loginReq.Mobile, loginReq.Password);
             await userRepository.SaveAsync();
             return StatusCode(201);
-            /* if (loginReq.Name.IsEmpty() ||
-                 loginReq.Password.IsEmpty())
-             {
-                 apiError.ErrorCode = BadRequest().StatusCode;
-                 apiError.ErrorMessage = "User name or password cannot be blank.";
-                 return BadRequest(apiError);
-             }
-
-             if (await userRepository.UserAlreadyExists(loginReq.Name))
-             {
-                 apiError.ErrorCode = BadRequest().StatusCode;
-                 apiError.ErrorMessage = "User already exists, please try something else.";
-                 return BadRequest(apiError);
-             }
-
-             userRepository.Register(loginReq.Name, loginReq.Password);
-             await userRepository.SaveAsync();
-             return StatusCode(201);
-         }
-
-         private string CreateJWT(User user)
-         {
-             var secretKey = configuration.GetSection("AppSettings:Key").Value;
-             var key = new SymmetricSecurityKey(Encoding.UTF8
-                .GetBytes(secretKey));
-
-             var claims = new Claim[]
-             {
-                 new Claim(ClaimTypes.Name, user.Name),
-                 new Claim(ClaimTypes.NameIdentifier,user.Id.ToString())
-             };
-
-             var signingCredentials = new SigningCredentials(
-                 key, SecurityAlgorithms.HmacSha256Signature);
-
-             var tokenDescriptor = new SecurityTokenDescriptor
-             {
-                 Subject = new ClaimsIdentity(claims),
-                 Expires = DateTime.UtcNow.AddDays(10),
-                 SigningCredentials = signingCredentials
-             };
-
-             var tokenHandler = new JwtSecurityTokenHandler();
-             var token = tokenHandler.CreateToken(tokenDescriptor);
-             return tokenHandler.WriteToken(token);
-         }
-
-
-         private bool UserExists(int id)
-         {
-             return _context.Users.Any(e => e.Id == id);
-         }*/
+           
         }
 
         [HttpPost("registeremp")]

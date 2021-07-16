@@ -1,0 +1,22 @@
+<div *ngIf="whichRole() == 3">
+  <div *ngIf="chats.length > 0">
+<div class="card" *ngFor="let chat of chats">
+  <p style="color: darkorange">{{chat.message}}</p>
+  <p>Message recipient: {{chat.employee.name}}</p>
+  <p>Response: <span style="font-weight: bold; font-style: italic;">{{chat.action}}</span></p>
+</div>
+  </div>
+  <div *ngIf="user.chats.length == 0">No chats</div>
+</div>
+
+<div *ngIf="whichRole() == 2">
+  <div *ngIf="chats.length > 0">
+  <div class="card" *ngFor="let chat of chats">
+    <p style="color: darkorange">{{chat.message}}</p>
+    <p>Message sender: {{chat.user.name}}</p>
+    <p>Response: <span style="font-weight: bold; font-style: italic;">{{chat.action}}</span></p>
+    <button type="button" routerLink="/chat-response/{{chat.userId}}/{{chat.employeeId}}/{{chat.appointmentId}}/{{chat.id}}">Respond</button>
+  </div>
+  </div>
+  <div *ngIf="chats.length == 0">No chats</div>
+</div>

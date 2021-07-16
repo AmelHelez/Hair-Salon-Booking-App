@@ -35,6 +35,17 @@ export class UserService {
     else return false;
   }
 
+  isEmployee(): boolean {
+    const role = +localStorage.getItem("userRole");
+    if(role == 2) return true;
+    else return false;
+  }
+
+  getEmployeeId(): number {
+      const user = +localStorage.getItem("userId");
+      return user;
+}
+
   addEmployee(user: User) {
     return this.http.post(baseUrl + "/registeremp", user);
   }

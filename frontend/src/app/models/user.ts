@@ -1,5 +1,6 @@
 import { Appointment } from "./appointment";
 import { Review } from "./review";
+import { Chat } from './chat';
 
 export interface User {
   id: number;
@@ -16,6 +17,8 @@ export interface User {
   appointments?: Appointment[];
   appointmentsEmployee?: Appointment[];
   userReviews?: Review[];
+  chats?: Chat[];
+  chatsEmployee?: Chat[];
 }
 
 export interface UserForLogin {

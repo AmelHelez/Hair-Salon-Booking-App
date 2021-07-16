@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { Appointment } from 'src/app/models/appointment';
 import { Salon } from 'src/app/models/salon';
 import { AppointmentClass } from 'src/app/models/appointmentClass';
@@ -11,11 +10,10 @@ import { SalonService } from 'src/app/salon/salon.service';
 import { AlertifyService } from 'src/app/services/alertify.service';
 import { AppointmentService } from 'src/app/services/appointment.service';
 import { UserService } from 'src/app/services/user.service';
-import { Time } from '@angular/common';
-import { TreatmentService } from 'src/app/services/treatment.service';
-import { map } from 'rxjs/operators';
 import { SalonTreatments } from 'src/app/models/salonTreatments';
 import { SalonTreatmentService } from 'src/app/services/salon-treatment.service';
+import { Time } from '@angular/common';
+
 
 @Component({
   selector: 'app-add-appointment',
@@ -30,6 +28,7 @@ export class AddAppointmentComponent implements OnInit {
   sati: number = new Date().getHours();
   minute: number = new Date().getMinutes();
   todaysTime: Date = new Date(this.year,this.month,this.day,this.sati,this.minute);
+  theTime = new Date().getHours() + ':' + new Date().getMinutes();
   addAppointmentForm: FormGroup;
   nextClicked: boolean;
   salonId: number;
@@ -55,6 +54,19 @@ export class AddAppointmentComponent implements OnInit {
   mytime: Date = new Date();
   isDisabled: boolean = false;
   newDate: Date;
+  timeMin: string;
+  timeMax: string;
+  minn: Date;
+  salonAppointments: Appointment[] = [];
+  appointmentss: Appointment[] = [];
+  dejt: Date;
+  dejts: Date[] = [];
+  korisnik: User;
+  appDate: number;
+appMonth: number;
+todaysDate: number = +new Date().getDate().toString();
+  todaysMonth: number = +new Date().getMonth().toString();
+  appsDate: Date;
 
   constructor(private fb: FormBuilder, private router: Router, private appointmentService: AppointmentService,
     private route: ActivatedRoute, private userService: UserService, private alertifyService: AlertifyService,
@@ -63,11 +75,28 @@ export class AddAppointmentComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.sati > 19) this.minDate = new Date(this.minDejt);
-    console.log("TAJM:", this.datum);
+    // console.log("TAJM:", this.datum);
     this.salonId = +this.route.snapshot.params['id'];
     this.route.data.subscribe(
       (data: Salon) => {
         this.salonDetail = data['prp'];
+        this.salonDetail.appointments.forEach(x => {
+          this.userService.getUser(x.employeeId).subscribe(
+            employee => x.employee = employee
+          );
+        })
+       this.salonDetail.appointments.forEach(x => {
+        this.appDate = +new Date(x.appointmentDate).getDate().toString();
+        this.appMonth = +new Date(x.appointmentDate).getMonth().toString();
+        if(this.appDate >= this.todaysDate && this.appMonth >= this.todaysMonth) this.salonAppointments.push(x);
+       })
+       this.salonAppointments.sort((a,b) => new Date(a.appointmentDate).getTime() - new Date(b.appointmentDate).getTime())
+        console.log("SALON APPOINTMENTS:", this.salonAppointments);
+        this.timeMin = `0${this.salonDetail.opened}:00`;
+        this.timeMax = `${this.salonDetail.closed}:00`;
+
+        // console.log(this.timeMin);
+        // console.log(this.timeMax);
         this.userService.getAllUsers().subscribe(
           xs => {
             this.employees = xs;
@@ -82,17 +111,13 @@ export class AddAppointmentComponent implements OnInit {
         )
       }
     )
-    // this.appointmentService.getAllAppointments().subscribe(
-    //   ap => {
-    //     for(var x = 0; x < ap.length; x++) {
-    //       if(this.mytime == ap[x].appointmentDate) {this.isDisabled = true;
-    //       this.disabled.push(ap[x].appointmentTime);}
-    //     }
-    //   }
-    // )
 
     this.getUser();
     this.CreateAddAppointmentForm();
+    this.appointmentss.sort((a,b) => new Date(a.appointmentDate).getTime() - new Date(b.appointmentDate).getTime())
+
+    // if(this.appointmentDate.value != null) this.getAppointments(this.appointmentDate);
+
   }
 
 
@@ -128,6 +153,20 @@ export class AddAppointmentComponent implements OnInit {
     return this.addAppointmentForm.get('client') as FormControl;
   }
 
+  getAppointments() {
+    var test = this.addAppointmentForm.get('date') as FormControl;
+    var date = new Date(test.value);
+    //  this.ArrayB = this.ArrayA.filter(item => item.id == filteredUserID))
+    // var date = new Date(appointmentDate.value);
+    // this.salonAppointments.forEach(x => {
+    //   if(x.appointmentDate == date) this.appointmentss.push(x);
+    // })
+    // return this.appointmentss;
+    this.appointmentss = this.salonAppointments.filter(x => x.appointmentDate == date);
+    return this.appointments;
+    // console.log(this.appointmentss);
+  }
+
   onBack() {
     this.router.navigate(['/']);
   }
@@ -141,15 +180,15 @@ export class AddAppointmentComponent implements OnInit {
 
 
   onSubmit() {
-    console.log(this.addAppointmentForm.value);
+    console.log(this.appointmentTime.value);
     this.mapApp();
     this.appointmentService.addAppointment(this.appointment).subscribe(
       (response: Appointment) => {
         const appointment = response;
         this.router.navigate([`/details/${this.salonId}`]);
-        this.alertifyService.success("APPOINTMENT ADDED!");
+        this.alertifyService.success("Appointment booked!");
       }, error => {
-        this.alertifyService.error("Appointment adding failed!");
+        this.alertifyService.error("Appointment booking failed. Please try again.");
       });
   }
 
@@ -163,9 +202,6 @@ export class AddAppointmentComponent implements OnInit {
   }
 
   getTreatments() {
-    // this.treatmentService.getAllSalonTreatments().pipe(
-    //   map(treatment => treatment.find(t => t.salonId === this.salonId))
-    // ).subscribe(treatment => console.log(treatment));
     this.treatmentService.getAllSalonTreatments().subscribe(
       treatment => {
         for(var x = 0; x < treatment.length; x++) {

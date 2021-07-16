@@ -48,6 +48,16 @@
                 <i class="fas fa-user-plus"></i>
                 Register Employee
               </a>
+              <a *ngIf="whichRole() != 1 && loggedIn() && chats.length == 0" routerLink="/notifications/{{getUserId()}}"
+              class="dropdown-item">
+              <i class="fas fa-bell"></i>
+                My Notifications
+              </a>
+              <a *ngIf="whichRole() != 1 && loggedIn() && chats.length > 0" routerLink="/notifications/{{getUserId()}}"
+              class="dropdown-item">
+              <i class="fas fa-bell"></i>
+                My Notifications<sup class="sup">{{chats.length}}</sup>
+              </a>
               <a href="#" class="dropdown-item">
                 <i class="fas fa-key"></i>Change Password
               </a>

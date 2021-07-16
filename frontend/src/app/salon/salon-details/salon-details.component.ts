@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Salon } from 'src/app/models/salon';
 import { SalonService } from '../salon.service';
 import { AppointmentService } from '../../services/appointment.service';
-//import { SalonClass } from '../../models/salonClass';
 import {NgxGalleryOptions} from '@kolkov/ngx-gallery';
 import {NgxGalleryImage} from '@kolkov/ngx-gallery';
 import {NgxGalleryAnimation} from '@kolkov/ngx-gallery';
@@ -88,7 +87,7 @@ export class SalonDetailsComponent implements OnInit {
             if(this.appointments.length > 0) {
               console.log("Appointmenti: ", this.appointments);
             for(var x = 0; x < this.appointments.length; x++) {
-              if(this.appointments[x].salonId === this.salonId) {
+              if(this.appointments[x].salonId == this.salonId) {
                 this.appDate = +new Date(this.appointments[x].appointmentDate).getDate().toString();
                 this.appMonth = +new Date(this.appointments[x].appointmentDate).getMonth().toString();
                if(this.appointments[x].userId) {
@@ -125,6 +124,7 @@ export class SalonDetailsComponent implements OnInit {
           }
         )
         this.getSalonReviews();
+        console.log(this.reviews);
       }
 
    )
@@ -191,16 +191,19 @@ export class SalonDetailsComponent implements OnInit {
   }
 
   getSalonReviews() {
-    this.reviewService.getAllReviews().pipe(
-      map(review => review.find(r => r.salonId === this.salonDetail.id)))
-      .subscribe(review => this.reviews.push(review))
+      this.reviewService.getAllReviews().subscribe(
+        reviews => {
+          reviews.forEach(review => {
+            if(review.salonId == this.salonDetail.id) this.reviews.push(review)
+          })
+        }
+      )
   }
 
   deleteSalon(name: string) {
     if(confirm("Amel, are you sure you want to delete " + name + '?')) {
       this.salonService.deleteSalon(this.salonId)
-    .subscribe((data) => {
-      // console.log(data);
+    .subscribe(() => {
       this.router.navigate(['/']);
       this.alertifyService.success("Salon removed successfully!");
     })
@@ -215,7 +218,7 @@ export class SalonDetailsComponent implements OnInit {
     )
     if(confirm("Amel, are you sure you want to delete " + this.userToDelete.name + '?')) {
       this.userService.deleteUser(id)
-    .subscribe((data) => {
+    .subscribe(() => {
       this.alertifyService.success("User removed successfully.");
       window.location.reload();
     })

@@ -1,3 +1,4 @@
+import { Appointment } from "./appointment";
 import { Review } from "./review";
 import { SalonTreatments } from "./salonTreatments";
 import { User } from "./user";
@@ -17,4 +18,5 @@ export interface Salon {
   salonTreatments?: SalonTreatments[];
   salonReviews?: Review[];
   average?: number;
+  appointments?: Appointment[];
 }

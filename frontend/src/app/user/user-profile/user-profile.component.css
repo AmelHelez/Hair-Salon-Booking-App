@@ -15,6 +15,11 @@
   float: right;
 }
 
+#td-delete{
+  color: #CD5C5C;
+}
+
+
 .clear {
   clear: both;
 }

@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { map } from 'rxjs/operators';
+import { Chat } from '../models/chat';
 import { User } from '../models/user';
 import { AlertifyService } from '../services/alertify.service';
+import { ChatService } from '../services/chat.service';
 import { UserService } from '../services/user.service';
 
 @Component({
@@ -15,28 +18,20 @@ export class NavBarComponent implements OnInit {
   user: User;
   userId: number;
   userRole: number;
+  chats: Chat[] = [];
 
   constructor(private route: ActivatedRoute, private router: Router,
-    private userService: UserService, private alertifyService: AlertifyService) { }
+    private userService: UserService, private alertifyService: AlertifyService,
+    private chatService: ChatService) { }
 
   ngOnInit(): void {
-    //this.user = this.userService.getUser();
     this.userService.getAllUsers()
     .subscribe((data) => {
       this.users = data;
-      //console.log(this.users);
     })
-    //this.userRole = +localStorage.getItem("userRole");
-   // console.log("Role:",this.userRole);
-    /*this.user = this.userService.getUser(+this.route.snapshot.params['id']);
-   this.route.data.subscribe(
-     (data: User) => {
-       console.log(data);
-       this.user = data;
-       console.log(this.user);
-  });*/
 
   this.getUser();
+  this.getChats();
 }
 
   whichRole(): number {
@@ -44,6 +39,21 @@ export class NavBarComponent implements OnInit {
     if(this.userRole == 1) return 1;
     else if(this.userRole == 2) return 2;
     else return 3;
+  }
+
+  getEmployeeId() {
+    this.userService.getEmployeeId();
+  }
+
+  getChats() {
+    this.chatService.getAllChats().pipe(
+      map(chat => chat.find(c => c.employeeId === this.userId))
+    ).subscribe(chat => this.chats.push(chat));
+ }
+
+  getUserId() {
+    this.userId = +localStorage.getItem("userId");
+    return this.userId;
   }
 
   getUser() {
@@ -61,11 +71,6 @@ export class NavBarComponent implements OnInit {
     return this.loggedInUser;
   }
 
- /* isAdmin(): boolean {
-    this.userRole = localStorage.getItem("userRole");
-    if (this.userRole == '1') return true;
-    else return false;
-  }*/
 
   onLogout() {
     localStorage.removeItem("mytoken");

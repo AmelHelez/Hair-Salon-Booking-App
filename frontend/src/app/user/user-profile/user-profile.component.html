@@ -57,7 +57,8 @@
           <td *ngIf="usersRole() == 3">{{a.employee.name}}</td>
           <td>{{a.treatment.name}}</td>
           <td>{{a.price}} BAM</td>
-          <td *ngIf="usersRole() == 3 && a.newDate >= today" routerLink="/roomlist"><i class="fas fa-comments"></i></td>
+          <td *ngIf="usersRole() == 3 && a.newDate >= today" routerLink="/chats/{{loggedInUserId}}/{{a.employee.id}}/{{a.id}}"><i class="fas fa-comments"></i></td>
+          <td id="td-delete" *ngIf="usersRole() == 3 && a.newDate >= today" (click)="deleteAppointment(a.id)"><i class="fas fa-trash"></i></td>
         </tr>
          </tbody>
     </table>

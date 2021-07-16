@@ -115,13 +115,8 @@ export class AddEmployeeComponent implements OnInit {
      this.userService.addEmployee(this.userData()).subscribe(() => {
       this.userSubmitted = false;
       this.registrationForm.reset();
-      /*
-      const user = response;
-        localStorage.setItem("mytoken", user.token);
-        localStorage.setItem("myname", user.name);
-      */
       this.router.navigate[(`/details/${this.salonId}`)];
-      this.alertifyService.success("Amele, upravo si dodao novog zaposlenika!");
+      this.alertifyService.success("Amel, you have successfully added a new employee.");
      });
      }
   }

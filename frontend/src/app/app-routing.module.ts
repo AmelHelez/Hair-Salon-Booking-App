@@ -4,7 +4,6 @@ import { AddAppointmentComponent } from './appointment/add-appointment/add-appoi
 import { AddEmployeeComponent } from './employee/add-employee/add-employee.component';
 import { EmployeeHomeComponent } from './employee/employee-home/employee-home.component';
 import { AddSalonComponent } from './salon/add-salon/add-salon.component';
-import { SalonCardComponent } from './salon/salon-card/salon-card.component';
 import { SalonDetailResolverService } from './salon/salon-details/salon-detail-resolver.service';
 import { SalonDetailsComponent } from './salon/salon-details/salon-details.component';
 import { SalonListComponent } from './salon/salon-list/salon-list.component';
@@ -16,17 +15,18 @@ import { UserProfileComponent } from './user/user-profile/user-profile.component
 import { UserRegisterComponent } from './user/user-register/user-register.component';
 import { AdminGuardService as AdminGuard} from './services/admin-guard.service';
 import { AuthGuardService as AuthGuard} from './services/auth-guard.service';
+import { EmployeeGuardService as EmployeeGuard} from './services/employee-guard.service';
 import { AddTreatmentComponent } from './treatments/add-treatment/add-treatment.component';
 import { UserReviewsComponent } from './user/user-reviews/user-reviews.component';
-import { AddRoomComponent } from './rooms/add-room/add-room.component';
-import { ChatRoomComponent } from './rooms/chat-room/chat-room.component';
-import { RoomListComponent } from './rooms/room-list/room-list.component';
+import { UserChatComponent } from './user/user-chat/user-chat.component';
+import { ChatResponseComponent } from './employee/chat-response/chat-response.component';
+import { EmployeeNotificationComponent } from './employee/employee-notification/employee-notification.component';
 
 
 
 const routes: Routes = [
   {
-    path: "", component: SalonListComponent,
+    path: "", component: SalonListComponent
   },
   {
     path: "details/:id", component: SalonDetailsComponent, resolve: {prp: SalonDetailResolverService}
@@ -70,9 +70,15 @@ const routes: Routes = [
   {
     path: ":id/review", component: UserReviewsComponent, canActivate: [AuthGuard]
   },
-  { path: 'roomlist', component: RoomListComponent, canActivate: [AuthGuard] },
-  { path: 'addroom', component: AddRoomComponent },
-  { path: 'chatroom/:roomname', component: ChatRoomComponent },
+  {
+    path: "chats/:id/:eid/:aid", component: UserChatComponent, canActivate: [AuthGuard]
+  },
+  {
+    path: "chat-response/:id/:eid/:aid/:cid", component: ChatResponseComponent, canActivate: [AuthGuard]
+  },
+  {
+    path: "notifications/:id", component: EmployeeNotificationComponent, canActivate: [AuthGuard]
+  },
   {
     path: "**", redirectTo: ''
   }

@@ -1,3 +1,4 @@
+import { Appointment } from './appointment';
 import { Review } from './review';
 import { Salon } from './salon';
 import { SalonTreatments } from './salonTreatments';
@@ -17,4 +18,5 @@ export class SalonClass implements Salon {
   employees?: User[];
   salonTreatments?: SalonTreatments[];
   salonReviews?: Review[];
+  appointments?: Appointment[];
 }

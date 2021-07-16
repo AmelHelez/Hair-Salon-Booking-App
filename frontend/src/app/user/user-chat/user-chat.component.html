@@ -1,0 +1,20 @@
+<div>
+  <p>Appointment date: {{appointment.appointmentDate | date: "dd/MM/yyyy"}}</p>
+  <p>Appointment time: {{appointment.appointmentTime | date: "shortTime"}}</p>
+</div>
+<form [formGroup]="addChatForm" (ngSubmit)="onSubmit()" class="example-form">
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label for="message">Notify {{employee.username}}</mat-label>
+    <textarea matInput placeholder="Ex. I'm stuck in traffic..." formControlName="message"></textarea>
+    <span *ngIf="!message.valid && message.touched" class="error-block">
+      <span *ngIf="message.errors['required']">
+        Please provide message
+      </span>
+      <span *ngIf="message.errors.minlength">
+        Message should not be lesser than 10 characters
+      </span>
+    </span>
+  </mat-form-field>
+  <button mat-raised-button color="primary">Send</button>
+  <button mat-raised-button color="basic">Cancel</button>
+</form>

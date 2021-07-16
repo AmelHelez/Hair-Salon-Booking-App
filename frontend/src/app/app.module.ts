@@ -9,31 +9,29 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
-import {MatButtonModule} from '@angular/material/button';
-import {MatTableModule} from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { HammerModule } from "@angular/platform-browser";
 
-
-
-import {MatNativeDateModule} from '@angular/material/core';
-
+//I keep the new line
+import { MatNativeDateModule } from '@angular/material/core';
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MAT_DATE_LOCALE } from '@angular/material/core'
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 import { DatePipe } from '@angular/common';
 
-
-
+//I keep the new line
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SalonListComponent } from './salon/salon-list/salon-list.component';
@@ -66,9 +64,10 @@ import { SalonTreatmentService } from './services/salon-treatment.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserReviewsComponent } from './user/user-reviews/user-reviews.component';
 import { ReviewService } from './services/review.service';
-import { RoomListComponent } from './rooms/room-list/room-list.component';
-import { AddRoomComponent } from './rooms/add-room/add-room.component';
-import { ChatRoomComponent } from './rooms/chat-room/chat-room.component';
+import { ChatService } from './services/chat.service';
+import { UserChatComponent } from './user/user-chat/user-chat.component';
+import { ChatResponseComponent } from './employee/chat-response/chat-response.component';
+import { EmployeeNotificationComponent } from './employee/employee-notification/employee-notification.component';
 
 @NgModule({
   declarations: [
@@ -92,9 +91,9 @@ import { ChatRoomComponent } from './rooms/chat-room/chat-room.component';
     FooterComponent,
     AddTreatmentComponent,
     UserReviewsComponent,
-    RoomListComponent,
-    AddRoomComponent,
-    ChatRoomComponent
+    UserChatComponent,
+    ChatResponseComponent,
+    EmployeeNotificationComponent
   ],
   imports: [
     BrowserModule,
@@ -112,20 +111,22 @@ import { ChatRoomComponent } from './rooms/chat-room/chat-room.component';
     MatFormFieldModule,
     BsDatepickerModule.forRoot(),
     MatTableModule,
+    // AppointmentPicker,
     // TimepickerModule.forRoot(),
     MatDatepickerModule,
     // NgxMatTimepickerModule,
     // NgxMatDatetimePickerModule,
-      MatInputModule,
-     MatNativeDateModule,
-     TimepickerModule.forRoot(),
-     NgbModule,
-     MatIconModule,
+    MatInputModule,
+    MatNativeDateModule,
+    TimepickerModule.forRoot(),
+    NgbModule,
+    MatIconModule,
     MatCardModule,
     MatProgressSpinnerModule,
     MatSortModule,
     MatSnackBarModule,
-    MatSidenavModule
+    MatSidenavModule,
+    HammerModule
     // MatDatetimepickerModule
     // MomentDatetimeAdapter,
     // MatMomentDatetimeModule
@@ -136,6 +137,7 @@ import { ChatRoomComponent } from './rooms/chat-room/chat-room.component';
       useClass: HttpErrorInterceptorService,
       multi: true
     },
+    ChatService,
     DatePipe,
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     SalonService,
@@ -151,4 +153,5 @@ import { ChatRoomComponent } from './rooms/chat-room/chat-room.component';
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

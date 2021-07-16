@@ -9,7 +9,8 @@ export const environment = {
   appointmentApi: "https://localhost:44393/api/appointments",
   treatmentApi: "https://localhost:44393/api/treatments",
   salonTreatmentApi: "https://localhost:44393/api/salontreatments",
-  reviewApi: "https://localhost:44393/api/reviews"
+  reviewApi: "https://localhost:44393/api/reviews",
+  chatApi: "https://localhost:44393/api/chats"
 };
 
 /*

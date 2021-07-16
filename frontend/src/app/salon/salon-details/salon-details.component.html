@@ -85,7 +85,7 @@
             <tab heading="Photos">
               <ngx-gallery [options]="galleryOptions" [images]="galleryImages" class="ngx-gallery"></ngx-gallery>
             </tab>
-            <tab heading="Today's Appointments">
+            <tab *ngIf="loggedIn()" heading="Today's Appointments">
               <h3 style="text-align: center;">Today's appointments</h3>
               <hr class="line">
               <br>
@@ -118,7 +118,7 @@
                 <p *ngIf="whichRole() == 3">Need a quick haircut? <a routerLink="/book/{{getUserId()}}">Book now!</a></p>
               </div>
            </tab>
-           <tab heading="Future Appointments">
+           <tab *ngIf="loggedIn()" heading="Future Appointments">
             <h3 style="text-align: center;">Future appointments</h3>
             <hr class="line"/>
             <br>

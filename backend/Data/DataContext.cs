@@ -20,6 +20,7 @@ namespace backend.Data
         public DbSet<Treatment> Treatments { get; set; }
         public DbSet<SalonTreatment> SalonTreatments { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<Chat> Chats { get; set; }
 
     }
 }

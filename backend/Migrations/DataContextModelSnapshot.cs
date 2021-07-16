@@ -60,6 +60,39 @@ namespace backend.Migrations
                     b.ToTable("Appointments");
                 });
 
+            modelBuilder.Entity("backend.Models.Chat", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Action")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("AppointmentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppointmentId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Chats");
+                });
+
             modelBuilder.Entity("backend.Models.Review", b =>
                 {
                     b.Property<int>("Id")
@@ -273,6 +306,33 @@ namespace backend.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("backend.Models.Chat", b =>
+                {
+                    b.HasOne("backend.Models.Appointment", "Appointment")
+                        .WithMany("Chats")
+                        .HasForeignKey("AppointmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("backend.Models.User", "Employee")
+                        .WithMany("ChatsEmployee")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("backend.Models.User", "User")
+                        .WithMany("Chats")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Appointment");
+
+                    b.Navigation("Employee");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("backend.Models.Review", b =>
                 {
                     b.HasOne("backend.Models.Salon", "Salon")
@@ -328,6 +388,11 @@ namespace backend.Migrations
                     b.Navigation("Salon");
                 });
 
+            modelBuilder.Entity("backend.Models.Appointment", b =>
+                {
+                    b.Navigation("Chats");
+                });
+
             modelBuilder.Entity("backend.Models.Role", b =>
                 {
                     b.Navigation("Users");
@@ -356,6 +421,10 @@ namespace backend.Migrations
                     b.Navigation("Appointments");
 
                     b.Navigation("AppointmentsEmployee");
+
+                    b.Navigation("Chats");
+
+                    b.Navigation("ChatsEmployee");
 
                     b.Navigation("UserReviews");
                 });

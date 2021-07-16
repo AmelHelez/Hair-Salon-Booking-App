@@ -4,19 +4,8 @@ import { Router } from '@angular/router';
 import { UserForLogin } from 'src/app/models/user';
 import { AlertifyService } from 'src/app/services/alertify.service';
 import { UserService } from 'src/app/services/user.service';
-import { ErrorStateMatcher } from '@angular/material/core';
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/database';
-import 'firebase/firestore';
-import 'firebase/storage';
 
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-}
+
 
 @Component({
   selector: 'app-user-login',
@@ -26,8 +15,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export class UserLoginComponent implements OnInit {
   loginForm: FormGroup;
   username = '';
-  ref = firebase.database().ref('users/');
-  matcher = new MyErrorStateMatcher();
+  // ref = firebase.database().ref('users/');
+  // matcher = new MyErrorStateMatcher();
 
   constructor(private userService: UserService,
     private alertifyService: AlertifyService, private router: Router, private formBuilder: FormBuilder) { }
@@ -66,18 +55,18 @@ export class UserLoginComponent implements OnInit {
           this.router.navigate(['/']);
         }
       });
-      const login = loginForm.value;
-    this.ref.orderByChild('username').equalTo(login.username).once('value', snapshot => {
-      if (snapshot.exists()) {
-        // localStorage.setItem('username', login.username);
-        // this.router.navigate(['/roomlist']);
-      } else {
-        const newUser = firebase.database().ref('users/').push();
-        newUser.set(login);
-        // localStorage.setItem('username', login.username);
-        // this.router.navigate(['/roomlist']);
-      }
-    });
+    //   const login = loginForm.value;
+    // this.ref.orderByChild('username').equalTo(login.username).once('value', snapshot => {
+    //   if (snapshot.exists()) {
+    //     // localStorage.setItem('username', login.username);
+    //     // this.router.navigate(['/roomlist']);
+    //   } else {
+    //     const newUser = firebase.database().ref('users/').push();
+    //     newUser.set(login);
+    //     // localStorage.setItem('username', login.username);
+    //     // this.router.navigate(['/roomlist']);
+    //   }
+    // });
 }
 
 }

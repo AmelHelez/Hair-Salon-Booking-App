@@ -25,5 +25,6 @@ namespace backend.Models
         public User Employee { get; set; }
         public int TreatmentId { get; set; }
         public Treatment Treatment { get; set; }
+        public ICollection<Chat>? Chats { get; set; }
     }
 }

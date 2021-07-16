@@ -36,6 +36,7 @@ namespace backend.Controllers
                 .Include(s => s.SalonTreatments)
                    .ThenInclude(st => st.Treatment)
                 .Include(s => s.SalonReviews)
+                .Include(s => s.Appointments)
                 .ToListAsync();
             //var salon = await uow.SalonRepository.GetAllSalonsAsync();
 
@@ -50,6 +51,7 @@ namespace backend.Controllers
                 .Include(s => s.Users)
                 .Include(s => s.SalonTreatments)
                 .Include(s => s.SalonReviews)
+                .Include(s => s.Appointments)
                 .Where(s => s.Id == id).FirstOrDefaultAsync();
 
             if (salon == null)

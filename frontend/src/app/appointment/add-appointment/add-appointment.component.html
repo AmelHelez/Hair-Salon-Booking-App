@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-6 m-auto">
+  <div class="col-sm-6">
     <div class="card m-auto">
       <div class="card-header" style="color: white;">
         <h3>Add Appointment</h3>
@@ -7,6 +7,7 @@
       <div class="card-body">
         <form [formGroup]="addAppointmentForm" (ngSubmit)="onSubmit()">
           <div class="form-group col-12">
+            <p>Working hours: {{timeMin}} - {{timeMax}}</p>
             <mat-form-field>
               <input matInput [matDatepicker]="picker" formControlName="date" [min]="minDate" [max]="maxDatee" placeholder="Choose a date">
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -33,12 +34,27 @@
               </div>
             </div>
 
+
             <div *ngIf="appointmentDate.value && employeeControl.value" class="form-group col-12">
-               <label for="time">Choose time</label>
-               <timepicker formControlName="time"></timepicker>
-               <!-- <div class="error-block" *ngIf="appointmentTime.touched">
-                Please add correct time
-                </div> -->
+               <label for="time">Choose time (every appointment is 60 minutes long) </label>
+               <input id="appt-time" type="time" value="09:00" class="form-control" formControlName="time" [min]="timeMin" [max]="timeMax" step="3600">
+               <span class="validity"></span>
+               <div class="error-block" *ngIf="appointmentTime.touched && (appointmentTime.value < timeMin || appointmentTime.value > timeMax)">
+                 You cannot choose time outside our working hours
+               </div>
+               <div class="error-block" *ngIf="appointmentDate.value == datum &&
+               appointmentTime.value < theTime">
+              Error
+              </div>
+               <span class="validity"></span>
+
+               <!-- <div *ngIf="dejts.length > 0">
+                 <p>Salon's appointments</p>
+                 <div *ngFor="let app of dejts">
+                   <p>{{app | date:"shortTime"}}</p>
+                 </div>
+               </div> -->
+
            </div>
 
           <div class="form-group col-12">
@@ -81,4 +97,30 @@
       </div>
     </div>
   </div>
-</div>
+
+  <div class="col-sm-6" *ngIf="appointmentDate.value && employeeControl.value">
+    <div class="card-header header" style="color: white;">
+      <h3>Salon Appointments For This Week</h3>
+    </div>
+    <div class="card-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Date</th>
+              <th scope="col">Time</th>
+              <th scope="col">Employee</th>
+              <th scope="col">Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let a of salonAppointments">
+              <td>{{a.appointmentDate | date: "dd/MM/yyyy"}}</td>
+              <td>{{a.appointmentTime | date: "shortTime"}}</td>
+              <td>{{a.employee.name}}</td>
+              <td>{{a.treatment.name}}</td>
+            </tr>
+             </tbody>
+        </table>
+      </div>
+    </div>
+  </div>

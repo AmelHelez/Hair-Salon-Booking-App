@@ -3,7 +3,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Appointment } from '../models/appointment';
-import { Salon } from '../models/salon';
+import { environment } from 'src/environments/environment';
+
+const API = environment.appointmentApi;
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +15,7 @@ export class AppointmentService {
   constructor(private http: HttpClient) { }
 
   getAllAppointments(): Observable<Appointment[]> {
-    return this.http.get<Appointment[]>("https://localhost:44393/api/appointments");
+    return this.http.get<Appointment[]>(API);
   }
 
   getAppointment(id: number) {
@@ -24,6 +26,10 @@ export class AppointmentService {
     );
   }
   addAppointment(appointment: Appointment) {
-    return this.http.post("https://localhost:44393/api/appointments", appointment);
+    return this.http.post(API, appointment);
+  }
+
+  deleteAppointment(id: number) {
+    return this.http.delete(API + '/' + id);
   }
 }

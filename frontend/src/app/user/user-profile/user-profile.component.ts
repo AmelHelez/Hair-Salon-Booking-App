@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
@@ -6,6 +7,7 @@ import { Salon } from 'src/app/models/salon';
 import { SalonTreatments } from 'src/app/models/salonTreatments';
 import { User } from 'src/app/models/user';
 import { SalonService } from 'src/app/salon/salon.service';
+import { AlertifyService } from 'src/app/services/alertify.service';
 import { AppointmentService } from 'src/app/services/appointment.service';
 import { SalonTreatmentService } from 'src/app/services/salon-treatment.service';
 import { TreatmentService } from 'src/app/services/treatment.service';
@@ -33,7 +35,8 @@ export class UserProfileComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private userService: UserService,
     private salonService: SalonService, private appService: AppointmentService,
-    private treatmentService: TreatmentService, private salonTreatmentsService: SalonTreatmentService) { }
+    private treatmentService: TreatmentService, private salonTreatmentsService: SalonTreatmentService,
+    private alertify: AlertifyService, private location: Location) { }
 
   ngOnInit(): void {
     this.localStorage();
@@ -90,6 +93,17 @@ export class UserProfileComponent implements OnInit {
         map(salonTreatment =>
           salonTreatment.find(st => st.salonId === this.user.salonId && st.treatmentId === this.treatmentId)))
           .subscribe(salonTreatment => this.allTreatments.push(salonTreatment))
+  }
+
+
+  deleteAppointment(id: number) {
+    if(confirm("Are you sure you want to cancel this appointment? This operation cannot be undone.")) {
+      this.appService.deleteAppointment(id)
+    .subscribe(() => {
+      this.alertify.success("Appointment canceled.");
+      window.location.reload();
+    })
+    }
   }
 
 

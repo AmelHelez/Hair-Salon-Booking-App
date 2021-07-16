@@ -27,7 +27,7 @@ namespace backend.Models
         public string Email { get; set; }
 
         public List<User>? Users { get; set; }
-        public virtual ICollection<Appointment> Appointments { get; set; }
+        public ICollection<Appointment>? Appointments { get; set; }
         public ICollection<SalonTreatment> SalonTreatments { get; set; }
         public ICollection<Review>? SalonReviews { get; set; }
 

@@ -26,6 +26,8 @@ namespace backend.Repositories
                 .Include(u => u.Appointments)
                 .Include(u => u.AppointmentsEmployee)
                 .Include(u => u.UserReviews)
+                .Include(u => u.Chats)
+                .Include(u => u.ChatsEmployee)
                 .ToListAsync();
         }
 
@@ -36,6 +38,8 @@ namespace backend.Repositories
                 .Include(u => u.Role)
                 .Include(u => u.Appointments)
                 .Include(u => u.AppointmentsEmployee)
+                .Include(u => u.Chats)
+                .Include(u => u.ChatsEmployee)
                 .Where(u => u.Id == id).FirstOrDefaultAsync();
         }
 

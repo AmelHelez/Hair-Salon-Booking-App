@@ -153,7 +153,7 @@ export class EditUserComponent implements OnInit {
        //user.roleId = this.user.roleId;
        this.userService.updateUser(this.userId, user).subscribe(
          () => {
-           this.alertify.success("USER UPDATED!");
+           this.alertify.success("User profile is successfully updated.");
            if(this.loggedInAdmin == 1) this.router.navigate(['/admin/users']);
            else this.router.navigate(['/']);
          })

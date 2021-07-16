@@ -41,5 +41,12 @@ namespace backend.Models
         public ICollection<Appointment>? AppointmentsEmployee { get; set; }
         public ICollection<Review>? UserReviews { get; set; }
 
+        [InverseProperty(nameof(Chat.User))]
+        public ICollection<Chat>? Chats { get; set; }
+
+        [InverseProperty(nameof(Chat.Employee))]
+        public ICollection<Chat>? ChatsEmployee { get; set; }
+
+
     }
 }
